@@ -8,9 +8,11 @@ assignees: ''
 ---
 
 ### ISSUE
-- Group:  `client`, `server`, `sr`
+- Group:  `client`
 - Type:  `in progress`, `feature`, `update`, `delete`, `deploy`, `bug`
-- Detail: fix actions from client redux
+
+### Detail
+- 
 
 ### Labels
 - C: consumed time(C: 00h)
