@@ -1,22 +1,33 @@
 ---
 name: Task Card
-about: Task
+about: Task Card
 title: ''
 labels: ''
 assignees: ''
 
 ---
 
-# 이름
+### ISSUE
+- Group:  `client`, `server`, `sr`
+- Type: `bug`, `feature`, `delete`
+- Detail: fix actions from client redux
 
-### Fact (사실) : 주요 사건에서 내가 취한 행동을 객관적으로 서술한다
-- 내용  
+### TODO
+1. [ ] Job1
+2. [ ] Job2
+3. [ ] Job3
 
-### Feeling (느낌) : 그때 느꼈던 기분을 간략히 정리한다
-- 내용  
+### Estimated time
+> Pick one
+### `0.5h`
+### `1h`
+### `1.5h`
+### `2h`
+### `2.5h`
+### `3h`
 
-### Finding (교훈) : 사건에서 얻은 교훈을 적는다  
-- 내용  
-
-### Future action(행동) : 그래서 내가 앞으로 취할 행동을 미래형으로 적는다  
-- 내용
+### Labels
+- Estimated time: `E: 1h`
+- Group : `client`, `server`
+- Sprint: `Sprint__NUMBER__`
+- Urgency: `High`, `Middle`, `Low`
