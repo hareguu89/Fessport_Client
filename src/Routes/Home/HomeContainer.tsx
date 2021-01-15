@@ -1,7 +1,12 @@
 import React from 'react';
 import HomePresenter from './HomePresenter';
 
-const HomeContainer = () => {
+interface IProps {
+  id:string,
+  counter: () => void;
+}
+
+const HomeContainer: React.FunctionComponent<IProps> = (): JSX.Element => {
   return (
     <HomePresenter />
   );
