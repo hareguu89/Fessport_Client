@@ -2,14 +2,13 @@ import React from 'react';
 import HomePresenter from './HomePresenter';
 
 interface IProps {
-  id:string,
+  id: number;
+  idd: number;
   counter: () => void;
 }
 
 const HomeContainer: React.FunctionComponent<IProps> = (): JSX.Element => {
-  return (
-    <HomePresenter />
-  );
-}
+  return <HomePresenter />;
+};
 
 export default HomeContainer;

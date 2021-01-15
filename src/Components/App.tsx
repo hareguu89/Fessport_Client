@@ -1,6 +1,6 @@
-import React from "react";
-import Router from "./Router";
-import GlobalStyles from "./GlobalStyles";
+import React from 'react';
+import Router from './Router';
+import GlobalStyles from './GlobalStyles';
 
 const App = () => {
   return (
@@ -9,6 +9,6 @@ const App = () => {
       <GlobalStyles />
     </>
   );
-}
+};
 
 export default App;
