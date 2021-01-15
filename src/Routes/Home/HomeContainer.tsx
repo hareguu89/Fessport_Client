@@ -2,9 +2,7 @@ import React from 'react';
 import HomePresenter from './HomePresenter';
 
 const HomeContainer = () => {
-  return (
-    <HomePresenter />
-  );
-}
+  return <HomePresenter />;
+};
 
 export default HomeContainer;
