@@ -10,21 +10,11 @@ const globalStyles = createGlobalStyle`
     *{
         box-sizing: border-box;
     }
-    input{
-        padding-left: 20px;
-        border: 0;
-    }
-    input::placeholder {
-        color:gray;
-    }
-    input:focus{
-        outline: none;
-    }
     body{
         font-size: 15px;
         background-color: white;
         color: black;
-        padding-top: 120px;
+        padding-top: 50px;
     }
 `;
 
