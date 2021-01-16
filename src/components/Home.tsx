@@ -1,7 +1,7 @@
 import React from 'react';
 
-const HomePresenter = () => {
+const Home = (): JSX.Element => {
   return <div> Home </div>;
 };
 
-export default HomePresenter;
+export default Home;
