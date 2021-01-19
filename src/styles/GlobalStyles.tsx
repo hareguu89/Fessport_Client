@@ -12,9 +12,9 @@ const globalStyles = createGlobalStyle`
     }
     body{
         font-size: 15px;
-        background-color: white;
         color: black;
-        padding-top: 50px;
+        padding-top: 100px;
+        background-color: rgb(23,20,29);
     }
 `;
 

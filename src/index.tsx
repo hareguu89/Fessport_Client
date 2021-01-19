@@ -9,7 +9,7 @@ import theme from './styles/theme';
 import { compose, createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import createSagaMiddleware from 'redux-saga';
-import reducers from './modules';
+import rootReducer, { rootSaga } from './modules';
 import logger from 'redux-logger';
 
 declare global {
@@ -21,9 +21,11 @@ declare global {
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
-  reducers,
-  composeEnhancers(applyMiddleware(logger, sagaMiddleware)),
+  rootReducer,
+  composeEnhancers(applyMiddleware(sagaMiddleware, logger)),
 );
+
+sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
   <>
