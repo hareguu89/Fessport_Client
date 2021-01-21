@@ -1,31 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { IMap } from '../api/map';
 import MapModalPoster from './MapModalPoster';
-
-interface IProps {
-  id: number;
-  name: string;
-  y: number;
-  x: number;
-  flageImage: string;
-  festival: IFestival[];
-}
-
-interface IFestival {
-  id: number;
-  name: string;
-  thumbnail: string;
-}
 
 const CountrySection = ({
   id,
   name,
   y,
   x,
-  flageImage,
+  flagImage,
   festival,
-}: IProps): JSX.Element => {
+}: IMap): JSX.Element => {
   const [isHover, setIsHover] = useState<boolean>(false);
   const [dy, setDy] = useState<number>(300);
   const [dx, setDx] = useState<number>(150);
@@ -53,7 +39,7 @@ const CountrySection = ({
       >
         <ModalFrame isHover={isHover}>
           <CountryLink to={`/festival/list?country=${name}`}>
-            <FlagImage src={flageImage} />
+            <FlagImage src={flagImage} />
             {name}
           </CountryLink>
           <PosterPresenter>
@@ -67,7 +53,7 @@ const CountrySection = ({
             ))}
           </PosterPresenter>
         </ModalFrame>
-        <CountryImage key={id} src={flageImage} alt={name} hover={isHover} />
+        <CountryImage key={id} src={flagImage} alt={name} hover={isHover} />
       </div>
     </CountryPresenter>
   );
@@ -180,7 +166,7 @@ const ModalFrame = styled.div<{ isHover: boolean }>`
   background-clip: padding-box;
   background-color: black;
   opacity: ${(props) => (props.isHover ? 1 : 0)};
-  transition: all 0.4s;
+  transition: all 0.4s ease-in-out;
   z-index: 100;
 `;
 
