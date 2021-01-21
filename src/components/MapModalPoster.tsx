@@ -36,7 +36,7 @@ const PosterImage = styled.img`
   border-radius: 5px;
   opacity: 0.6;
   transform: scale(1);
-  transition: all 0.5s ease-in-out;
+  transition: all 0.2s ease-in-out;
   &:hover {
     border: 1px solid rgba(120, 192, 204, 0.8);
     opacity: 1;

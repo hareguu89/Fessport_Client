@@ -1,7 +1,6 @@
 import { getMapDataAsync, GET_MAP_DATA } from './actions';
 import { getMapData, IMap } from '../../api/map';
 import { call, put, takeEvery } from 'redux-saga/effects';
-import type { Saga } from 'redux-saga';
 
 function* getMapDataSaga() {
   try {
