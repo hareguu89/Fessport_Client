@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
-import Nav from './containers/NavContainer';
+import Nav from './components/Nav';
 import HomePage from './pages/HomePage';
 import FestivalListPage from './pages/FestivalListPage';
 import FestivalDetailPage from './pages/FestivalDetailPage';
