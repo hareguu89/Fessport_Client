@@ -37,7 +37,7 @@ const HomeContainer = (): JSX.Element => {
                 name={country.name}
                 y={country.y}
                 x={country.x}
-                flageImage={country.flagImage}
+                flagImage={country.flagImage}
                 festival={country.festival}
               />
             ))}

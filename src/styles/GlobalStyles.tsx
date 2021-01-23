@@ -16,6 +16,18 @@ const globalStyles = createGlobalStyle`
         padding-top: 0px;
         background-color: rgb(23,20,29);
     }
+    input{
+        padding-left: 5px;
+        border: 0;
+        border-radius: 5px;
+        background-color: rgb(244, 244, 244, 0.3);
+    }
+    input::placeholder {
+        color:gray;
+    }
+    input:focus{
+        outline: none;
+    }
 `;
 
 export default globalStyles;
