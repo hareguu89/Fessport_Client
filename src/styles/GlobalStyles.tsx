@@ -13,7 +13,7 @@ const globalStyles = createGlobalStyle`
     body{
         font-size: 15px;
         color: black;
-        padding-top: 100px;
+        padding-top: 0px;
         background-color: rgb(23,20,29);
     }
     input{
