@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface IProps {
-  id: number;
+  _id: string;
   name: string;
   thumbnail: string;
 }
 
-const MapModalPoster = ({ id, name, thumbnail }: IProps): JSX.Element => {
+const MapModalPoster = ({ _id, name, thumbnail }: IProps): JSX.Element => {
   return (
-    <FestivalLink key={id} to={`/festival/detail/${id}`}>
+    <FestivalLink key={_id} to={`/festival/detail/${_id}`}>
       <FestivalName>{name}</FestivalName>
       <PosterImage src={thumbnail} />
     </FestivalLink>

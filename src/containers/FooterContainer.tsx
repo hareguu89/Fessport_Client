@@ -1,8 +1,11 @@
 import React from 'react';
-import Footer from '../components/Footer';
 
 const FooterContainer = (): JSX.Element => {
-  return <Footer />;
+  return (
+    <>
+      <div>footer</div>
+    </>
+  );
 };
 
 export default FooterContainer;

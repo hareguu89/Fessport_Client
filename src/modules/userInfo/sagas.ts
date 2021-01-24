@@ -1,38 +1,36 @@
 import {
   getUserInfoAsync,
-  postUserInfoAsync,
+  patchUserInfoAsync,
   GET_USERINFO_DATA,
-  POST_USERINFO_DATA,
+  PATCH_USERINFO_DATA,
 } from './actions';
-import {
-  getUserInfo,
-  postUserInfo,
-  IUserInfo,
-  Imessage,
-} from '../../api/userInfo';
+import { getUserInfo, patchUserInfo, IUserInfo } from '../../api/userInfo';
 import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 
-function* getUserInfoSaga(action: ReturnType<typeof getUserInfoAsync.request>) {
+function* getUserInfoSaga() {
   try {
-    const userInfo: IUserInfo = yield call(getUserInfo, action.payload);
+    const userInfo: IUserInfo = yield call(getUserInfo);
     yield put(getUserInfoAsync.success(userInfo));
   } catch (e) {
     yield put(getUserInfoAsync.failure(e));
   }
 }
 
-function* postUserInfoSaga(
-  action: ReturnType<typeof postUserInfoAsync.request>,
+function* patchUserInfoSaga(
+  action: ReturnType<typeof patchUserInfoAsync.request>,
 ) {
   try {
-    const message: Imessage = yield call(postUserInfo, action.payload);
-    yield put(postUserInfoAsync.success(message));
+    const message: { message: string } = yield call(
+      patchUserInfo,
+      action.payload,
+    );
+    yield put(patchUserInfoAsync.success(message));
   } catch (e) {
-    yield put(postUserInfoAsync.failure(e));
+    yield put(patchUserInfoAsync.failure(e));
   }
 }
 
 export function* userInfoSaga() {
   yield takeEvery(GET_USERINFO_DATA, getUserInfoSaga);
-  yield takeLatest(POST_USERINFO_DATA, postUserInfoSaga);
+  yield takeLatest(PATCH_USERINFO_DATA, patchUserInfoSaga);
 }

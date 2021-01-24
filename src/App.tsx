@@ -16,9 +16,10 @@ const App = (): JSX.Element => {
         <Route path="/fessport" component={FessportPage} />
         <Route path="/festival/list" component={FestivalListPage} />
         <Route path="/festival/detail/:id" component={FestivalDetailPage} />
+        <Route path="/test" component={Footer} />
         <Redirect from="*" to="/" />
       </Switch>
-      <Footer />
+      {/* <Footer /> */}
     </BrowserRouter>
   );
 };

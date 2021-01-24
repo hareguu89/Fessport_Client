@@ -1,26 +1,34 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { IVisit } from '../api/userInfo';
 import styled from 'styled-components';
-
-interface IProps {
-  visit: IVisit[] | null;
-}
 
 interface IPosition {
   y: number;
   x: number;
 }
 
-const Collector = ({ visit }: IProps): JSX.Element => {
+const Collector = ({
+  visit,
+  collectorRef,
+  handleScrollDown,
+}: {
+  visit: IVisit[] | null;
+  collectorRef: React.RefObject<HTMLDivElement>;
+  handleScrollDown: (
+    target: string,
+  ) => (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
+}): JSX.Element => {
   const [position, setPosition] = useState<IPosition[]>([]);
-  const makePosition = (visit: IVisit[]): void => {
-    const dposition = [];
-    for (let i = 0; i < visit.length; i++) {
+
+  const handlePosition = (visit: IVisit[]): void => {
+    const dposition: IPosition[] = [];
+    visit.forEach((item, index) => {
       let dy: number = Math.floor(Math.random() * (500 - 10 + 1)) + 10;
       let dx: number = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
       dposition.push({ y: dy, x: dx });
-      for (let n = 0; n < i; n++) {
-        if (i === 0) {
+      for (let n = 0; n < index; n++) {
+        if (index === 0) {
           break;
         }
         if (
@@ -31,33 +39,35 @@ const Collector = ({ visit }: IProps): JSX.Element => {
           dx = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;
           n = -1;
         } else {
-          dposition[i] = { y: dy, x: dx };
+          dposition[index] = { y: dy, x: dx };
         }
       }
-    }
+    });
     setPosition(dposition);
   };
 
   useEffect(() => {
     if (visit) {
-      makePosition(visit);
-      console.log('Collector useEffect');
+      handlePosition(visit);
+      console.log('🐼🐼🐼🐼 Collector useEffect 🐼🐼🐼🐼');
     }
   }, []);
 
   return (
-    <CollectorPresenter>
+    <CollectorPresenter ref={collectorRef}>
       <BackgroundImage src={'/images/visa.jpg'} />
       {visit &&
         position.length === visit.length &&
         visit.map((item, index) => (
-          <FestivalStamp
-            key={item.id}
-            src={item.image}
-            y={position[index].y}
-            x={position[index].x}
-          />
+          <Link key={item._id} to={`/festival/detail/${item._id}`}>
+            <FestivalStamp
+              src={item.image}
+              y={position[index].y}
+              x={position[index].x}
+            />
+          </Link>
         ))}
+      <DownButton onClick={handleScrollDown('badgeRef')}></DownButton>
     </CollectorPresenter>
   );
 };
@@ -83,6 +93,13 @@ const FestivalStamp = styled.img<{ y: number; x: number }>`
   left: ${(props) => props.x}px;
   width: 200px;
   height: 200px;
+`;
+
+const DownButton = styled.div`
+  width: 100px;
+  height: 100px;
+  background-color: blue;
+  border-radius: 50px;
 `;
 
 export default Collector;

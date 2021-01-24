@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { IBadge } from '../api/userInfo';
 import styled from 'styled-components';
 
-interface IProps {
+const Badge = ({
+  badge,
+  badgeRef,
+}: {
   badge: IBadge[] | null;
-}
-
-const Badge = ({ badge }: IProps): JSX.Element => {
+  badgeRef: React.RefObject<HTMLDivElement>;
+}): JSX.Element => {
   return (
-    <BadgePresenter>
+    <BadgePresenter ref={badgeRef}>
       <BackgroundImage src={'/images/visa.jpg'} />
       <TitleName>페스티벌 정복</TitleName>
       <TitleBox>
@@ -16,9 +18,9 @@ const Badge = ({ badge }: IProps): JSX.Element => {
           badge
             .filter((item, index) => index < 5)
             .map((item) => (
-              <BadgeBox key={item.id}>
-                <BadgeImage key={item.id} src={item.image} get={item.get} />
-                <BadegName key={item.id}>{item.name}</BadegName>
+              <BadgeBox key={item._id}>
+                <BadgeImage key={item._id} src={item.image} get={item.get} />
+                <BadegName key={item._id}>{item.name}</BadegName>
               </BadgeBox>
             ))}
       </TitleBox>
@@ -28,9 +30,9 @@ const Badge = ({ badge }: IProps): JSX.Element => {
           badge
             .filter((item, index) => index >= 5 && index < 10)
             .map((item) => (
-              <BadgeBox key={item.id}>
-                <BadgeImage key={item.id} src={item.image} get={item.get} />
-                <BadegName key={item.id}>{item.name}</BadegName>
+              <BadgeBox key={item._id}>
+                <BadgeImage key={item._id} src={item.image} get={item.get} />
+                <BadegName key={item._id}>{item.name}</BadegName>
               </BadgeBox>
             ))}
       </TitleBox>
@@ -40,9 +42,9 @@ const Badge = ({ badge }: IProps): JSX.Element => {
           badge
             .filter((item, index) => index >= 10 && index < 15)
             .map((item) => (
-              <BadgeBox key={item.id}>
-                <BadgeImage key={item.id} src={item.image} get={item.get} />
-                <BadegName key={item.id}>{item.name}</BadegName>
+              <BadgeBox key={item._id}>
+                <BadgeImage key={item._id} src={item.image} get={item.get} />
+                <BadegName key={item._id}>{item.name}</BadegName>
               </BadgeBox>
             ))}
       </TitleBox>
@@ -52,13 +54,11 @@ const Badge = ({ badge }: IProps): JSX.Element => {
 
 const BadgePresenter = styled.div`
   position: relative;
-  /* display: flex;
-  flex-direction: column; */
-  width: 1200px;
-  height: 800px;
-  padding-left: 50px;
   margin-top: 50px;
   margin-bottom: 50px;
+  padding-left: 50px;
+  width: 1200px;
+  height: 800px;
 `;
 
 const BackgroundImage = styled.img`
@@ -73,8 +73,8 @@ const BackgroundImage = styled.img`
 `;
 
 const TitleName = styled.div`
-  font-size: 1.5rem;
   margin-top: 50px;
+  font-size: 1.5rem;
 `;
 
 const TitleBox = styled.div`
@@ -84,8 +84,8 @@ const TitleBox = styled.div`
 const BadgeBox = styled.div`
   display: flex;
   flex-direction: column;
-  margin-right: 30px;
   margin-top: 10px;
+  margin-right: 30px;
 `;
 
 const BadgeImage = styled.img<{ get: boolean }>`
@@ -98,9 +98,9 @@ const BadgeImage = styled.img<{ get: boolean }>`
 `;
 
 const BadegName = styled.div`
-  font-size: 1rem;
   align-self: center;
   margin-top: 10px;
+  font-size: 1rem;
 `;
 
 export default Badge;
