@@ -4,6 +4,9 @@ import {
   GET_FESTIVAL_LIST,
   GET_FESTIVAL_LIST_SUCCESS,
   GET_FESTIVAL_LIST_ERROR,
+  GET_FESTIVAL_LIST_MORE,
+  GET_FESTIVAL_LIST_MORE_SUCCESS,
+  GET_FESTIVAL_LIST_MORE_ERROR,
   GET_FESTIVAL_DETAIL,
   GET_FESTIVAL_DETAIL_SUCCESS,
   GET_FESTIVAL_DETAIL_ERROR,
@@ -18,7 +21,7 @@ const initialState: FestivalState = {
   festivalDetail: {
     loading: false,
     error: null,
-    data: {},
+    data: null,
   },
 };
 
@@ -47,6 +50,30 @@ const festival = createReducer<FestivalState, FestivalAction>(initialState, {
       data: [],
     },
   }),
+  [GET_FESTIVAL_LIST_MORE]: (state) => ({
+    ...state,
+    festivalList: {
+      loading: true,
+      error: null,
+      data: state.festivalList.data,
+    },
+  }),
+  [GET_FESTIVAL_LIST_MORE_SUCCESS]: (state, action) => ({
+    ...state,
+    festivalList: {
+      loading: false,
+      error: null,
+      data: [...state.festivalList.data, ...action.payload],
+    },
+  }),
+  [GET_FESTIVAL_LIST_MORE_ERROR]: (state, action) => ({
+    ...state,
+    festivalList: {
+      loading: false,
+      error: action.payload,
+      data: [],
+    },
+  }),
   [GET_FESTIVAL_DETAIL]: (state) => ({
     ...state,
     festivalDetail: {
@@ -68,7 +95,7 @@ const festival = createReducer<FestivalState, FestivalAction>(initialState, {
     festivalDetail: {
       loading: false,
       error: action.payload,
-      data: {},
+      data: null,
     },
   }),
 });

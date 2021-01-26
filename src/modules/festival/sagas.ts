@@ -1,7 +1,9 @@
 import {
   getFestivalListAsync,
+  getFestivalListMoreAsync,
   getFestivalDetailAsync,
   GET_FESTIVAL_LIST,
+  GET_FESTIVAL_LIST_MORE,
   GET_FESTIVAL_DETAIL,
 } from './actions';
 import {
@@ -26,6 +28,20 @@ function* getFestivalListSaga(
   }
 }
 
+function* getFestivalListMoreSaga(
+  action: ReturnType<typeof getFestivalListMoreAsync.request>,
+) {
+  try {
+    const festivalList: IFestivalList[] = yield call(
+      getFestivalList,
+      action.payload,
+    );
+    yield put(getFestivalListMoreAsync.success(festivalList));
+  } catch (e) {
+    yield put(getFestivalListMoreAsync.failure(e));
+  }
+}
+
 function* getFestivalDetailSaga(
   action: ReturnType<typeof getFestivalDetailAsync.request>,
 ) {
@@ -42,5 +58,6 @@ function* getFestivalDetailSaga(
 
 export function* festivalSaga() {
   yield takeEvery(GET_FESTIVAL_LIST, getFestivalListSaga);
+  yield takeEvery(GET_FESTIVAL_LIST_MORE, getFestivalListMoreSaga);
   yield takeEvery(GET_FESTIVAL_DETAIL, getFestivalDetailSaga);
 }

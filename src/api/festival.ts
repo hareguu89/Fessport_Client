@@ -11,7 +11,7 @@ export async function getFestivalList(
 export async function getFestivalDetail(
   _id: string,
 ): Promise<IFestivalDetail | void> {
-  const response = await axios.get<IFestivalDetail>(`/festivalDetail/${_id}`);
+  const response = await axios.get<IFestivalDetail>(`/festivalDetail`);
   return response.data;
 }
 
@@ -43,7 +43,7 @@ export interface IFestivalDetail {
   isLiked: boolean;
   genre: {
     _id: string;
-    genre: string;
+    name: string;
   };
   country: {
     _id: string;
@@ -58,15 +58,28 @@ export interface IFestivalDetail {
   companions: {
     _id: string;
     title: string;
+    user: {
+      _id: string;
+      nickname: string;
+    };
+    image: string;
   }[];
   reviews: {
     _id: string;
-    userName: string;
     title: string;
+    user: {
+      _id: string;
+      nickname: string;
+    };
     image: string;
   }[];
   resells: {
     _id: string;
     title: string;
+    user: {
+      _id: string;
+      nickname: string;
+    };
+    image: string;
   }[];
 }

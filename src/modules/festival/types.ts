@@ -8,11 +8,11 @@ export type FestivalState = {
   festivalList: {
     loading: boolean;
     error: Error | null;
-    data: IFestivalList[] | null;
+    data: IFestivalList[];
   };
   festivalDetail: {
     loading: boolean;
     error: Error | null;
-    data: IFestivalDetail | Record<string, never>;
+    data: IFestivalDetail | null;
   };
 };

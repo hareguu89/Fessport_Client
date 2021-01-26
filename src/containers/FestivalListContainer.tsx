@@ -4,14 +4,17 @@ import styled from 'styled-components';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../modules';
-import { getFestivalListAsync } from '../modules/festival';
+import {
+  getFestivalListAsync,
+  getFestivalListMoreAsync,
+} from '../modules/festival';
 import {
   getFestivalCategoryAsync,
   getCountryCategoryAsync,
   getGenreCategoryAsync,
 } from '../modules/category';
 
-interface IEditUserInfo {
+interface IInputQuery {
   countryId: string | null;
   genreId: string | null;
   search: string | null;
@@ -21,8 +24,13 @@ const FestivalListContainer = (): JSX.Element => {
   const history = useHistory();
   const search = useLocation().search;
   const query = new URLSearchParams(search);
-  const queryString = query.toString();
-  const [inputQuery, setInputQuery] = useState<IEditUserInfo>({
+  let queryString = query.toString();
+  const [offset, setOffset] = useState(0);
+  const [limit, setLimit] = useState(9);
+  const [top, setTop] = useState(0);
+  const [topButton, setTopButton] = useState(false);
+
+  const [inputQuery, setInputQuery] = useState<IInputQuery>({
     countryId: query.get('countryId'),
     genreId: query.get('genreId'),
     search: query.get('search'),
@@ -45,8 +53,29 @@ const FestivalListContainer = (): JSX.Element => {
   }));
   const dispatch = useDispatch();
 
+  const handleScroll = () => {
+    const offsetTop = window.pageYOffset;
+    offsetTop > 500 ? setTopButton(true) : setTopButton(false);
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+  });
+
+  const topRef: React.RefObject<HTMLDivElement> = React.createRef();
+
+  const handleScrollUp = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
   useEffect(() => {
     console.log('🔥🔥🔥🔥 Festival List(queryState) useEffect 🔥🔥🔥🔥');
+    query.set('offset', String(offset));
+    query.set('limit', String(limit));
+    queryString = query.toString();
     setInputQuery({
       countryId: query.get('countryId'),
       genreId: query.get('genreId'),
@@ -90,9 +119,29 @@ const FestivalListContainer = (): JSX.Element => {
     }
   };
 
+  const handleFestivalListMore = () => {
+    console.log('✅✅✅✅ Festival List More(queryState) useEffect ✅✅✅✅');
+    setOffset((state) => state + 9);
+    console.log(offset + 'test');
+    query.set('offset', String(offset));
+    query.set('limit', String(limit));
+    queryString = query.toString();
+    setInputQuery({
+      countryId: query.get('countryId'),
+      genreId: query.get('genreId'),
+      search: query.get('search'),
+    });
+    dispatch(getFestivalListMoreAsync.request(queryString));
+  };
+
   return (
     <>
-      <ListPresenter>
+      <ListPresenter ref={topRef}>
+        {topButton && (
+          <TopButton topButton={topButton} onClick={handleScrollUp}>
+            1231312
+          </TopButton>
+        )}
         <FestivalCategory>
           {festivalCategory.data &&
             festivalCategory.data.map((item) => (
@@ -149,6 +198,9 @@ const FestivalListContainer = (): JSX.Element => {
                   <FestivalPoset src={item.poster} />
                 </Link>
               ))}
+            {!(offset + 9 > festivalList.data.length) && (
+              <button onClick={handleFestivalListMore}>더 보기</button>
+            )}
           </FestivalSection>
         </ContentsSection>
       </ListPresenter>
@@ -161,6 +213,15 @@ const ListPresenter = styled.div`
   /* justify-content: center; */
   /* align-items:center; */
   /* flex-direction:column; */
+`;
+
+const TopButton = styled.div<{ topButton: boolean }>`
+  position: fixed;
+  top: 80%;
+  left: 80%;
+  background-color: blue;
+  opacity: ${(props) => (props.topButton ? 1 : 0)};
+  transition: all 0.4s ease-in-out;
 `;
 
 const FestivalCategory = styled.div`
