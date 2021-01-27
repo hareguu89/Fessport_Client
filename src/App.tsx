@@ -5,6 +5,8 @@ import HomePage from './pages/HomePage';
 import FessportPage from './pages/FessportPage';
 import FestivalListPage from './pages/FestivalListPage';
 import FestivalDetailPage from './pages/FestivalDetailPage';
+import ArtistListPage from './pages/ArtistListPage';
+import ArtistDetailPage from './pages/ArtistDetailPage';
 import Footer from './containers/FooterContainer';
 
 const App = (): JSX.Element => {
@@ -16,6 +18,8 @@ const App = (): JSX.Element => {
         <Route path="/fessport" component={FessportPage} />
         <Route path="/festival/list" component={FestivalListPage} />
         <Route path="/festival/detail/:_id" component={FestivalDetailPage} />
+        <Route path="/artist/list" component={ArtistListPage} />
+        <Route path="/artist/detail/:_id" component={ArtistDetailPage} />
         <Route path="/test" component={Footer} />
         <Redirect from="*" to="/" />
       </Switch>

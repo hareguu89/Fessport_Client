@@ -20,4 +20,9 @@ export type CateoryState = {
     error: Error | null;
     data: ICategory[] | null;
   };
+  artist: {
+    loading: boolean;
+    error: Error | null;
+    data: ICategory[] | null;
+  };
 };
