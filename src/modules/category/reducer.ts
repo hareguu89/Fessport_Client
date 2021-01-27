@@ -10,6 +10,9 @@ import {
   GET_FESTIVAL_CATEGORY,
   GET_FESTIVAL_CATEGORY_SUCCESS,
   GET_FESTIVAL_CATEGORY_ERROR,
+  GET_ARTIST_CATEGORY,
+  GET_ARTIST_CATEGORY_SUCCESS,
+  GET_ARTIST_CATEGORY_ERROR,
 } from './actions';
 
 const initialState: CateoryState = {
@@ -24,6 +27,11 @@ const initialState: CateoryState = {
     data: null,
   },
   festival: {
+    loading: false,
+    error: null,
+    data: null,
+  },
+  artist: {
     loading: false,
     error: null,
     data: null,
@@ -98,6 +106,30 @@ const festival = createReducer<CateoryState, CategoryAction>(initialState, {
   [GET_FESTIVAL_CATEGORY_ERROR]: (state, action) => ({
     ...state,
     festival: {
+      loading: false,
+      error: action.payload,
+      data: [],
+    },
+  }),
+  [GET_ARTIST_CATEGORY]: (state) => ({
+    ...state,
+    artist: {
+      loading: true,
+      error: null,
+      data: state.artist.data,
+    },
+  }),
+  [GET_ARTIST_CATEGORY_SUCCESS]: (state, action) => ({
+    ...state,
+    artist: {
+      loading: false,
+      error: null,
+      data: action.payload,
+    },
+  }),
+  [GET_ARTIST_CATEGORY_ERROR]: (state, action) => ({
+    ...state,
+    artist: {
       loading: false,
       error: action.payload,
       data: [],

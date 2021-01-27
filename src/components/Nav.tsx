@@ -69,13 +69,17 @@ const Nav = (): JSX.Element => {
             {dropdown && <Dropdown />}
           </li>
           <li className="nav-item">
-            <Link to="/Artist" className="nav-links" onClick={closeMobileMenu}>
+            <Link
+              to="/artist/list"
+              className="nav-links"
+              onClick={closeMobileMenu}
+            >
               Artist
             </Link>
           </li>
           <li className="nav-item">
             <Link
-              to="/Festival"
+              to="/festival/list"
               className="nav-links"
               onClick={closeMobileMenu}
             >
@@ -111,6 +115,11 @@ const Nav = (): JSX.Element => {
 };
 
 const Container = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  z-index: 100;
   background: linear-gradient(90deg, rgb(28, 27, 27) 0%, rgb(26, 23, 23) 100%);
   height: 80px;
   display: flex;

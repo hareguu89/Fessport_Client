@@ -16,6 +16,11 @@ export async function getFestivalCategory(): Promise<ICategory[] | void> {
   return response.data;
 }
 
+export async function getArtistCategory(): Promise<ICategory[] | void> {
+  const response = await axios.get<ICategory[]>(`/artistCategory`);
+  return response.data;
+}
+
 export interface ICategory {
   _id: string;
   name: string;

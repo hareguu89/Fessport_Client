@@ -2,14 +2,17 @@ import {
   getCountryCategoryAsync,
   getGenreCategoryAsync,
   getFestivalCategoryAsync,
+  getArtistCategoryAsync,
   GET_COUNTRY_CATEGORY,
   GET_GENRE_CATEGORY,
   GET_FESTIVAL_CATEGORY,
+  GET_ARTIST_CATEGORY,
 } from './actions';
 import {
   getCountryCategory,
   getGenreCategory,
   getFestivalCategory,
+  getArtistCategory,
   ICategory,
 } from '../../api/category';
 import { call, put, takeEvery } from 'redux-saga/effects';
@@ -41,8 +44,18 @@ function* getFestivalCategorySaga() {
   }
 }
 
+function* getArtistCategorySaga() {
+  try {
+    const artistCategory: ICategory[] = yield call(getArtistCategory);
+    yield put(getArtistCategoryAsync.success(artistCategory));
+  } catch (e) {
+    yield put(getArtistCategoryAsync.failure(e));
+  }
+}
+
 export function* categorySaga() {
   yield takeEvery(GET_COUNTRY_CATEGORY, getCountryCategorySaga);
   yield takeEvery(GET_GENRE_CATEGORY, getGenreCategorySaga);
   yield takeEvery(GET_FESTIVAL_CATEGORY, getFestivalCategorySaga);
+  yield takeEvery(GET_ARTIST_CATEGORY, getArtistCategorySaga);
 }

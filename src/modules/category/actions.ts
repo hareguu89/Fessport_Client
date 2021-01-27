@@ -17,6 +17,11 @@ export const GET_FESTIVAL_CATEGORY_SUCCESS =
 export const GET_FESTIVAL_CATEGORY_ERROR =
   'category/GET_FESTIVAL_CATEGORY_ERROR';
 
+export const GET_ARTIST_CATEGORY = 'category/GET_ARTIST_CATEGORY';
+export const GET_ARTIST_CATEGORY_SUCCESS =
+  'category/GET_ARTIST_CATEGORY_SUCCESS';
+export const GET_ARTIST_CATEGORY_ERROR = 'category/GET_ARTIST_CATEGORY_ERROR';
+
 export const getCountryCategoryAsync = createAsyncAction(
   GET_COUNTRY_CATEGORY,
   GET_COUNTRY_CATEGORY_SUCCESS,
@@ -33,4 +38,10 @@ export const getFestivalCategoryAsync = createAsyncAction(
   GET_FESTIVAL_CATEGORY,
   GET_FESTIVAL_CATEGORY_SUCCESS,
   GET_FESTIVAL_CATEGORY_ERROR,
+)<undefined, ICategory[], AxiosError>();
+
+export const getArtistCategoryAsync = createAsyncAction(
+  GET_ARTIST_CATEGORY,
+  GET_ARTIST_CATEGORY_SUCCESS,
+  GET_ARTIST_CATEGORY_ERROR,
 )<undefined, ICategory[], AxiosError>();
