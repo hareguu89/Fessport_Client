@@ -15,6 +15,42 @@ export async function getFestivalDetail(
   return response.data;
 }
 
+export async function postVisitedFestival(
+  _id: string,
+): Promise<{ message: string } | void> {
+  const response = await axios.post<{ message: string }>(`/visit`, {
+    festivalId: _id,
+  });
+  return response.data;
+}
+
+export async function postUnvisitedFestival(
+  _id: string,
+): Promise<{ message: string } | void> {
+  const response = await axios.post<{ message: string }>(`/unvisited`, {
+    festivalId: _id,
+  });
+  return response.data;
+}
+
+export async function postLikeFestival(
+  _id: string,
+): Promise<{ message: string } | void> {
+  const response = await axios.post<{ message: string }>(`/like`, {
+    festivalId: _id,
+  });
+  return response.data;
+}
+
+export async function postDislikeFestival(
+  _id: string,
+): Promise<{ message: string } | void> {
+  const response = await axios.post<{ message: string }>(`/dislike`, {
+    festivalId: _id,
+  });
+  return response.data;
+}
+
 export interface IFestivalList {
   _id: string;
   total: number;

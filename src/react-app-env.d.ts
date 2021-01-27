@@ -1,2 +1,2 @@
 /// <reference types="react-scripts" />
-declare module 'react-hover-video-player';
+declare module 'react-slick';
