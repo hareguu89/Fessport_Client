@@ -1,29 +1,23 @@
 import axios from 'axios';
+axios.defaults.withCredentials = true;
 
-export async function getUserInfo(
-  accessToken: string,
-): Promise<IUserInfo | void> {
-  const response = await axios.get<IUserInfo>('/myFessport', {
-    withCredentials: true,
-    headers: {
-      Authorization: `bearer ${accessToken}`,
-    },
-  });
+export async function getUserInfo(): Promise<IUserInfo | void> {
+  const response = await axios.get<IUserInfo>('/myFessport');
   return response.data;
 }
 
-export async function postUserInfo(param: IParam): Promise<Imessage | void> {
-  const response = await axios.post<Imessage>('/edit', param.editUserInfo, {
-    withCredentials: true,
-    headers: {
-      Authorization: `bearer ${param.accessToken}`,
-    },
-  });
+export async function patchUserInfo(
+  editUesrInfo: IEditUserInfo,
+): Promise<{ message: string } | void> {
+  const response = await axios.patch<{ message: string }>(
+    '/myFessport',
+    editUesrInfo,
+  );
   return response.data;
 }
 
 export interface IUserInfo {
-  id: number;
+  _id: string;
   nickName: string | null;
   email: string;
   image: string | null;
@@ -32,28 +26,19 @@ export interface IUserInfo {
 }
 
 export interface IVisit {
-  id: number;
+  _id: string;
   image: string;
 }
 
 export interface IBadge {
-  id: number;
+  _id: string;
   name: string;
   image: string;
   get: boolean;
 }
 
-export interface IParam {
-  editUserInfo: IEditUserInfo;
-  accessToken: string;
-}
-
-interface IEditUserInfo {
+export interface IEditUserInfo {
   nickName: string | null | undefined;
   password: string | null;
   image: string | null | undefined;
-}
-
-export interface Imessage {
-  message: string;
 }

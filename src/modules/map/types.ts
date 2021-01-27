@@ -5,9 +5,7 @@ import { IMap } from '../../api/map';
 export type MapAction = ActionType<typeof actions>;
 
 export type MapState = {
-  mapData: {
-    loading: boolean;
-    error: Error | null;
-    data: IMap[] | null;
-  };
+  loading: boolean;
+  error: Error | null;
+  data: IMap[] | null;
 };

@@ -3,12 +3,28 @@ import map, { mapSaga } from './map';
 import login, { actionWatcher } from './sign';
 import userInfo, { userInfoSaga } from './userInfo';
 import image, { imageSaga } from './image';
-import { all, fork } from 'redux-saga/effects';
+import festival, { festivalSaga } from './festival';
+import category, { categorySaga } from './category';
+import { all } from 'redux-saga/effects';
 
-const rootReducer = combineReducers({ map, userInfo, image, login });
+const rootReducer = combineReducers({
+  map,
+  userInfo,
+  image,
+  login
+  festival,
+  category,
+});
 
 export function* rootSaga() {
-  yield all([mapSaga(), userInfoSaga(), imageSaga(), actionWatcher()]);
+  yield all([
+    mapSaga(),
+    userInfoSaga(),
+    imageSaga(),
+    actionWatcher(),
+    festivalSaga(),
+    categorySaga(),
+  ]);
 }
 
 export default rootReducer;

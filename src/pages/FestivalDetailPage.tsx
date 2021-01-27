@@ -1,8 +1,9 @@
 import React from 'react';
-import FooterContainer from '../containers/FooterContainer';
+import { withRouter } from 'react-router-dom';
+import FestivalDetailContainer from '../containers/FestivalDetailContainer';
 
 const FestivalDetailPage = (): JSX.Element => {
-  return <FooterContainer />;
+  return <FestivalDetailContainer />;
 };
 
-export default FestivalDetailPage;
+export default withRouter(FestivalDetailPage);

@@ -6,7 +6,7 @@ export async function getMapData(): Promise<IMap[] | void> {
 }
 
 export interface IMap {
-  id: number;
+  _id: string;
   name: string;
   y: number;
   x: number;
@@ -15,7 +15,7 @@ export interface IMap {
 }
 
 interface IFestival {
-  id: number;
+  _id: string;
   name: string;
   thumbnail: string;
 }
