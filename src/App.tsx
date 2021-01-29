@@ -1,11 +1,13 @@
 import React from 'react';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
-import Nav from './components/Nav';
+import Nav from './containers/NavContainer';
 import HomePage from './pages/HomePage';
 import FessportPage from './pages/FessportPage';
 import FestivalListPage from './pages/FestivalListPage';
 import FestivalDetailPage from './pages/FestivalDetailPage';
-import Footer from './containers/FooterContainer';
+import CompanionPage from './pages/CompanionPage';
+import CommunityPostPage from './pages/CommunityPostPage';
+import ResellPage from './pages/ResellPage';
 
 const App = (): JSX.Element => {
   return (
@@ -16,9 +18,12 @@ const App = (): JSX.Element => {
         <Route path="/fessport" component={FessportPage} />
         <Route path="/festival/list" component={FestivalListPage} />
         <Route path="/festival/detail/:id" component={FestivalDetailPage} />
+        <Route path="/companion" component={CompanionPage} />
+        <Route path="/resell" component={ResellPage} />
+        <Route path="/post" component={CommunityPostPage} />
         <Redirect from="*" to="/" />
       </Switch>
-      <Footer />
+      {/* <Footer /> */}
     </BrowserRouter>
   );
 };

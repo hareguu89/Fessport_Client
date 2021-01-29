@@ -14,7 +14,7 @@ const globalStyles = createGlobalStyle`
         font-size: 15px;
         color: black;
         padding-top: 0px;
-        background-color: rgb(23,20,29);
+        background-color: #151515;
     }
     input{
         padding-left: 5px;
@@ -23,7 +23,7 @@ const globalStyles = createGlobalStyle`
         background-color: rgb(244, 244, 244, 0.3);
     }
     input::placeholder {
-        color:gray;
+        color:grey;
     }
     input:focus{
         outline: none;

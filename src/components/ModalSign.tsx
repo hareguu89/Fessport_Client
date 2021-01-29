@@ -175,7 +175,7 @@ export const SignModal = ({ title, isOpen, onClose }: ModalProps) => {
   ) : null;
 };
 
-const Form = styled.form`
+const Form = styled.div`
   font-size: 14px;
   display: grid;
   grid-template-columns: 50% 50%;
@@ -196,7 +196,7 @@ const Form = styled.form`
   }
   .signup__list {
     max-width: 90%;
-    font-size: 12px;
+    font-size: 14px;
     display: grid;
     grid-template-rows: 35px;
     margin-bottom: 36px;
@@ -262,7 +262,7 @@ const Modal = styled.div`
     right: 0;
     margin: 0;
     transform: translate(-100%, 60%);
-    font-size: 3rem;
+    font-size: 14px;
     cursor: pointer;
     color: white;
     background-color: rgba(0, 0, 0, 0.9);
@@ -292,7 +292,7 @@ const Modal = styled.div`
 
   .modal__list {
     max-width: 90%;
-    font-size: 12px;
+    font-size: 14px;
     display: grid;
     grid-template-rows: 35px;
     margin-bottom: 36px;
