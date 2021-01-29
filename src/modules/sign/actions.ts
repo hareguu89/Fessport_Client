@@ -6,7 +6,7 @@ import {
   LoginInfo,
   SignupInfo,
   SignupPayload,
-} from '../../api/Signin';
+} from '../../api/signin';
 
 // Action types
 export const LOGIN_REQUEST = 'signin/LOG_IN_REQUEST' as const;
