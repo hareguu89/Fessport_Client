@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Dropdown, MyDropdown } from '../containers/NavContainer';
@@ -8,9 +8,26 @@ const Nav = (): JSX.Element => {
   const [click, setClick] = useState(false);
   const [dropdown, setDropdown] = useState(false);
   const [myDropdown, setMyDropdwon] = useState(false);
+  const [topButton, setTopButton] = useState(false);
 
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
+
+  const handleScrollUp = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  };
+
+  const handleScroll = () => {
+    const offsetTop = window.pageYOffset;
+    offsetTop > 100 ? setTopButton(true) : setTopButton(false);
+  };
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+  });
 
   const onMouseEnter = () => {
     if (window.innerWidth < 960) {
@@ -110,17 +127,25 @@ const Nav = (): JSX.Element => {
           </li>
         </ul>
       </Container>
+      {topButton && (
+        <TopButton
+          src="/images/up.png"
+          topButton={topButton}
+          onClick={handleScrollUp}
+        />
+      )}
     </>
   );
 };
 
 const Container = styled.div`
+  border-bottom: 1px solid white;
   position: fixed;
+  background-color: rgb(23, 20, 29);
   top: 0;
   left: 0;
   width: 100vw;
   z-index: 100;
-  background: linear-gradient(90deg, rgb(28, 27, 27) 0%, rgb(26, 23, 23) 100%);
   height: 80px;
   display: flex;
   justify-content: center;
@@ -183,7 +208,7 @@ const Container = styled.div`
     display: none;
   }
 
-  @media screen (max-width: 960px) {
+  @media only screen and (max-width: 960px) {
     .NavbarItems {
       position: relative;
     }
@@ -265,6 +290,17 @@ const Container = styled.div`
       display: none;
     }
   }
+`;
+
+const TopButton = styled.img<{ topButton: boolean }>`
+  position: fixed;
+  top: 80%;
+  left: 90%;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  opacity: 0.9;
+  z-index: 100;
 `;
 
 export default Nav;

@@ -99,14 +99,19 @@ const UserInfo = ({
 
   return (
     <UserInfoPresenter onSubmit={handleEditUserInfo}>
-      <BackgroundImage src={'/images/passport.jpg'} />
+      {/* <BackgroundImage src={'/images/passport.jpg'} /> */}
       <TitleBox>
-        <TitleText>회원정보 FESSPORT</TitleText>
-        <TitleText>대한민국 REPUBLIC OF KOREA</TitleText>
+        <TitleText> FESSPORT (Profile) </TitleText>
       </TitleBox>
       <ContentsBox>
         <ImageBox>
-          <UserImage src={editUserInfo.image ? editUserInfo.image : '//:0'} />
+          <UserImage
+            src={
+              editUserInfo.image
+                ? editUserInfo.image
+                : '/images/default_profile.png'
+            }
+          />
           <ImageUpload
             ref={fileRef}
             type={'file'}
@@ -114,7 +119,7 @@ const UserInfo = ({
             onChange={handleSelectedImage}
           />
           <ImageUploadButton onClick={handleImageUpload}>
-            사진 변경
+            Edit Image
           </ImageUploadButton>
         </ImageBox>
         <InfoBox>
@@ -132,7 +137,7 @@ const UserInfo = ({
               <MainText>M123A4567</MainText>
             </TextBox>
           </TypeBox>
-          <SubText>이름/Name</SubText>
+          <SubText>닉네임/Nickname</SubText>
           <InputText
             type={'text'}
             name={'nickName'}
@@ -141,16 +146,6 @@ const UserInfo = ({
           ></InputText>
           <SubText>이메일/E-mail</SubText>
           <MainText>{email}</MainText>
-          {/* <TypeBox>
-              <TextBox>
-                <SubText>생년월일/Date of birth</SubText>
-                <MainText>M123A4567</MainText>
-              </TextBox>
-              <TextBox>
-                <SubText>성별/Sex</SubText>
-                <MainText>M</MainText>
-              </TextBox>
-            </TypeBox> */}
           <TypeBox>
             <TextBox>
               <SubText>국적/Nationality</SubText>
@@ -169,26 +164,35 @@ const UserInfo = ({
             placeholder={'변경할 비밀번호를 입력하세요'}
             onChange={handleInputValue}
           ></InputText>
-          <SubText>새로운 비밀번호 확인/New password check</SubText>
-          <InputText
-            type={'password'}
-            name={'newPasswordCheck'}
-            value={
-              editUserInfo.newPasswordCheck ? editUserInfo.newPasswordCheck : ''
-            }
-            placeholder={'변경할 비밀번호를 한번 더 입력하세요'}
-            onChange={handleInputValue}
-          ></InputText>
-          <EditButton type="submit">수정하기</EditButton>
+          <ButtonBox>
+            <div>
+              <SubText>새로운 비밀번호 확인/New password check</SubText>
+              <InputText
+                type={'password'}
+                name={'newPasswordCheck'}
+                value={
+                  editUserInfo.newPasswordCheck
+                    ? editUserInfo.newPasswordCheck
+                    : ''
+                }
+                placeholder={'변경할 비밀번호를 한번 더 입력하세요'}
+                onChange={handleInputValue}
+              ></InputText>
+            </div>
+            <EditButton type="submit"> Edit Profile </EditButton>
+          </ButtonBox>
         </InfoBox>
       </ContentsBox>
-      <DownButton onClick={handleScrollDown('collectorRef')}></DownButton>
-      <TextUnder>
+      <DownButton
+        src="/images/arrow.png"
+        onClick={handleScrollDown('collectorRef')}
+      />
+      {/* <TextUnder>
         {'PMKORTEAMCOSTIVAL<<<<<<<<<FESSPORT>>>>>>>>>>>>>>>>>>>>>>>>'}
       </TextUnder>
       <TextUnder>
         {'M123A4567KOR87025010F3004348515034V204111000000000000000000'}
-      </TextUnder>
+      </TextUnder> */}
     </UserInfoPresenter>
   );
 };
@@ -197,37 +201,39 @@ const UserInfoPresenter = styled.form`
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 1200px;
-  height: 700px;
+  width: 1100px;
+  height: 550px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 30px;
+  z-index: 2;
 `;
 
 const BackgroundImage = styled.img`
   position: absolute;
-  width: 1200px;
-  height: 700px;
+  width: 1100px;
+  height: 550px;
   border-radius: 30px;
-  opacity: 0.8;
-  z-index: -1;
+  opacity: 0.2;
+  z-index: 1;
 `;
 
 const TitleBox = styled.div`
   display: flex;
   margin-left: 50px;
-  margin-top: 50px;
+  margin-top: 25px;
 `;
 
 const TitleText = styled.div`
   margin-left: 50px;
-  color: rgb(70, 111, 162);
-  font-size: 2em;
-  font-weight: 900;
+  color: rgb(200, 200, 200);
+  font-size: 1.5em;
+  font-weight: 600;
 `;
 
 const ContentsBox = styled.div`
   display: flex;
   margin-left: 100px;
-  margin-top: 50px;
-  margin-bottom: 10px;
+  margin-top: 25px;
 `;
 
 const ImageBox = styled.div`
@@ -248,9 +254,22 @@ const ImageUpload = styled.input`
 
 const ImageUploadButton = styled.button`
   align-self: center;
-  margin-top: 10px;
+  margin-top: 20px;
   width: 250px;
   height: 45px;
+  background: rgba(170, 170, 170, 0.1);
+  font-size: 1rem;
+  font-weight: 500;
+  border: 0;
+  outline: 0;
+  height: 50px;
+  color: rgb(200, 200, 200);
+  cursor: pointer;
+  &:hover {
+    background: rgb(170, 170, 170, 0.8);
+    color: rgb(36, 36, 36);
+  }
+  transition: background 0.5s ease-in-out;
 `;
 
 const InfoBox = styled.div`
@@ -280,39 +299,69 @@ const MainText = styled.span`
   display: flex;
   margin-left: 50px;
   margin-top: 5px;
-  margin-bottom: 15px;
-  font-size: 1.5em;
+  margin-bottom: 20px;
+  padding-bottom: 5px;
+  font-size: 1.2em;
   font-weight: 600;
+  color: rgb(200, 200, 200);
 `;
 
 const InputText = styled.input`
   margin-left: 50px;
-  margin-top: 3px;
-  margin-bottom: 10px;
-  width: 400px;
-  height: 50px;
-  font-size: 1.5em;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  padding: 5px;
+  width: 300px;
+  font-size: 1.2em;
   font-weight: 600;
+  border-radius: 5px;
+  background: transparent;
+  color: rgb(200, 200, 200);
+  border-bottom: 1px solid rgba(170, 170, 170, 0.5);
+  &:focus {
+    background: rgba(170, 170, 170, 0.1);
+  }
+`;
+
+const ButtonBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
 `;
 
 const EditButton = styled.button`
-  align-self: flex-end;
+  background: rgba(170, 170, 170, 0.1);
+  font-size: 1rem;
+  font-weight: 500;
   width: 100px;
+  border: 0;
+  border-radius: 10px;
+  outline: 0;
   height: 50px;
-  color: black;
+  color: rgb(200, 200, 200);
+  cursor: pointer;
+  &:hover {
+    background: rgb(170, 170, 170, 0.8);
+    color: rgb(36, 36, 36);
+  }
+  transition: background 0.5s ease-in-out;
 `;
 
-const DownButton = styled.div`
+const DownButton = styled.img`
+  object-fit: cover;
+  position: absolute;
+  top: 90%;
+  left: 45%;
   width: 100px;
   height: 100px;
-  background-color: blue;
-  border-radius: 50px;
+  opacity: 0.8;
+  z-index: 99;
 `;
 
 const TextUnder = styled.span`
   margin-left: 100px;
-  margin-top: 20px;
-  font-size: 2em;
+  font-size: 1.5em;
+  color: rgb(200, 200, 200);
 `;
 
 export default UserInfo;

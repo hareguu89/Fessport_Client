@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import UserInfo from '../components/UserInfo';
 import Collector from '../components/Collector';
 import Badge from '../components/Badge';
 import styled from 'styled-components';
+import Loader from '../pages/Loader';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../modules';
@@ -35,7 +36,7 @@ const FessportContainer = (): JSX.Element => {
     }
     targetLocation.scrollIntoView({
       behavior: 'smooth',
-      block: 'nearest',
+      block: 'center',
     });
   };
 
@@ -53,12 +54,8 @@ const FessportContainer = (): JSX.Element => {
 
   return (
     <>
-      {loading && <p style={{ textAlign: 'center' }}>Loading...</p>}
-      {error && (
-        <p style={{ textAlign: 'center' }}>
-          Error!!! 다시 시도해주세요. 뒤로가기.
-        </p>
-      )}
+      {loading && <Loader />}
+      {error && <p style={{ textAlign: 'center' }}>Error!!!</p>}
       {data && (
         <FessportPresenter>
           <UserInfo
@@ -84,7 +81,7 @@ const FessportPresenter = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 1%;
 `;
 
 export default withRouter(FessportContainer);

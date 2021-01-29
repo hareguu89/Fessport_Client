@@ -39,7 +39,6 @@ export interface IArtistList {
   name: string;
   image: string;
   description: string;
-  poster: string;
   genre: {
     _id: string;
     name: string;
@@ -55,7 +54,7 @@ export interface IArtistDetail {
     _id: string;
     name: string;
   };
-  video: string;
+  video: string[];
   isLiked: boolean;
   festivals: {
     _id: string;

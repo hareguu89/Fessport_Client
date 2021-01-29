@@ -13,19 +13,13 @@ const globalStyles = createGlobalStyle`
         box-sizing: border-box;
     }
     body{
-        font-size: 15px;
+        font-size: 1rem;
         color: white;
         padding-top: 100px;
         background-color: rgb(23,20,29);
     }
     input{
-        padding-left: 5px;
         border: 0;
-        border-radius: 5px;
-        background-color: rgb(244, 244, 244, 0.3);
-    }
-    input::placeholder {
-        color:gray;
     }
     input:focus{
         outline: none;
