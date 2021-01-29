@@ -14,7 +14,6 @@ const NavContainer = (): JSX.Element => {
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
   const { login } = useSelector((state: RootState) => state.login.userInfo);
-  const { data } = useSelector((state: RootState) => state.userInfo.userInfo);
 
   const onMouseEnter = () => {
     if (window.innerWidth < 960) {
@@ -97,9 +96,10 @@ const NavContainer = (): JSX.Element => {
                 <img
                   className="nav-image"
                   src={
-                    data?.image
-                      ? data?.image
-                      : `https://d2ljmlcsal6xzo.cloudfront.net/assets/fallback/temporary_profile-65c08fd0b2bb95434e40fa62b682df18417765c3b0ac165dcb5b3e9035f01b98.png`
+                    // data?.image
+                    //   ? data?.image
+                    //   :
+                    `https://d2ljmlcsal6xzo.cloudfront.net/assets/fallback/temporary_profile-65c08fd0b2bb95434e40fa62b682df18417765c3b0ac165dcb5b3e9035f01b98.png`
                   }
                   alt=""
                 ></img>

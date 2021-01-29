@@ -8,6 +8,9 @@ import FestivalDetailPage from './pages/FestivalDetailPage';
 import CompanionPage from './pages/CompanionPage';
 import CommunityPostPage from './pages/CommunityPostPage';
 import ResellPage from './pages/ResellPage';
+import ArtistListPage from './pages/ArtistListPage';
+import ArtistDetailPage from './pages/ArtistDetailPage';
+import Footer from './containers/FooterContainer';
 
 const App = (): JSX.Element => {
   return (
@@ -21,6 +24,10 @@ const App = (): JSX.Element => {
         <Route path="/companion" component={CompanionPage} />
         <Route path="/resell" component={ResellPage} />
         <Route path="/post" component={CommunityPostPage} />
+        <Route path="/festival/detail/:_id" component={FestivalDetailPage} />
+        <Route path="/artist/list" component={ArtistListPage} />
+        <Route path="/artist/detail/:_id" component={ArtistDetailPage} />
+        <Route path="/test" component={Footer} />
         <Redirect from="*" to="/" />
       </Switch>
       {/* <Footer /> */}

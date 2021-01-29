@@ -1,22 +1,20 @@
 import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import styled from 'styled-components';
 import CountrySection from '../components/CountrySection';
+import styled from 'styled-components';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../modules';
 import { getMapDataAsync } from '../modules/map';
 
 const HomeContainer = (): JSX.Element => {
-  const { data, loading, error } = useSelector(
-    (state: RootState) => state.map.mapData,
-  );
+  const { data, loading, error } = useSelector((state: RootState) => state.map);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (!data) {
+      console.log('🐸🐸🐸🐸 Map Data useEffect 🐸🐸🐸🐸');
       dispatch(getMapDataAsync.request());
-      console.log('HomeContainer useEffect');
     }
   }, []);
 
@@ -32,8 +30,8 @@ const HomeContainer = (): JSX.Element => {
             <MapImage src={'/images/grid.png'} />
             {data.map((country) => (
               <CountrySection
-                key={country.id}
-                id={country.id}
+                key={country._id}
+                _id={country._id}
                 name={country.name}
                 y={country.y}
                 x={country.x}

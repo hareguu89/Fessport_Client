@@ -10,24 +10,46 @@ import { RootState } from '../modules';
 import { getUserInfoAsync } from '../modules/userInfo';
 
 const FessportContainer = (): JSX.Element => {
-  const { postSucess, data, loading, error } = useSelector(
-    (state: RootState) => state.userInfo.userInfo,
+  const { patchSucess, data, loading, error } = useSelector(
+    (state: RootState) => state.userInfo,
   );
   const dispatch = useDispatch();
 
+  const userInfoRef: React.RefObject<HTMLDivElement> = React.createRef();
+  const collectorRef: React.RefObject<HTMLDivElement> = React.createRef();
+  const badgeRef: React.RefObject<HTMLDivElement> = React.createRef();
+
+  const handleScrollDown = (target: string) => (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
+    let targetLocation: HTMLDivElement;
+    switch (target) {
+      case 'collectorRef':
+        targetLocation = collectorRef.current as HTMLDivElement;
+        break;
+      case 'badgeRef':
+        targetLocation = badgeRef.current as HTMLDivElement;
+        break;
+      default:
+        targetLocation = userInfoRef.current as HTMLDivElement;
+    }
+    targetLocation.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+    });
+  };
+
   useEffect(() => {
     if (!data) {
-      // const accessToken = localStorage.getItem('accessToken');
-      dispatch(getUserInfoAsync.request('acc'));
-      console.log('FessportContainer useEffect');
-    } else {
-      if (postSucess) {
-        // const accessToken = localStorage.getItem('accessToken');
-        dispatch(getUserInfoAsync.request('acc'));
-        console.log('정보가 업데이트 되었습니다. FessportContainer useEffect.');
-      }
+      console.log('🐶🐶🐶🐶 UserInfo useEffect 🐶🐶🐶🐶');
+      dispatch(getUserInfoAsync.request());
+    } else if (patchSucess) {
+      dispatch(getUserInfoAsync.request());
+      console.log(
+        '🐶🐶🐶🐶 정보가 업데이트 되었습니다. UserInfo Update useEffect. 🐶🐶🐶🐶',
+      );
     }
-  }, [data, postSucess]);
+  }, [data, patchSucess]);
 
   return (
     <>
@@ -40,13 +62,17 @@ const FessportContainer = (): JSX.Element => {
       {data && (
         <FessportPresenter>
           <UserInfo
-            id={data.id}
-            nickName={data.nickName}
             email={data.email}
+            nickName={data.nickName}
             image={data.image}
+            handleScrollDown={handleScrollDown}
           />
-          <Collector visit={data.visit} />
-          <Badge badge={data.badge} />
+          <Collector
+            visit={data.visit}
+            collectorRef={collectorRef}
+            handleScrollDown={handleScrollDown}
+          />
+          <Badge badge={data.badge} badgeRef={badgeRef} />
         </FessportPresenter>
       )}
     </>

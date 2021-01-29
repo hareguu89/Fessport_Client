@@ -1,8 +1,12 @@
-import React from 'react';
-import FooterContainer from '../containers/FooterContainer';
+import React, { useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
+import FestivalDetailContainer from '../containers/FestivalDetailContainer';
 
 const FestivalDetailPage = (): JSX.Element => {
-  return <FooterContainer />;
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  return <FestivalDetailContainer />;
 };
 
-export default FestivalDetailPage;
+export default withRouter(FestivalDetailPage);

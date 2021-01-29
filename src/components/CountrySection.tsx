@@ -1,24 +1,30 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import { IMap } from '../api/map';
+import { Link, useHistory } from 'react-router-dom';
 import MapModalPoster from './MapModalPoster';
+import { IMap } from '../api/map';
+import styled from 'styled-components';
 
 const CountrySection = ({
-  id,
+  _id,
   name,
   y,
   x,
   flagImage,
   festival,
 }: IMap): JSX.Element => {
+  const history = useHistory();
   const [isHover, setIsHover] = useState<boolean>(false);
   const [dy, setDy] = useState<number>(300);
   const [dx, setDx] = useState<number>(150);
+
+  const handleCountryLink = () => {
+    history.push(`/festival/list?countryId=${_id}`);
+  };
+
   useEffect(() => {
+    console.log('🏁🏁🏁🏁 CountrySection(x, y setting) useEffect 🏁🏁🏁🏁');
     setDy(y);
     setDx(x);
-    console.log('CountrySection useEffect');
   }, [y, x]);
 
   return (
@@ -38,22 +44,28 @@ const CountrySection = ({
         }}
       >
         <ModalFrame isHover={isHover}>
-          <CountryLink to={`/festival/list?country=${name}`}>
+          <CountryLink to={`/festival/list?countryId=${_id}`}>
             <FlagImage src={flagImage} />
             {name}
           </CountryLink>
           <PosterPresenter>
             {festival.map((item) => (
               <MapModalPoster
-                key={item.id}
-                id={item.id}
+                key={item._id}
+                _id={item._id}
                 name={item.name}
                 thumbnail={item.thumbnail}
               />
             ))}
           </PosterPresenter>
         </ModalFrame>
-        <CountryImage key={id} src={flagImage} alt={name} hover={isHover} />
+        <CountryImage
+          key={_id}
+          src={flagImage}
+          alt={name}
+          hover={isHover}
+          onClick={handleCountryLink}
+        />
       </div>
     </CountryPresenter>
   );
@@ -201,6 +213,7 @@ const CountryImage = styled.img<{ hover: boolean }>`
   border: 2px solid rgba(148, 242, 255, ${(props) => (props.hover ? 0.8 : 0.4)});
   border-radius: 50px;
   transition: all 0.5s ease-in-out;
+  cursor: pointer;
   z-index: 99;
 `;
 
