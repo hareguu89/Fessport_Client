@@ -72,7 +72,7 @@ export interface IFestivalDetail {
   description: string;
   startDate: string;
   endDate: string;
-  video: string;
+  video: string[];
   poster: string;
   homepage: string;
   visited: boolean;
