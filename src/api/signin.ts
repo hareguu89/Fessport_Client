@@ -6,7 +6,7 @@ export async function SigninApi(
   param: SigninPayload,
 ): Promise<LoginInfo | void> {
   const response = await axios.post<LoginInfo>(
-    'https://localhost:4000/emailSignIn',
+    'https://localhost:4000/auth/login',
     param.userInfo,
     { withCredentials: true },
   );
@@ -31,7 +31,7 @@ export async function SignupApi(
   param: SignupPayload,
 ): Promise<SignupInfo | void> {
   const response = await axios.post<SignupInfo>(
-    'https://localhost:4000/emailSignUp',
+    'https://localhost:4000/auth/signup',
     param.userInfo,
     { withCredentials: true },
   );

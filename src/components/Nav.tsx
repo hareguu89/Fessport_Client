@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { Dropdown, MyDropdown } from '../containers/NavContainer';
-import { SignModal } from '../containers/ModalSign';
 
-const Nav = (): JSX.Element => {
+export function Dropdown(): JSX.Element {
   const [click, setClick] = useState(false);
   const [dropdown, setDropdown] = useState(false);
   const [myDropdown, setMyDropdwon] = useState(false);
@@ -58,8 +56,23 @@ const Nav = (): JSX.Element => {
     }
   };
 
-  const [isModalOpen, setModalState] = React.useState(false);
-  const toggleModal = () => setModalState(!isModalOpen);
+  const MenuItems = [
+    {
+      title: 'Companions',
+      path: '/companion',
+      cName: 'dropdown-link',
+    },
+    {
+      title: 'Sell&Buy',
+      path: '/resell',
+      cName: 'dropdown-link',
+    },
+    {
+      title: 'Review',
+      path: '/Review',
+      cName: 'dropdown-link',
+    },
+  ];
 
   return (
     <>
@@ -161,52 +174,80 @@ const Container = styled.div`
     font-size: 2rem;
   }
 
-  .fa-firstdraft {
-    margin-left: 0.5rem;
-    font-size: 1.6rem;
-  }
+export function MyDropdown(): JSX.Element {
+  const [click, setClick] = useState(false);
+  const handleClick = () => setClick(!click);
 
-  .nav-menu {
-    display: grid;
-    grid-template-columns: repeat(6, auto);
-    grid-gap: 10px;
-    list-style: none;
-    text-align: center;
-    width: 70vw;
-    justify-content: end;
-    margin-right: 2rem;
-  }
+  const MyMenuItems = [
+    {
+      title: 'MY FESSPORT',
+      path: '/fessport',
+      cName: 'dropdown-link',
+    },
+    {
+      title: 'WISH LIST',
+      path: '/wishlist',
+      cName: 'dropdown-link',
+    },
+    {
+      title: 'MY POST',
+      path: '/mypost',
+      cName: 'dropdown-link',
+    },
+  ];
 
-  .nav-item {
-    display: flex;
+  return (
+    <>
+      <Ul
+        onClick={handleClick}
+        className={click ? 'dropdown-menu clicked' : 'dropdown-menu'}
+      >
+        {MyMenuItems.map((item, index) => {
+          return (
+            <Li key={index}>
+              <StyledLink
+                className={item.cName}
+                to={item.path}
+                onClick={() => setClick(false)}
+              >
+                {/* {item.icon} */}
+                {item.title}
+              </StyledLink>
+              <div className="modal__break" />
+            </Li>
+          );
+        })}
+      </Ul>
+    </>
+  );
+}
+
+const Li = styled.li`
+  background: rgb(28, 27, 27);
+  cursor: pointer;
+
+  :hover {
+    // background-color: white;
+  }
+`;
+
+const Ul = styled.ul`
+  width: 160px;
+  position: absolute;
+  top: 80px;
+  list-style: none;
+  text-align: center;
+
+  .modal__break {
+    justify-content: center;
     align-items: center;
-    height: 80px;
+    max-width: 100%;
+    height: 1px;
+    opacity: 0.5;
+    position: relative;
+    background: linear-gradient(to right, white 0%, #999 100%);
   }
-
-  .nav-links {
-    color: white;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-  }
-
-  .nav-links:hover {
-    background-color: #1888ff;
-    border-radius: 4px;
-    transition: all 0.2s ease-out;
-  }
-
-  .fa-bars {
-    color: #fff;
-  }
-
-  .nav-links-mobile {
-    display: none;
-  }
-
-  .menu-icon {
-    display: none;
-  }
+`;
 
   @media only screen and (max-width: 960px) {
     .NavbarItems {
