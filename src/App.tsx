@@ -11,6 +11,7 @@ import ResellPage from './pages/ResellPage';
 import ArtistListPage from './pages/ArtistListPage';
 import ArtistDetailPage from './pages/ArtistDetailPage';
 import Footer from './containers/FooterContainer';
+import WishListPage from './pages/WishListPage';
 
 const App = (): JSX.Element => {
   return (
@@ -25,7 +26,8 @@ const App = (): JSX.Element => {
         <Route path="/companion" component={CompanionPage} />
         <Route path="/resell" component={ResellPage} />
         <Route path="/post" component={CommunityPostPage} />
-        <Route path="/fessport" component={FessportPage} />
+        <Route path="/wishlist" component={CommunityPostPage} />
+        <Route path="/fessport" component={WishListPage} />
         <Redirect from="*" to="/" />
       </Switch>
       {/* <Footer /> */}

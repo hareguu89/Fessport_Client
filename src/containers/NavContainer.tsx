@@ -25,6 +25,7 @@ const NavContainer = (): JSX.Element => {
       setDropdown(true);
     }
   };
+
   const onMouseLeave = () => {
     if (window.innerWidth < 960) {
       setDropdown(false);
@@ -32,6 +33,7 @@ const NavContainer = (): JSX.Element => {
       setDropdown(false);
     }
   };
+
   const onMyMouseEnter = () => {
     if (window.innerWidth < 960) {
       setMyDropdwon(false);
@@ -125,13 +127,6 @@ const NavContainer = (): JSX.Element => {
           </li>
         </ul>
       </Container>
-      {topButton && (
-        <TopButton
-          src="/images/up.png"
-          topButton={topButton}
-          onClick={handleScrollUp}
-        />
-      )}
     </>
   );
 };

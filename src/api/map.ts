@@ -11,7 +11,7 @@ export interface IMap {
   y: number;
   x: number;
   flagImage: string;
-  festival: IFestival[];
+  festivals: IFestival[];
 }
 
 interface IFestival {
