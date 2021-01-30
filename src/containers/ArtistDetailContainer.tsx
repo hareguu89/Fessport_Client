@@ -32,11 +32,6 @@ const ArtistDetailContainer = (): JSX.Element => {
   );
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    console.log('🍗🍗🍗🍗 Artist Detail useEffect 🍗🍗🍗🍗');
-    dispatch(getArtistDetailAsync.request(params._id));
-  }, []);
-
   const handleModal = (video: string) => (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
@@ -52,6 +47,11 @@ const ArtistDetailContainer = (): JSX.Element => {
     }
   };
 
+  useEffect(() => {
+    console.log('🍗🍗🍗🍗 Artist Detail useEffect 🍗🍗🍗🍗');
+    dispatch(getArtistDetailAsync.request(params._id));
+  }, []);
+
   // const TOTAL_SLIDES = 2;
 
   // const [currentSlide, setCurrentSlide] = useState(0);
@@ -61,13 +61,13 @@ const ArtistDetailContainer = (): JSX.Element => {
   // useEffect(() => {
   //   if (slideRef.current) {
   //     slideRef.current.style.transition = 'all 0.5s ease-in-out';
-  //     slideRef.current.style.transform = `translateX(-${currentSlide}00%)`; // 백틱을 사용하여 슬라이드로 이동하는 애니메이션을 만듭니다.
+  //     slideRef.current.style.transform = `translateX(-${currentSlide}00%)`;
   //   }
   // }, [currentSlide]);
 
   // const nextSlide = () => {
   //   if (currentSlide >= TOTAL_SLIDES) {
-  //     // 더 이상 넘어갈 슬라이드가 없으면 슬라이드를 초기화합니다.
+
   //     setCurrentSlide(0);
   //   } else {
   //     setCurrentSlide(currentSlide + 1);

@@ -31,16 +31,6 @@ const NavContainer = (): JSX.Element => {
     offsetTop > 100 ? setTopButton(true) : setTopButton(false);
   };
 
-  // function debounce(callback: any, milliseconds: number) {
-  //   let debounceCheck: any;
-  //   return function () {
-  //     clearTimeout(debounceCheck);
-  //     debounceCheck = setTimeout(() => {
-  //       callback();
-  //     }, milliseconds);
-  //   };
-  // }
-
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
   });

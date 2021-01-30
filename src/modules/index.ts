@@ -10,6 +10,7 @@ import { all, fork } from 'redux-saga/effects';
 import festival, { festivalSaga } from './festival';
 import artist, { artistSaga } from './artist';
 import category, { categorySaga } from './category';
+import wish, { wishSaga } from './wish';
 
 const rootReducer = combineReducers({
   map,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   commentData,
   festival,
   artist,
+  wish,
   category,
 });
 
@@ -36,6 +38,7 @@ export function* rootSaga() {
     festivalSaga(),
     artistSaga(),
     categorySaga(),
+    wishSaga(),
   ]);
 }
 
