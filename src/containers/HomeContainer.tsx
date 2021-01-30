@@ -37,7 +37,7 @@ const HomeContainer = (): JSX.Element => {
                 y={country.y}
                 x={country.x}
                 flagImage={country.flagImage}
-                festival={country.festival}
+                festivals={country.festivals}
               />
             ))}
           </MapPresenter>

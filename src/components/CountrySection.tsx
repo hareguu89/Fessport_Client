@@ -10,7 +10,7 @@ const CountrySection = ({
   y,
   x,
   flagImage,
-  festival,
+  festivals,
 }: IMap): JSX.Element => {
   const history = useHistory();
   const [isHover, setIsHover] = useState<boolean>(false);
@@ -61,7 +61,7 @@ const CountrySection = ({
             {name}
           </CountryLink>
           <PosterPresenter>
-            {festival.map((item) => (
+            {festivals.map((item) => (
               <MapModalPoster
                 key={item._id}
                 _id={item._id}
