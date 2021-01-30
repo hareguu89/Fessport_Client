@@ -18,16 +18,14 @@ const App = (): JSX.Element => {
       <Nav />
       <Switch>
         <Route path="/" component={HomePage} exact={true} />
-        <Route path="/fessport" component={FessportPage} />
         <Route path="/festival/list" component={FestivalListPage} />
         <Route path="/festival/detail/:id" component={FestivalDetailPage} />
+        <Route path="/artist/list" component={ArtistListPage} />
+        <Route path="/artist/detail/:_id" component={ArtistDetailPage} />
         <Route path="/companion" component={CompanionPage} />
         <Route path="/resell" component={ResellPage} />
         <Route path="/post" component={CommunityPostPage} />
-        <Route path="/festival/detail/:_id" component={FestivalDetailPage} />
-        <Route path="/artist/list" component={ArtistListPage} />
-        <Route path="/artist/detail/:_id" component={ArtistDetailPage} />
-        <Route path="/test" component={Footer} />
+        <Route path="/fessport" component={FessportPage} />
         <Redirect from="*" to="/" />
       </Switch>
       {/* <Footer /> */}

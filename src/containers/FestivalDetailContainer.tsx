@@ -93,6 +93,7 @@ const FestivalDetailContainer = (): JSX.Element => {
 
   return (
     <>
+      <BackgorundImage />
       {loading && <Loader />}
       {error && <p style={{ textAlign: 'center' }}>Error!!!</p>}
       {data && (
@@ -140,7 +141,7 @@ const FestivalDetailContainer = (): JSX.Element => {
 
               <FetivalHomepage>
                 <a href={data.homepage} target="_blank" rel="noreferrer">
-                  Homepage Link : <i className="fas fa-link" />
+                  Website Link : <i className="fas fa-link" />
                 </a>
               </FetivalHomepage>
               <VideoBox>
@@ -206,7 +207,7 @@ const FestivalDetailContainer = (): JSX.Element => {
                 <TempTitle> Companion </TempTitle>
                 {data.companions.map((item) => (
                   <CompanionContent
-                    to={`/community/copanions/${item._id}`}
+                    to={`/community/copanions`}
                     key={`C${item._id}`}
                   >
                     <CompanionTitle>Title : {item.title}</CompanionTitle>
@@ -218,7 +219,7 @@ const FestivalDetailContainer = (): JSX.Element => {
                 <TempTitle> Resell </TempTitle>
                 {data.resells.map((item) => (
                   <CompanionContent
-                    to={`/community/resell/${item._id}`}
+                    to={`/community/resell`}
                     key={`R${item._id}`}
                   >
                     <CompanionTitle>Title : {item.title}</CompanionTitle>
@@ -231,7 +232,7 @@ const FestivalDetailContainer = (): JSX.Element => {
                 <ReviewSection>
                   {data.reviews.map((item) => (
                     <ReviewContent
-                      to={`/community/review/${item._id}`}
+                      to={`/community/review`}
                       key={`V${item._id}`}
                     >
                       <ReviewImage src={item.image} />
@@ -264,6 +265,19 @@ const FestivalDetailContainer = (): JSX.Element => {
   );
 };
 
+const BackgorundImage = styled.div`
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  opacity: 0.3;
+  background: radial-gradient(black 35%, transparent 1%),
+    url('/images/wall.jpg');
+  background-size: 3px 3px, contain;
+`;
+
 const DetailPresenter = styled.div`
   display: flex;
   margin-top: 5%;
@@ -285,6 +299,8 @@ const PoseterImage = styled.img`
 `;
 
 const ContentSection = styled.div`
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.3);
   margin-left: 5%;
   width: 50%;
 `;

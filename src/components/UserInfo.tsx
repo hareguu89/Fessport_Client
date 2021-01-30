@@ -203,7 +203,7 @@ const UserInfoPresenter = styled.form`
   flex-direction: column;
   width: 1100px;
   height: 550px;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0);
   border-radius: 30px;
   z-index: 2;
 `;

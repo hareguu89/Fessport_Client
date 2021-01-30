@@ -16,7 +16,7 @@ const globalStyles = createGlobalStyle`
         font-size: 1rem;
         color: white;
         padding-top: 100px;
-        background-color: rgb(23,20,29);
+        background-color: rgb(21,21,31);
     }
     input{
         border: 0;

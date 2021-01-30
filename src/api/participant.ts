@@ -4,9 +4,12 @@ import axios from 'axios';
 export async function getParticData(
   boardId: string,
 ): Promise<ParticDataRes[] | void> {
-  const response = await axios.get<ParticDataRes[]>('/participant/list', {
-    withCredentials: true,
-  });
+  const response = await axios.get<ParticDataRes[]>(
+    'https://fessport-server.com/participant/list',
+    {
+      withCredentials: true,
+    },
+  );
   return response.data;
 }
 
@@ -21,7 +24,7 @@ export async function postParticData(
   param: ParticRequest,
 ): Promise<Imessage | void> {
   const response = await axios.post<Imessage>(
-    '/participant/create',
+    'https://fessport-server.com/participant/create',
     param.postParticData,
     {
       withCredentials: true,
@@ -52,7 +55,7 @@ export async function deleteParticData(
   param: ParticRequest,
 ): Promise<Imessage | void> {
   const response = await axios.post<Imessage>(
-    '/participants/delete',
+    'https://fessport-server.com/participants/delete',
     param.postParticData,
     {
       withCredentials: true,

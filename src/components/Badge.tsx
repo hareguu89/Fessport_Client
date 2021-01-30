@@ -11,7 +11,7 @@ const Badge = ({
 }): JSX.Element => {
   return (
     <BadgePresenter>
-      <BackgroundImage src={'/images/visa.jpg'} />
+      {/* <BackgroundImage src={'/images/visa.jpg'} /> */}
       <TitleText> Festival Challenge (badge) </TitleText>
       <Temp>
         <TitleName>
@@ -69,7 +69,8 @@ const BadgePresenter = styled.div`
   padding-left: 50px;
   width: 1100px;
   height: 800px;
-  color: black;
+  background-color: rgba(0, 0, 0);
+  border-radius: 30px;
 `;
 
 const BackgroundImage = styled.img`
@@ -79,16 +80,16 @@ const BackgroundImage = styled.img`
   width: 1100px;
   height: 800px;
   border-radius: 30px;
-  opacity: 0.8;
+  /* opacity: 0.8; */
   z-index: -1;
 `;
 
 const TitleText = styled.div`
   margin-top: 20px;
   width: 300px;
-  color: rgba(0, 0, 0);
+  color: white;
   font-size: 1.5em;
-  font-weight: 800;
+  font-weight: 600;
   padding: 10px;
   border-radius: 5px;
   z-index: 99;
@@ -98,10 +99,11 @@ const TitleName = styled.div`
   margin-left: 30px;
   margin-bottom: 10px;
   font-size: 1.2rem;
-  font-weight: 600;
-  color: black;
+  font-weight: 500;
+  color: white;
+  padding-left: 10px;
   padding-bottom: 5px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
 `;
 
 const Temp = styled.div`
@@ -109,7 +111,7 @@ const Temp = styled.div`
   padding: 20px;
   margin-top: 30px;
   border-radius: 50px;
-  background-color: rgba(65, 65, 65, 0.15);
+  background-color: rgba(170, 170, 170, 0.15);
 `;
 
 const TitleBox = styled.div`
@@ -134,6 +136,7 @@ const BadgeImage = styled.img<{ get: boolean }>`
 `;
 
 const BadegName = styled.div`
+  color: white;
   margin-top: 15px;
   font-size: 1rem;
   font-weight: 500;

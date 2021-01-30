@@ -125,6 +125,7 @@ const ArtistListContainer = (): JSX.Element => {
 
   return (
     <>
+      <BackgorundImage />
       {loading && <Loader />}
       {error && <p style={{ textAlign: 'center' }}>Error!!!</p>}
       <ListPresenter>
@@ -186,6 +187,19 @@ const ArtistListContainer = (): JSX.Element => {
   );
 };
 
+const BackgorundImage = styled.div`
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  opacity: 0.3;
+  background: radial-gradient(black 35%, transparent 1%),
+    url('/images/wall3.jpg');
+  background-size: 3px 3px, contain;
+`;
+
 const ListPresenter = styled.div`
   display: flex;
   margin-top: 5%;
@@ -202,7 +216,7 @@ const ArtistCategory = styled.div`
   /* align-items:center; */
   flex-direction: column;
   width: 30%;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.5);
 `;
 
 const ArtistCategoryHead = styled.div`
@@ -229,7 +243,7 @@ const SearchBar = styled.input`
 `;
 
 const ArtistCategorylContetn = styled.div`
-  color: rgba(170, 170, 170);
+  color: rgba(200, 200, 200);
   border-bottom: 1px solid rgba(170, 170, 170, 0.3);
   padding: 10px;
   padding-left: 20px;
@@ -256,7 +270,7 @@ const CategorySection = styled.div`
 
 const GerneCategory = styled.select`
   color: white;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.5);
   border: none;
   padding: 15px;
   border-radius: 10px;
@@ -268,7 +282,7 @@ const ArtistSection = styled.div`
   margin-top: 5%;
   gap: 30px;
   grid-template-columns: repeat(3, minmax(150px, auto));
-  grid-template-rows: repeat(3, minmax(150px, auto));
+  /* grid-template-rows: repeat(1, minmax(150px, auto)); */
 `;
 
 const ArtistLink = styled(Link)`

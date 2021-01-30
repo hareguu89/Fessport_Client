@@ -83,6 +83,7 @@ const ArtistDetailContainer = (): JSX.Element => {
 
   return (
     <>
+      <BackgorundImage />
       {loading && <Loader />}
       {error && <p style={{ textAlign: 'center' }}>Error!!!</p>}
       {data && (
@@ -198,6 +199,18 @@ const ArtistDetailContainer = (): JSX.Element => {
   );
 };
 
+const BackgorundImage = styled.div`
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  opacity: 0.3;
+  background: radial-gradient(black 35%, transparent 1%),
+    url('/images/wall3.jpg');
+  background-size: 3px 3px, contain;
+`;
 const DetailPresenter = styled.div`
   display: flex;
   margin-top: 5%;
@@ -221,6 +234,8 @@ const PoseterImage = styled.img`
 const ContentSection = styled.div`
   margin-left: 5%;
   width: 50%;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.3);
 `;
 const FesttivalSection = styled.div``;
 
