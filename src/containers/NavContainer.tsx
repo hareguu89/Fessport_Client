@@ -18,33 +18,6 @@ const NavContainer = (): JSX.Element => {
   const { login } = useSelector((state: RootState) => state.login.userInfo);
   const { data } = useSelector((state: RootState) => state.userInfo);
 
-  const handleScrollUp = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
-
-  const handleScroll = () => {
-    const offsetTop = window.pageYOffset;
-    offsetTop > 10 ? setTopNav(false) : setTopNav(true);
-    offsetTop > 100 ? setTopButton(true) : setTopButton(false);
-  };
-
-  // function debounce(callback: any, milliseconds: number) {
-  //   let debounceCheck: any;
-  //   return function () {
-  //     clearTimeout(debounceCheck);
-  //     debounceCheck = setTimeout(() => {
-  //       callback();
-  //     }, milliseconds);
-  //   };
-  // }
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-  });
-
   const onMouseEnter = () => {
     if (window.innerWidth < 960) {
       setDropdown(false);
