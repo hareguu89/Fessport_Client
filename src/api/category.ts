@@ -2,22 +2,30 @@ import axios from 'axios';
 axios.defaults.withCredentials = true;
 
 export async function getCountryCategory(): Promise<ICategory[] | void> {
-  const response = await axios.get<ICategory[]>(`/countryCategory`);
+  const response = await axios.get<ICategory[]>(
+    `https://fessport-server.com/category/country`,
+  );
   return response.data;
 }
 
 export async function getGenreCategory(): Promise<ICategory[] | void> {
-  const response = await axios.get<ICategory[]>(`/genreCategory`);
+  const response = await axios.get<ICategory[]>(
+    `https://fessport-server.com/category/genre`,
+  );
   return response.data;
 }
 
 export async function getFestivalCategory(): Promise<ICategory[] | void> {
-  const response = await axios.get<ICategory[]>(`/festivalCategory`);
+  const response = await axios.get<ICategory[]>(
+    `https://fessport-server.com/category/festival`,
+  );
   return response.data;
 }
 
 export async function getArtistCategory(): Promise<ICategory[] | void> {
-  const response = await axios.get<ICategory[]>(`/artistCategory`);
+  const response = await axios.get<ICategory[]>(
+    `https://fessport-server.com/category/artist`,
+  );
   return response.data;
 }
 

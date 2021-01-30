@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export async function getMapData(): Promise<IMap[] | void> {
-  const response = await axios.get<IMap[]>('/map');
+  const response = await axios.get<IMap[]>('https://fessport-server.com/main');
   return response.data;
 }
 

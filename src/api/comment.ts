@@ -5,7 +5,7 @@ export async function getCommentData(
   boardId: string,
 ): Promise<CommentDataRes | void> {
   const response = await axios.get<CommentDataRes>(
-    `/comment/list?boardId=${boardId}`,
+    `https://fessport-server.com/comment/list?boardId=${boardId}`,
     {
       withCredentials: true,
     },
@@ -31,7 +31,7 @@ export async function postCommentData(
   param: CommentRequest,
 ): Promise<Imessage | void> {
   const response = await axios.post<Imessage>(
-    '/comment/post',
+    'https://fessport-server.com/comment/post',
     param.commentData,
     {
       withCredentials: true,
@@ -62,7 +62,7 @@ export async function deleteCommentData(
   param: CommentDelete,
 ): Promise<Imessage | void> {
   const response = await axios.post<Imessage>(
-    '/comment/delete',
+    'https://fessport-server.com/comment/delete',
     param.commentData,
     {
       withCredentials: true,

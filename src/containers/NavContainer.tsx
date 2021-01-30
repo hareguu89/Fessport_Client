@@ -18,23 +18,6 @@ const NavContainer = (): JSX.Element => {
   const { login } = useSelector((state: RootState) => state.login.userInfo);
   const { data } = useSelector((state: RootState) => state.userInfo);
 
-  const handleScrollUp = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
-
-  const handleScroll = () => {
-    const offsetTop = window.pageYOffset;
-    offsetTop > 10 ? setTopNav(false) : setTopNav(true);
-    offsetTop > 100 ? setTopButton(true) : setTopButton(false);
-  };
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-  });
-
   const onMouseEnter = () => {
     if (window.innerWidth < 960) {
       setDropdown(false);
@@ -42,6 +25,7 @@ const NavContainer = (): JSX.Element => {
       setDropdown(true);
     }
   };
+
   const onMouseLeave = () => {
     if (window.innerWidth < 960) {
       setDropdown(false);
@@ -49,6 +33,7 @@ const NavContainer = (): JSX.Element => {
       setDropdown(false);
     }
   };
+
   const onMyMouseEnter = () => {
     if (window.innerWidth < 960) {
       setMyDropdwon(false);
@@ -142,13 +127,6 @@ const NavContainer = (): JSX.Element => {
           </li>
         </ul>
       </Container>
-      {topButton && (
-        <TopButton
-          src="/images/up.png"
-          topButton={topButton}
-          onClick={handleScrollUp}
-        />
-      )}
     </>
   );
 };

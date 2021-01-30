@@ -2,7 +2,9 @@ import axios from 'axios';
 axios.defaults.withCredentials = true;
 
 export async function getUserInfo(): Promise<IUserInfo | void> {
-  const response = await axios.get<IUserInfo>('/myFessport');
+  const response = await axios.get<IUserInfo>(
+    'https://fessport-server.com/user/myFessport',
+  );
   return response.data;
 }
 
@@ -10,7 +12,7 @@ export async function patchUserInfo(
   editUesrInfo: IEditUserInfo,
 ): Promise<{ message: string } | void> {
   const response = await axios.patch<{ message: string }>(
-    '/myFessport',
+    'https://fessport-server.com/user/edit',
     editUesrInfo,
   );
   return response.data;
