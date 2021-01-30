@@ -70,11 +70,25 @@ const FessportContainer = (): JSX.Element => {
             handleScrollDown={handleScrollDown}
           />
           <Badge badge={data.badge} badgeRef={badgeRef} />
+          <BackgorundImage />
         </FessportPresenter>
       )}
     </>
   );
 };
+
+const BackgorundImage = styled.div`
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  opacity: 0.3;
+  background: radial-gradient(black 35%, transparent 1%),
+    url('/images/wall2.jpg');
+  background-size: 3px 3px, contain;
+`;
 
 const FessportPresenter = styled.div`
   display: flex;

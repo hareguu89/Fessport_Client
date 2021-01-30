@@ -19,7 +19,7 @@ export function Dropdown(): JSX.Element {
     },
     {
       title: 'Review',
-      path: '/Review',
+      path: '/review',
       cName: 'dropdown-link',
     },
   ];

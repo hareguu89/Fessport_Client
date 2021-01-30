@@ -31,18 +31,18 @@ const NavContainer = (): JSX.Element => {
     offsetTop > 100 ? setTopButton(true) : setTopButton(false);
   };
 
-  function debounce(callback: any, milliseconds: number) {
-    let debounceCheck: any;
-    return function () {
-      clearTimeout(debounceCheck);
-      debounceCheck = setTimeout(() => {
-        callback();
-      }, milliseconds);
-    };
-  }
+  // function debounce(callback: any, milliseconds: number) {
+  //   let debounceCheck: any;
+  //   return function () {
+  //     clearTimeout(debounceCheck);
+  //     debounceCheck = setTimeout(() => {
+  //       callback();
+  //     }, milliseconds);
+  //   };
+  // }
 
   useEffect(() => {
-    window.addEventListener('scroll', debounce(handleScroll, 100));
+    window.addEventListener('scroll', handleScroll);
   });
 
   const onMouseEnter = () => {
@@ -176,8 +176,9 @@ const Container = styled.div<{ topNav: boolean }>`
   justify-content: center;
   align-items: center;
   font-size: 1rem;
-  background-color: rgba(23, 20, 29);
-  transition: all 0.5s;
+  background-color: ${(props) =>
+    props.topNav ? 'transparant' : 'rgb(23,20,29)'};
+  transition: all 0.3s;
 
   .wall {
     margin-left: 2rem;

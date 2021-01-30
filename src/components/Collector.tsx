@@ -88,18 +88,17 @@ const TitleText = styled.div`
   color: rgba(0, 0, 0);
   /* background: rgba(0, 0, 0, 0.1); */
   font-size: 1.5em;
-  font-weight: 800;
+  font-weight: 600;
   padding: 10px;
   border-radius: 5px;
   z-index: 99;
 `;
 
 const BackgroundImage = styled.img`
-  /* position: relative; */
   width: 1100px;
   height: 550px;
   border-radius: 30px;
-  opacity: 0.8;
+  -webkit-filter: grayscale(100%);
 `;
 
 const FestivalStamp = styled.img<{ y: number; x: number }>`
