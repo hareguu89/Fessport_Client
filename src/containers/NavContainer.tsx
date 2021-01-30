@@ -177,7 +177,7 @@ const Container = styled.div<{ topNav: boolean }>`
   align-items: center;
   font-size: 1rem;
   background-color: ${(props) =>
-    props.topNav ? 'transparant' : 'rgb(23,20,29)'};
+    props.topNav ? 'transparant' : 'rgb(21,21,31)'};
   transition: all 0.3s;
 
   .wall {
