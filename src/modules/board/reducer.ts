@@ -37,7 +37,7 @@ const boardData = createReducer<BoardDataState, BoardDataAction>(initialState, {
       postSucess: false,
       loading: false,
       error: null,
-      data: [action.payload],
+      data: action.payload,
     },
   }),
   [GET_BOARD_DATA_ERROR]: (state, action) => ({
@@ -46,7 +46,7 @@ const boardData = createReducer<BoardDataState, BoardDataAction>(initialState, {
       postSucess: false,
       loading: false,
       error: action.payload,
-      data: [],
+      data: state.boardData.data,
     },
   }),
   [POST_BOARD_DATA]: (state) => ({

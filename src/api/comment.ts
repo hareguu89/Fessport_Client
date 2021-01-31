@@ -35,9 +35,6 @@ export async function postCommentData(
     param.commentData,
     {
       withCredentials: true,
-      headers: {
-        Authorization: `bearer ${param.accessToken}`,
-      },
     },
   );
   return response.data;
@@ -45,7 +42,6 @@ export async function postCommentData(
 
 export interface CommentRequest {
   commentData: CommentInfo;
-  accessToken: string;
 }
 
 interface CommentInfo {
@@ -66,9 +62,6 @@ export async function deleteCommentData(
     param.commentData,
     {
       withCredentials: true,
-      headers: {
-        Authorization: `bearer ${param.accessToken}`,
-      },
     },
   );
   return response.data;
@@ -76,7 +69,6 @@ export async function deleteCommentData(
 
 export interface CommentDelete {
   commentData: Comment;
-  accessToken: string;
 }
 
 interface Comment {

@@ -11,153 +11,19 @@ import { getUserInfoAsync } from '../modules/userInfo/actions';
 import Moment from 'moment';
 import 'moment/locale/en-nz';
 
-const mockData = [
-  {
-    _id: '1',
-    title: '5tardium 동행 구해요~~',
-    description: '같이 페스티벌가서 재밌게 놀아요!',
-    image: 'img.jpg',
-    user: {
-      _id: '600933f077e53b45bf46b7db',
-      image:
-        'https://first-project-image-bucket.s3.ap-northeast-2.amazonaws.com/array+method.png',
-      nickName: '홍인자',
-    },
-    festival: {
-      _id: '1',
-      name: '5tardium',
-    },
-    comments: [
-      {
-        _id: '2',
-        nickName: '짱정환',
-        description: '좋아요!',
-        image: '',
-      },
-      {
-        _id: '3',
-        nickName: '짱귀희석',
-        description: '좋아요!',
-        image: '',
-      },
-    ],
-    participants: [
-      { _id: '2', nickName: '짱정환', image: '' },
-      { _id: '3', nickName: '짱귀희석', image: '' },
-    ],
-    createdAt: '2021-01-31T01:18:16.358Z',
-    updatedAt: '2021-01-21T16:22:16.358Z',
-  },
-  {
-    _id: '2',
-    title: '울트라 동행 구해요~~',
-    description: '재밌게 놀아요!',
-    image: 'img.jpg',
-    user: {
-      _id: '2',
-      image: '',
-      nickName: '짱정환',
-    },
-    festival: {
-      _id: '60085af05593303ca99f24e1',
-      name: '울트라',
-    },
-    comments: [
-      {
-        _id: '2',
-        nickName: '짱정환',
-        description: '좋아요!',
-        image: '',
-      },
-    ],
-    participants: [
-      { _id: '2', nickName: '짱정환', image: '' },
-      { _id: '3', nickName: '짱귀희석', image: '' },
-    ],
-    createdAt: '2021-01-21T16:22:16.358Z',
-    updatedAt: '2021-01-21T16:22:16.358Z',
-  },
-  {
-    _id: '3',
-    title: '이태원',
-    description: '썰파가실?',
-    image: 'img.jpg',
-    user: {
-      _id: '3',
-      image: '',
-      nickName: '짱귀희석',
-    },
-    festival: {
-      _id: '3',
-      name: '썰파',
-    },
-    comments: [
-      {
-        _id: '2',
-        nickName: '짱정환',
-        description: '좋아요!',
-        image: '',
-      },
-    ],
-    participants: [
-      { _id: '2', nickName: '짱정환', image: '' },
-      { _id: '3', nickName: '짱귀희석', image: '' },
-    ],
-    createdAt: '2021-01-21T16:22:16.358Z',
-    updatedAt: '2021-01-21T16:22:16.358Z',
-  },
-  {
-    _id: '1',
-    title: '5tardium 동행 구해요~~',
-    description: '같이 페스티벌가서 재밌게 놀아요!',
-    image: 'img.jpg',
-    user: {
-      _id: '600933f077e53b45bf46b7db',
-      image:
-        'https://first-project-image-bucket.s3.ap-northeast-2.amazonaws.com/array+method.png',
-      nickName: '홍인자',
-    },
-    festival: {
-      _id: '1',
-      name: '썰파',
-    },
-    comments: [
-      {
-        _id: '2',
-        nickName: '짱정환',
-        description: '좋아요!',
-        image: '',
-      },
-      {
-        _id: '3',
-        nickName: '짱귀희석',
-        description: '좋아요!',
-        image: '',
-      },
-    ],
-    participants: [
-      { _id: '2', nickName: '짱정환', image: '' },
-      { _id: '3', nickName: '짱귀희석', image: '' },
-    ],
-    createdAt: '2021-01-21T16:22:16.358Z',
-    updatedAt: '2021-01-21T16:22:16.358Z',
-  },
-];
-
 const Companion = (): JSX.Element => {
-  const { data, loading, error } = useSelector(
-    (state: RootState) => state.boardData.boardData,
-  );
+  const dispatch = useDispatch();
+  const { data } = useSelector((state: RootState) => state.boardData.boardData);
   const [category, setCategory] = useState('all');
+  const [item, setItem] = useState<BoardDataRes>();
   const { login } = useSelector((state: RootState) => state.login.userInfo);
 
   useEffect(() => {
-    getBoardAsync.request('601252586adcbda1c23a9302');
+    dispatch(getUserInfoAsync.request());
+    dispatch(getBoardAsync.request('601252586adcbda1c23a9302'));
   }, []);
 
-  console.log(Moment(mockData[0].createdAt).fromNow());
-
-  const filtered = mockData.reduce<any>((acc, cur) => {
+  const filtered = data.reduce<any>((acc, cur) => {
     if (cur.festival.name in acc) {
       acc[cur.festival.name]++;
     } else {
@@ -202,7 +68,7 @@ const Companion = (): JSX.Element => {
             })}
           </Category>
           <CompanionLists>
-            {mockData
+            {data
               .filter((el) => {
                 if (category === 'all') {
                   return el;
@@ -224,7 +90,7 @@ const Companion = (): JSX.Element => {
                           </div>
                           <span className="wall" />
                           <div className="element_nickname">
-                            {`by ` + el.user.nickName}
+                            {`by ` + el.user.nickname}
                           </div>
                           <span className="wall" />
                           <div className="element_attribute_date">
@@ -248,11 +114,9 @@ const Companion = (): JSX.Element => {
                     <div className="footer_btn">
                       <CompanionJoin
                         boardId={el._id}
-                        img={el.user.image}
-                        nick={el.user.nickName}
+                        nick={el.user.nickname}
                         participants={el.participants}
                         comments={el.comments}
-                        festival={el.festival}
                         _id={el.user._id}
                       />
                     </div>
@@ -300,7 +164,7 @@ const CompanionContent = styled.div`
 
   .modal__break {
     max-width: 95%;
-    height: 1px;
+    height: 1.5px;
     opacity: 0.5;
     position: relative;
     background: linear-gradient(to right, white 0%, #999 100%);
@@ -356,17 +220,14 @@ const CompanionContent = styled.div`
   }
 
   .image {
-    display: flex;
-    // flex-wrap: nowrap;
-    align: center;
-    justify-direction: center;
-    width: 90px;
-    height: 90px;
+    width: 10vh;
+    height: 10vh;
     border-radius: 5rem;
   }
 `;
 
 const CompanionItem = styled.div`
+  width: 100%;
   background-color: rgb(46, 50, 51);
   display: grid;
   grid-template-rows: repeat(2, auto);
@@ -397,6 +258,7 @@ const Content = styled.div`
 `;
 
 const Category = styled.div`
+  width: 100%;
   display: block;
   box-sizing: border-box;
   color: #ccc;
@@ -433,6 +295,7 @@ const Category = styled.div`
 `;
 
 const CompanionLists = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   padding: 10px;
@@ -440,10 +303,10 @@ const CompanionLists = styled.div`
 `;
 
 const ContentContainer = styled.div`
+  width: 100%;
   padding-left: 10rem;
   padding-right: 10rem;
   background: url(https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80);
-  min-height: 1280px;
 
   .links {
     color: black;
