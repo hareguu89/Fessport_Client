@@ -20,14 +20,14 @@ const App = (): JSX.Element => {
       <Switch>
         <Route path="/" component={HomePage} exact={true} />
         <Route path="/festival/list" component={FestivalListPage} />
-        <Route path="/festival/detail/:id" component={FestivalDetailPage} />
+        <Route path="/festival/detail/:_id" component={FestivalDetailPage} />
         <Route path="/artist/list" component={ArtistListPage} />
         <Route path="/artist/detail/:_id" component={ArtistDetailPage} />
         <Route path="/companion" component={CompanionPage} />
         <Route path="/resell" component={ResellPage} />
         <Route path="/post" component={CommunityPostPage} />
-        <Route path="/wishlist" component={CommunityPostPage} />
-        <Route path="/fessport" component={WishListPage} />
+        <Route path="/wishlist" component={WishListPage} />
+        <Route path="/fessport" component={FessportPage} />
         <Redirect from="*" to="/" />
       </Switch>
       {/* <Footer /> */}
