@@ -53,7 +53,6 @@ export const SignModal = ({ title, isOpen, onClose }: ModalProps) => {
 
   const onSignUpHandler = (e: any) => {
     if (signUpCPassword !== signUpPassword) {
-      alert('비번틀림');
     }
     e.preventDefault();
     const userInfo = {
@@ -77,7 +76,9 @@ export const SignModal = ({ title, isOpen, onClose }: ModalProps) => {
     </button> */}
       <div className={'modal__box'}>
         <div className="modal__header">
-          <h2 className={'modal__title'}>{title}</h2>
+          <h2 className={'modal__title'}>
+            {title} <i className="fas fa-passport"></i>
+          </h2>
         </div>
         <div className="modal__break"></div>
         {!goSignup ? (
@@ -214,9 +215,15 @@ const Modal = styled.div`
   width: 100vw;
   heigth: 100vhh;
 
+  .fas fa-passport {
+    display: flex;
+    align-items: center;
+  }
+
   .modal__header {
     position: flex;
-    margin: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     border: 10px;
   }
 
@@ -249,9 +256,15 @@ const Modal = styled.div`
   }
 
   .modal__title {
-    color: #9e25fc;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+    align-items: center;
+    color: #b8e3f4;
     text-align: start;
-    font-size: 28px;
+    font-size: 30px;
     font-weight: normal;
   }
 
