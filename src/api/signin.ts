@@ -49,3 +49,13 @@ export interface SignupPayload {
 export interface SignupInfo {
   message: string;
 }
+
+//---------------- signout --------------
+
+export async function SignoutApi(): Promise<LoginInfo | void> {
+  const response = await axios.post<LoginInfo>(
+    'https://fessport-server.com/signout',
+    { withCredentials: true },
+  );
+  return response.data;
+}

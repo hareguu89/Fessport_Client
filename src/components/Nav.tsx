@@ -13,13 +13,8 @@ export function Dropdown(): JSX.Element {
       cName: 'dropdown-link',
     },
     {
-      title: 'Sell & Buy',
+      title: 'Buy & Sell',
       path: '/resell',
-      cName: 'dropdown-link',
-    },
-    {
-      title: 'Review',
-      path: '/review',
       cName: 'dropdown-link',
     },
   ];

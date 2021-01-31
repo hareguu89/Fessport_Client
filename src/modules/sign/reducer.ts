@@ -7,6 +7,9 @@ import {
   SIGNUP_REQUEST,
   SIGNUP_SUCCESS,
   SIGNUP_FAILURE,
+  SIGNOUT_REQUEST,
+  SIGNOUT_SUCCESS,
+  SIGNOUT_FAILURE,
 } from './actions';
 
 const initialState: LoginResponse = {
@@ -65,6 +68,33 @@ const login = createReducer<LoginResponse, SigninAction>(initialState, {
     },
   }),
   [SIGNUP_FAILURE]: (state, action) => ({
+    ...state,
+    userInfo: {
+      login: false,
+      loading: false,
+      error: action.payload,
+      data: null,
+    },
+  }),
+  [SIGNOUT_REQUEST]: (state) => ({
+    ...state,
+    userInfo: {
+      login: true,
+      loading: true,
+      error: null,
+      data: null,
+    },
+  }),
+  [SIGNOUT_SUCCESS]: (state, action) => ({
+    ...state,
+    userInfo: {
+      login: false,
+      loading: false,
+      error: null,
+      data: action.payload,
+    },
+  }),
+  [SIGNOUT_FAILURE]: (state, action) => ({
     ...state,
     userInfo: {
       login: false,
