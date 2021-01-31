@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import CountrySection from '../components/CountrySection';
-import Loader from '../pages/Loader';
 import styled from 'styled-components';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,19 +13,18 @@ const HomeContainer = (): JSX.Element => {
 
   useEffect(() => {
     if (!data) {
-      console.log('🐸🐸🐸🐸 Map Data useEffect 🐸🐸🐸🐸');
+      console.log(111);
       dispatch(getMapDataAsync.request());
     }
   }, []);
 
   return (
     <>
-      {loading && <Loader />}
-      {error && <p style={{ textAlign: 'center' }}>Error!!!</p>}
       {data && (
-        <HomePresenter>
+        <Temp>
+          {/* <GridImage src={'/images/gridd.png'} /> */}
           <SubMapImage src={'/images/dots.png'} />
-          <MapPresenter>
+          <Ttemp>
             <MapImage src={'/images/themapp.jpg'} />
             {/* <GridImage src={'/images/gridd.png'} /> */}
             {data.map((country) => (
@@ -40,14 +38,14 @@ const HomeContainer = (): JSX.Element => {
                 festivals={country.festivals}
               />
             ))}
-          </MapPresenter>
-        </HomePresenter>
+          </Ttemp>
+        </Temp>
       )}
     </>
   );
 };
 
-const HomePresenter = styled.div`
+const Temp = styled.div`
   width: 100vw;
   height: 80vh;
   display: flex;
@@ -64,7 +62,7 @@ const SubMapImage = styled.img`
   z-index: 98;
 `;
 
-const MapPresenter = styled.div`
+const Ttemp = styled.div`
   position: relative;
   width: 1250px;
   height: 595px;

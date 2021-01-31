@@ -3,7 +3,6 @@ import { Link, withRouter, useParams, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import ReactPlayer from 'react-player';
 import Slider from 'react-slick';
-import Loader from '../pages/Loader';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../modules';
@@ -48,7 +47,7 @@ const ArtistDetailContainer = (): JSX.Element => {
   };
 
   useEffect(() => {
-    console.log('🍗🍗🍗🍗 Artist Detail useEffect 🍗🍗🍗🍗');
+    console.log(111);
     dispatch(getArtistDetailAsync.request(params._id));
   }, []);
 
@@ -83,9 +82,6 @@ const ArtistDetailContainer = (): JSX.Element => {
 
   return (
     <>
-      <BackgorundImage />
-      {loading && <Loader />}
-      {error && <p style={{ textAlign: 'center' }}>Error!!!</p>}
       {data && (
         <>
           <DetailPresenter>
@@ -93,7 +89,7 @@ const ArtistDetailContainer = (): JSX.Element => {
               <PoseterImage src={data.image} />
             </PosterSection>
 
-            <ContentSection>
+            <Temp>
               <NameBox>
                 <ArtistName>{data.name}</ArtistName>
                 <ButtonBox>
@@ -135,7 +131,7 @@ const ArtistDetailContainer = (): JSX.Element => {
                   })}
                 </StyledSlider>
               </VideoBox>
-
+              <Exit />
               <ArtistSection>
                 {/* <Container>
                   {currentSlide}
@@ -174,7 +170,7 @@ const ArtistDetailContainer = (): JSX.Element => {
                   </StyledSlider>
                 </ArtistBox>
               </ArtistSection>
-            </ContentSection>
+            </Temp>
           </DetailPresenter>
           {isModal && (
             <PlayerModal onClick={handleModal('')}>
@@ -199,18 +195,6 @@ const ArtistDetailContainer = (): JSX.Element => {
   );
 };
 
-const BackgorundImage = styled.div`
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  width: 100vw;
-  height: 100vh;
-  z-index: -1;
-  opacity: 0.3;
-  background: radial-gradient(black 35%, transparent 1%),
-    url('/images/wall3.jpg');
-  background-size: 3px 3px, contain;
-`;
 const DetailPresenter = styled.div`
   display: flex;
   margin-top: 5%;
@@ -231,7 +215,7 @@ const PoseterImage = styled.img`
   width: 100%;
 `;
 
-const ContentSection = styled.div`
+const Temp = styled.div`
   margin-left: 5%;
   width: 50%;
   padding: 10px;
@@ -293,6 +277,19 @@ const WishText = styled.i<{ isLiked: boolean }>`
   align-self: center;
   color: ${(props) =>
     props.isLiked ? 'rgba(255,0,0,1)' : 'rgba(200, 200, 200, 1)'};
+`;
+
+const Exit = styled.div`
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  opacity: 0.3;
+  background: radial-gradient(black 35%, transparent 1%),
+    url('/images/wall3.jpg');
+  background-size: 3px 3px, contain;
 `;
 
 const ArtistCountry = styled.div`
