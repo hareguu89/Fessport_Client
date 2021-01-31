@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, withRouter, useLocation, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../modules';
 import { getArtistListAsync, getArtistListMoreAsync } from '../modules/artist';
@@ -20,8 +19,7 @@ const ArtistListContainer = (): JSX.Element => {
   const search = useLocation().search;
   const query = new URLSearchParams(search);
   let queryString = query.toString();
-  const [offset, setOffset] = useState(0);
-  const [limit, setLimit] = useState(9);
+
   const [topButton, setTopButton] = useState(false);
 
   const [inputQuery, setInputQuery] = useState<IInputQuery>({
@@ -59,6 +57,9 @@ const ArtistListContainer = (): JSX.Element => {
     };
   }
 
+  const [offset, setOffset] = useState(0);
+  const [limit, setLimit] = useState(9);
+
   useEffect(() => {
     window.addEventListener('scroll', debounce(handleScroll, 500));
   });
@@ -80,7 +81,7 @@ const ArtistListContainer = (): JSX.Element => {
       search: query.get('search'),
     });
     dispatch(getArtistListAsync.request(queryString));
-    setOffset((state) => state + 9);
+    setOffset(9);
   }, [queryString]);
 
   useEffect(() => {
@@ -252,7 +253,7 @@ const ArtistCategorylContetn = styled.div`
 
 const ContentsSection = styled.div`
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
   /* align-items:center; */
   flex-direction: column;
   margin-left: 5%;
@@ -307,6 +308,7 @@ const ArtistContent = styled.div`
 const ArtistName = styled.div``;
 const ArtistImage = styled.img`
   width: 100%;
+  height: 100%;
   /* z-index: 99; */
 `;
 

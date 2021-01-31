@@ -3,7 +3,6 @@ import { Link, withRouter, useParams, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import ReactPlayer from 'react-player';
 import Slider from 'react-slick';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../modules';
 import {
@@ -27,7 +26,7 @@ const FestivalDetailContainer = (): JSX.Element => {
   const history = useHistory();
   const params = useParams<{ _id: string }>();
   const [isModal, setIsModal] = useState(false);
-  const [nowVideo, setNowVideo] = useState('');
+
   const { data, loading, error } = useSelector(
     (state: RootState) => state.festival.festivalDetail,
   );
@@ -53,6 +52,28 @@ const FestivalDetailContainer = (): JSX.Element => {
     }
   };
 
+  const TOTAL_SLIDES = 2;
+  const [nowVideo, setNowVideo] = useState('');
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const slideRef: React.RefObject<HTMLDivElement> = React.createRef();
+
+  useEffect(() => {
+    if (slideRef.current) {
+      slideRef.current.style.transition = 'all 0.5s ease-in-out';
+      slideRef.current.style.transform = `translateX(-${currentSlide}00%)`; // 백틱을 사용하여 슬라이드로 이동하는 애니메이션을 만듭니다.
+    }
+  }, [currentSlide]);
+
+  const nextSlide = () => {
+    if (currentSlide >= TOTAL_SLIDES) {
+      // 더 이상 넘어갈 슬라이드가 없으면 슬라이드를 초기화합니다.
+      setCurrentSlide(0);
+    } else {
+      setCurrentSlide(currentSlide + 1);
+    }
+  };
+
   const handleLikeButton = () => {
     if (data && data.isLiked) {
       dispatch(postDislikeFestivalAsync.request(params._id));
@@ -60,35 +81,13 @@ const FestivalDetailContainer = (): JSX.Element => {
       dispatch(postLikeFestivalAsync.request(params._id));
     }
   };
-
-  // const TOTAL_SLIDES = 2;
-
-  // const [currentSlide, setCurrentSlide] = useState(0);
-
-  // const slideRef: React.RefObject<HTMLDivElement> = React.createRef();
-
-  // useEffect(() => {
-  //   if (slideRef.current) {
-  //     slideRef.current.style.transition = 'all 0.5s ease-in-out';
-  //     slideRef.current.style.transform = `translateX(-${currentSlide}00%)`; // 백틱을 사용하여 슬라이드로 이동하는 애니메이션을 만듭니다.
-  //   }
-  // }, [currentSlide]);
-
-  // const nextSlide = () => {
-  //   if (currentSlide >= TOTAL_SLIDES) {
-  //     // 더 이상 넘어갈 슬라이드가 없으면 슬라이드를 초기화합니다.
-  //     setCurrentSlide(0);
-  //   } else {
-  //     setCurrentSlide(currentSlide + 1);
-  //   }
-  // };
-  // const prevSlide = () => {
-  //   if (currentSlide === 0) {
-  //     setCurrentSlide(TOTAL_SLIDES);
-  //   } else {
-  //     setCurrentSlide(currentSlide - 1);
-  //   }
-  // };
+  const prevSlide = () => {
+    if (currentSlide === 0) {
+      setCurrentSlide(TOTAL_SLIDES);
+    } else {
+      setCurrentSlide(currentSlide - 1);
+    }
+  };
 
   return (
     <>

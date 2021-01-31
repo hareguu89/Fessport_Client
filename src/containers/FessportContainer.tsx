@@ -1,23 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import UserInfo from '../components/UserInfo';
+import { getUserInfoAsync } from '../modules/userInfo';
 import Collector from '../components/Collector';
 import Badge from '../components/Badge';
 import styled from 'styled-components';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../modules';
-import { getUserInfoAsync } from '../modules/userInfo';
-
 const FessportContainer = (): JSX.Element => {
+  const collectorRef: React.RefObject<HTMLDivElement> = React.createRef();
   const { patchSucess, data, loading, error } = useSelector(
     (state: RootState) => state.userInfo,
   );
   const dispatch = useDispatch();
 
   const userInfoRef: React.RefObject<HTMLDivElement> = React.createRef();
-  const collectorRef: React.RefObject<HTMLDivElement> = React.createRef();
   const badgeRef: React.RefObject<HTMLDivElement> = React.createRef();
+
+  useEffect(() => {
+    if (!data) {
+      console.log(111);
+      dispatch(getUserInfoAsync.request());
+    } else if (patchSucess) {
+      dispatch(getUserInfoAsync.request());
+      console.log(111);
+    }
+  }, [data, patchSucess]);
 
   const handleScrollDown = (target: string) => (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -38,16 +46,6 @@ const FessportContainer = (): JSX.Element => {
       block: 'center',
     });
   };
-
-  useEffect(() => {
-    if (!data) {
-      console.log(111);
-      dispatch(getUserInfoAsync.request());
-    } else if (patchSucess) {
-      dispatch(getUserInfoAsync.request());
-      console.log(111);
-    }
-  }, [data, patchSucess]);
 
   return (
     <>
