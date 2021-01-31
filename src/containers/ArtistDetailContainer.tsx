@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, withRouter, useParams, useHistory } from 'react-router-dom';
+
 import styled from 'styled-components';
 import ReactPlayer from 'react-player';
 import Slider from 'react-slick';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../modules';
 import {
@@ -11,7 +10,7 @@ import {
   postLikeArtistAsync,
   postDislikeArtistAsync,
 } from '../modules/artist';
-
+import { Link, withRouter, useParams, useHistory } from 'react-router-dom';
 const settings = {
   dots: false,
   infinite: true,
@@ -24,8 +23,6 @@ const settings = {
 const ArtistDetailContainer = (): JSX.Element => {
   const history = useHistory();
   const params = useParams<{ _id: string }>();
-  const [isModal, setIsModal] = useState(false);
-  const [nowVideo, setNowVideo] = useState('');
   const { data, loading, error } = useSelector(
     (state: RootState) => state.artist.artistDetail,
   );
@@ -51,34 +48,36 @@ const ArtistDetailContainer = (): JSX.Element => {
     dispatch(getArtistDetailAsync.request(params._id));
   }, []);
 
-  // const TOTAL_SLIDES = 2;
+  const TOTAL_SLIDES = 2;
 
-  // const [currentSlide, setCurrentSlide] = useState(0);
+  const [currentSlide, setCurrentSlide] = useState(0);
 
-  // const slideRef: React.RefObject<HTMLDivElement> = React.createRef();
+  const slideRef: React.RefObject<HTMLDivElement> = React.createRef();
 
-  // useEffect(() => {
-  //   if (slideRef.current) {
-  //     slideRef.current.style.transition = 'all 0.5s ease-in-out';
-  //     slideRef.current.style.transform = `translateX(-${currentSlide}00%)`;
-  //   }
-  // }, [currentSlide]);
+  useEffect(() => {
+    if (slideRef.current) {
+      slideRef.current.style.transition = 'all 0.5s ease-in-out';
+      slideRef.current.style.transform = `translateX(-${currentSlide}00%)`;
+    }
+  }, [currentSlide]);
 
-  // const nextSlide = () => {
-  //   if (currentSlide >= TOTAL_SLIDES) {
+  const [isModal, setIsModal] = useState(false);
+  const [nowVideo, setNowVideo] = useState('');
 
-  //     setCurrentSlide(0);
-  //   } else {
-  //     setCurrentSlide(currentSlide + 1);
-  //   }
-  // };
-  // const prevSlide = () => {
-  //   if (currentSlide === 0) {
-  //     setCurrentSlide(TOTAL_SLIDES);
-  //   } else {
-  //     setCurrentSlide(currentSlide - 1);
-  //   }
-  // };
+  const nextSlide = () => {
+    if (currentSlide >= TOTAL_SLIDES) {
+      setCurrentSlide(0);
+    } else {
+      setCurrentSlide(currentSlide + 1);
+    }
+  };
+  const prevSlide = () => {
+    if (currentSlide === 0) {
+      setCurrentSlide(TOTAL_SLIDES);
+    } else {
+      setCurrentSlide(currentSlide - 1);
+    }
+  };
 
   return (
     <>

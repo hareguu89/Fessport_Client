@@ -89,7 +89,7 @@ const FestivalListContainer = (): JSX.Element => {
       search: query.get('search'),
     });
     dispatch(getFestivalListAsync.request(queryString));
-    setOffset((state) => state + 9);
+    setOffset(9);
   }, [queryString]);
 
   useEffect(() => {
@@ -273,7 +273,7 @@ const Testtt = styled.div`
 
 const ContentsSection = styled.div`
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
   /* align-items:center; */
   flex-direction: column;
   margin-left: 5%;
@@ -352,6 +352,7 @@ const FestivalName = styled.div``;
 
 const FestivalPoster = styled.img`
   width: 100%;
+  height: 100%;
   /* z-index: 99; */
 `;
 
