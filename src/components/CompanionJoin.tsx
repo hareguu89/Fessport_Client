@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import 'boxicons';
 import { useDispatch, useSelector } from 'react-redux';
 import { postParticAsync } from '../modules/participant';
-import { postCommentAsync } from '../modules/comment';
-import { RootState } from '../modules';
+import { deleteCommentAsync, postCommentAsync } from '../modules/comment';
 import { deleteBoardAsync, getBoardAsync } from '../modules/board/actions';
+import { RootState } from '../modules';
 import { BoardFestival, comment, participantlist } from '../api/board';
 
 interface JoinProps {
@@ -14,6 +15,7 @@ interface JoinProps {
   festival: BoardFestival;
   participants: participantlist[];
   comments: comment[];
+  _id: string;
 }
 
 const CompanionJoin = ({
@@ -22,22 +24,35 @@ const CompanionJoin = ({
   nick,
   participants,
   comments,
+  _id,
 }: JoinProps): JSX.Element => {
   const [show, setShow] = useState<boolean>(false);
   const handleShowUp = () => setShow(!show);
   const dispatch = useDispatch();
 
+  //------------------------ DELETE comment logic -----------------------
+
+  const deleteCommentHandler = () => {
+    // dispatch(deleteCommentAsync.request())
+  };
+
   // ----------------------- DELETE board logic --------------------------
 
+  const [user, setUser] = useState<string>('');
+  const { login } = useSelector((state: RootState) => state.login.userInfo);
+  const userInfo = useSelector((state: RootState) => state.userInfo.data);
+
   const deleteHandler = (): void => {
-    const board = { boardId: boardId };
-    dispatch(
-      deleteBoardAsync.request({
-        postBoardData: board,
-        accessToken: 'acc',
-      }),
-    );
-    dispatch(getBoardAsync.request('601252586adcbda1c23a9302'));
+    if (login) {
+      const board = { boardId: boardId };
+      dispatch(
+        deleteBoardAsync.request({
+          postBoardData: board,
+          accessToken: 'acc',
+        }),
+      );
+      dispatch(getBoardAsync.request('companion'));
+    }
   };
 
   // ----------------------- Participants logic --------------------------
@@ -75,20 +90,24 @@ const CompanionJoin = ({
     <>
       {!show ? (
         <div className="btn">
-          <CompanionShowBtn
-            type="submit"
-            value="Delete"
-            onClick={deleteHandler}
-          />
-          <CompanionShowBtn type="submit" value="Show" onClick={handleShowUp} />
+          {_id === userInfo?._id ? (
+            <CompanionShowBtn
+              type="submit"
+              value="Delete"
+              onClick={deleteHandler}
+            />
+          ) : (
+            <div />
+          )}
+          <CompanionShowBtn type="submit" value="SHOW" onClick={handleShowUp} />
         </div>
       ) : (
         <ParticipantContainer>
           <div className="header">
             {/* <div className="image"> 이미지 </div> */}
-            <div className="header_container">
+            {/* <div className="header_container">
               <div className="festival">FESITVAL : {festival.name}</div>
-            </div>
+            </div> */}
             <div>
               <input
                 type="submit"
@@ -98,10 +117,9 @@ const CompanionJoin = ({
               />
             </div>
           </div>
-          <div className="modal__break"></div>
           <div className="content">
             <div className="content_participant">
-              <div className="content_header"> PARTICIPANTS LIST </div>
+              <div className="content_header"> LIST </div>
               <div className="modal__break"></div>
               <div className="participant_lists">{nick}</div>
               {participants.map((el, index) => {
@@ -113,23 +131,32 @@ const CompanionJoin = ({
               })}
             </div>
             <div className="content_comment">
-              <div className="comment_header"> COMMENT </div>
+              <div className="comment_header">COMMENT</div>
               <div className="modal__break"></div>
               {comments.map((el, index) => {
                 return (
                   <div className="comment_container" key={index}>
-                    {/* <img
-                      className="comment_userimage"
-                      src={
-                        img
-                          ? img
-                          : `https://d2ljmlcsal6xzo.cloudfront.net/assets/fallback/temporary_profile-65c08fd0b2bb95434e40fa62b682df18417765c3b0ac165dcb5b3e9035f01b98.png`
-                      }
-                      alt=""
-                    /> */}
-                    <div className="comment_id">{el.nickName}</div>
-                    <span className="wall"></span>
-                    <div className="comment_id">{el.description}</div>
+                    <div className="comment_user">
+                      <img
+                        className="comment_userimage"
+                        src={
+                          // el.image !== ''
+                          //   ? el.image
+                          // :
+                          `https://d2ljmlcsal6xzo.cloudfront.net/assets/fallback/temporary_profile-65c08fd0b2bb95434e40fa62b682df18417765c3b0ac165dcb5b3e9035f01b98.png`
+                        }
+                        alt=""
+                      />
+                      <div className="comment_id">{el.nickName}</div>
+                    </div>
+                    <div className="comment_description">
+                      <div className="comment_id">{el.description}</div>
+                      <div>{`6days ago`} </div>
+                      <div
+                        className="comment_delete"
+                        onClick={deleteCommentHandler}
+                      ></div>
+                    </div>
                   </div>
                 );
               })}
@@ -140,7 +167,7 @@ const CompanionJoin = ({
             <input
               className="comment_box"
               type="text"
-              placeholder={nick + `${'님의 댓글을 입력하세요.'}`}
+              placeholder="Leave a comment..."
               onChange={(e) => setComment(e.target.value)}
             />
             <span className="wall"></span>
@@ -152,7 +179,7 @@ const CompanionJoin = ({
             <span className="wall"></span>
             <CompanionHideBtn
               type="submit"
-              value="Hide"
+              value="HIDE"
               onClick={handleShowUp}
             />
           </div>
@@ -161,13 +188,23 @@ const CompanionJoin = ({
     </>
   );
 };
+
 const ParticipantContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
   color: #ccc;
+  background-color: #1d2120;
+  border-radius: 0.5rem;
 
+  box-shadow: 2px 4px 6px -1px rgb(0 0 0 / 10%),
+    2px 2px 4px -1px rgb(0 0 0 / 10%);
+
+  .bx bx-hot {
+    width: 100px;
+    height: 100px;
+  }
   .modal__break {
     max-width: 95%;
     height: 1.2px;
@@ -178,9 +215,12 @@ const ParticipantContainer = styled.div`
   .header {
     background-color: none;
     display: flex;
-    padding: 10px;
+    padding: 5px;
+    justify-content: flex-end;
     align-items: center;
     border-radius: 1rem;
+    box-shadow: 2px 4px 6px -1px rgb(0 0 0 / 10%),
+      2px 2px 4px -1px rgb(0 0 0 / 10%);
   }
   .image {
     // padding: 10px;
@@ -217,11 +257,16 @@ const ParticipantContainer = styled.div`
     background-color: none;
     border-radius: 1rem;
     display: grid;
-    grid-template-columns: 30% auto;
+    grid-template-columns: 25% auto;
+    box-shadow: 2px 4px 6px -1px rgb(0 0 0 / 10%),
+      2px 2px 4px -1px rgb(0 0 0 / 10%);
+    border-radius: 0.5rem;
   }
   .content_participant {
     padding: 10px;
     width: 100%;
+    box-shadow: 2px 4px 6px -1px rgb(0 0 0 / 10%),
+      2px 2px 4px -1px rgb(0 0 0 / 10%);
   }
   .content_header {
     flex-direction: column;
@@ -246,32 +291,47 @@ const ParticipantContainer = styled.div`
     flex-direction: column;
     padding: 10px;
     width: 100%;
+    box-shadow: 2px 4px 6px -1px rgb(0 0 0 / 10%),
+      2px 2px 4px -1px rgb(0 0 0 / 10%);
+    border-radius: 0.5rem;
   }
+
   .comment_container {
     width: 100%;
+    height: 100%;
     max-height: 40px;
     height: 100%;
     padding: 10px;
     display: flex;
-    justify-content: center;
-    align-items: center;
   }
+
+  .comment_description {
+    display: flex;
+    justify-content: center;
+  }
+
+  .comment_user {
+    width: 30%;
+    display: flex;
+    justify-content: flex-start;
+  }
+
   .comment_id {
+    color: #64706c;
     display: flex;
     padding: 10px;
-    width: auto;
     height: 100%;
-    font-size: 20px;
+    font-size: 14px;
     justify-content: center;
     align-items: center;
   }
   .comment_userimage {
     display: flex;
-    padding: 10px;
-    width: 70px;
-    height: 70px;
+    max-width: 2.5vh;
+    min-width: 2.5vh;
+    max-height: 2.5vh;
+    min-height: 2.5vh;
     border-radius: 5rem;
-
     justify-content: center;
     align-items: center;
   }
@@ -280,11 +340,14 @@ const ParticipantContainer = styled.div`
     padding: 10px;
     display: flex;
     justify-content: flex-end;
+    box-shadow: 2px 4px 6px -1px rgb(0 0 0 / 10%),
+      2px 2px 4px -1px rgb(0 0 0 / 10%);
+    border-radius: 0.5rem;
   }
   .comment_box {
     display: flex;
-    width: 50%;
-    font-size: 20px;
+    width: 40%;
+    font-size: 14px;
     color: black;
     background-color: white;
   }
@@ -304,7 +367,7 @@ const CompanionShowBtn = styled.input`
   background-color: orange;
   padding: 10px;
   cursor: pointer;
-  margin-right: 18px;
+  // margin-right: 18px;
 `;
 
 export default CompanionJoin;

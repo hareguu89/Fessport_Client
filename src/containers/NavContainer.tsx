@@ -16,6 +16,7 @@ const NavContainer = (): JSX.Element => {
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
   const { login } = useSelector((state: RootState) => state.login.userInfo);
+
   const { data } = useSelector((state: RootState) => state.userInfo);
 
   const onMouseEnter = () => {
@@ -95,9 +96,7 @@ const NavContainer = (): JSX.Element => {
             </Link>
             {dropdown && <Dropdown />}
           </li>
-
           <li className="nav-item"> | </li>
-
           <li
             className="nav-item"
             onMouseEnter={onMyMouseEnter}
