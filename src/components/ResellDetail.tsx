@@ -5,7 +5,8 @@ import { RootState } from '../modules';
 
 import { BoardFestival, comment, participantlist } from '../api/board';
 import { getBoardAsync, deleteBoardAsync } from '../modules/board/actions';
-import { Moment } from 'moment';
+import Moment from 'moment';
+import 'moment/locale/en-nz';
 import {
   postCommentAsync,
   deleteCommentAsync,
@@ -14,7 +15,7 @@ import {
 interface detailProps {
   image: string;
   festival: BoardFestival;
-  comments: comment[];
+  comments: comment[] | null;
   description: string;
   boardId: string;
   _id: string;
@@ -34,6 +35,17 @@ const ResellDetail = ({
   const userInfo = useSelector((state: RootState) => state.userInfo.data);
   const { login } = useSelector((state: RootState) => state.login.userInfo);
 
+  const [commentId, setCommentId] = useState<string>('');
+  const deleteCommentHandler = () => {
+    const dele = { commentId: commentId };
+    dispatch(
+      deleteCommentAsync.request({
+        commentData: dele,
+      }),
+    );
+    dispatch(getBoardAsync.request('601252586adcbda1c23a9302'));
+  };
+
   //---------------------- DELETE BOARD logic
 
   const deleteBoardHandler = (): void => {
@@ -42,10 +54,9 @@ const ResellDetail = ({
       dispatch(
         deleteBoardAsync.request({
           postBoardData: board,
-          accessToken: 'acc',
         }),
       );
-      dispatch(getBoardAsync.request('companion'));
+      dispatch(getBoardAsync.request('601252586adcbda1c23a9302'));
     }
   };
 
@@ -60,7 +71,6 @@ const ResellDetail = ({
     dispatch(
       postCommentAsync.request({
         commentData: commentForm,
-        accessToken: 'acc',
       }),
     );
     dispatch(getBoardAsync.request('601252586adcbda1c23a9303'));
@@ -93,8 +103,9 @@ const ResellDetail = ({
           </Content>
           <Comment>
             <div className="comment-header"> COMMENT </div>
+            <div className="break"></div>
             <div className="comment-container">
-              {comments.map((el, index) => {
+              {comments?.map((el, index) => {
                 return (
                   <div className="comment-box" key={index}>
                     <div className="comment-attribute">
@@ -103,10 +114,23 @@ const ResellDetail = ({
                         src={`https://d2ljmlcsal6xzo.cloudfront.net/assets/fallback/temporary_profile-65c08fd0b2bb95434e40fa62b682df18417765c3b0ac165dcb5b3e9035f01b98.png`}
                         alt=""
                       />
-                      <div key={index}>{el.nickName}</div>
+                      <div key={index}>{el.user.nickname}</div>
                     </div>
-                    <div>{el.description}</div>
-                    <div>{'1 hour ago'}</div>
+                    <div className="comment_box">
+                      <div>{el.description}</div>
+                      <div>{Moment(el.createdAt).fromNow()}</div>
+                      {_id === userInfo?._id ? (
+                        <input
+                          type="submit"
+                          value="x"
+                          className="comment_delete"
+                          onMouseOver={() => setCommentId(el._id)}
+                          onClick={() => deleteCommentHandler()}
+                        />
+                      ) : (
+                        <div />
+                      )}
+                    </div>
                   </div>
                 );
               })}
@@ -152,6 +176,7 @@ const Comment = styled.div`
     padding-top: 10px;
     padding-bottom: 10px;
     gap: 10px;
+    display: flex;
   }
 
   .comment-header {
@@ -191,6 +216,7 @@ const Comment = styled.div`
   }
 
   .comment-box {
+    height: 100%;
     gap: 10%;
     border-radius: 0.5rem;
     display: flex;
@@ -203,9 +229,25 @@ const Comment = styled.div`
     font-size: 1rem;
   }
 
+  .comment_box {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .comment_delete {
+    color: white;
+    background-color: #1d2120;
+    cursor: pointer;
+    :hover {
+      transform: scale(1.2);
+    }
+  }
   .comment-attribute {
     display: flex;
     width: 30%;
+    align-items: center;
     gap: 10px;
   }
 
@@ -221,7 +263,7 @@ const ContentContainer = styled.div`
   flex-direction: column;
   background-color: #1d2120;
   .break {
-    max-width: 95%;
+    max-width: 100%;
     height: 1px;
     opacity: 0.5;
     position: relative;

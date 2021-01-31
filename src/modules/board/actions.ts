@@ -23,7 +23,7 @@ export const getBoardAsync = createAsyncAction(
   GET_BOARD_DATA,
   GET_BOARD_DATA_SUCCESS,
   GET_BOARD_DATA_ERROR,
-)<string, BoardDataRes, AxiosError>();
+)<string, BoardDataRes[], AxiosError>();
 
 export const postBoardAsync = createAsyncAction(
   POST_BOARD_DATA,

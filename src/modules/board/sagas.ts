@@ -17,7 +17,7 @@ import { call, put, takeEvery, takeLatest } from 'redux-saga/effects';
 
 function* getBoardDataSaga(action: ReturnType<typeof getBoardAsync.request>) {
   try {
-    const boardData: BoardDataRes = yield call(getBoardData, action.payload);
+    const boardData: BoardDataRes[] = yield call(getBoardData, action.payload);
     yield put(getBoardAsync.success(boardData));
   } catch (e) {
     yield put(getBoardAsync.failure(e));

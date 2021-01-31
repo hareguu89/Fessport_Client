@@ -5,6 +5,7 @@ import { Dropdown, MyDropdown } from '../components/Nav';
 import { SignModal } from '../components/ModalSign';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../modules';
+import { signoutAsync } from '../modules/sign';
 
 const NavContainer = (): JSX.Element => {
   const [click, setClick] = useState(false);
@@ -12,12 +13,16 @@ const NavContainer = (): JSX.Element => {
   const [myDropdown, setMyDropdwon] = useState(false);
   const [topNav, setTopNav] = useState(true);
   const [topButton, setTopButton] = useState(false);
+  const dispatch = useDispatch();
 
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
   const { login } = useSelector((state: RootState) => state.login.userInfo);
 
-  const { data } = useSelector((state: RootState) => state.userInfo);
+  const signOutHandler = () => {
+    dispatch(signoutAsync.request());
+    localStorage.removeItem('token');
+  };
 
   const onMouseEnter = () => {
     if (window.innerWidth < 960) {
@@ -114,9 +119,15 @@ const NavContainer = (): JSX.Element => {
 
           <li className="nav-item">
             <li className="nav-item">
-              <a className="nav-links" onClick={toggleModal}>
-                SignIn
-              </a>
+              {login ? (
+                <a className="nav-links" onClick={signOutHandler}>
+                  SignOut
+                </a>
+              ) : (
+                <a className="nav-links" onClick={toggleModal}>
+                  SignIn
+                </a>
+              )}
             </li>
             <SignModal
               title={'FESSPORT SIGN!'}

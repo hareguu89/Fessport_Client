@@ -1,5 +1,4 @@
 import axios from 'axios';
-import participant from '../modules/participant/reducer';
 
 // ----------- Get Board list
 export async function getBoardData(
@@ -21,32 +20,39 @@ export interface BoardDataRes {
   image: string;
   user: BoardUser;
   festival: BoardFestival;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
   comments: comment[] | null;
   participants: participantlist[] | null;
-}
-
-export interface comment {
-  _id: string;
-  nickName: string;
-  description: string;
-}
-
-export interface participantlist {
-  _id: string;
-  nickName: string;
-}
-
-export interface BoardUser {
-  _id: string;
-  image: string;
-  nickName: string;
 }
 
 export interface BoardFestival {
   _id: string;
   name: string;
+}
+
+export interface comment {
+  _id: string;
+  description: string;
+  user: {
+    _id: string;
+    nickname: string;
+    image: string;
+  };
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface participantlist {
+  _id: string;
+  nickname: string;
+  image: string;
+}
+
+export interface BoardUser {
+  _id: string;
+  image: string;
+  nickname: string;
 }
 
 // ------------- Post & Edit Board -------------
@@ -58,9 +64,6 @@ export async function postBoardData(
     param.postBoardData,
     {
       withCredentials: true,
-      headers: {
-        Authorization: `bearer ${param.accessToken}`,
-      },
     },
   );
   return response.data;
@@ -68,7 +71,6 @@ export async function postBoardData(
 
 export interface BoardRequest {
   postBoardData: BoardInfo;
-  accessToken: string;
 }
 
 interface BoardInfo {
@@ -92,9 +94,6 @@ export async function deleteBoardData(
     param.postBoardData,
     {
       withCredentials: true,
-      headers: {
-        Authorization: `bearer ${param.accessToken}`,
-      },
     },
   );
   return response.data;
@@ -102,7 +101,6 @@ export async function deleteBoardData(
 
 export interface BoardDelete {
   postBoardData: Board;
-  accessToken: string;
 }
 
 interface Board {

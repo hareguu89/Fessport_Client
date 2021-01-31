@@ -28,9 +28,6 @@ export async function postParticData(
     param.postParticData,
     {
       withCredentials: true,
-      headers: {
-        Authorization: `bearer ${param.accessToken}`,
-      },
     },
   );
   return response.data;
@@ -38,7 +35,6 @@ export async function postParticData(
 
 export interface ParticRequest {
   postParticData: ParticiInfo;
-  accessToken: string;
 }
 
 interface ParticiInfo {
@@ -59,9 +55,6 @@ export async function deleteParticData(
     param.postParticData,
     {
       withCredentials: true,
-      headers: {
-        Authorization: `bearer ${param.accessToken}`,
-      },
     },
   );
   return response.data;
