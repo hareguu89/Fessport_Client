@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export async function getMapData(): Promise<IMap[] | void> {
-  const response = await axios.get<IMap[]>('/map');
+  const response = await axios.get<IMap[]>('https://fessport-server.com/main');
   return response.data;
 }
 
@@ -11,7 +11,7 @@ export interface IMap {
   y: number;
   x: number;
   flagImage: string;
-  festival: IFestival[];
+  festivals: IFestival[];
 }
 
 interface IFestival {

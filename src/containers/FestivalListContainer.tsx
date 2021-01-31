@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, withRouter, useLocation, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -27,7 +27,6 @@ const FestivalListContainer = (): JSX.Element => {
   let queryString = query.toString();
   const [offset, setOffset] = useState(0);
   const [limit, setLimit] = useState(9);
-  const [top, setTop] = useState(0);
   const [topButton, setTopButton] = useState(false);
 
   const [inputQuery, setInputQuery] = useState<IInputQuery>({
@@ -55,14 +54,22 @@ const FestivalListContainer = (): JSX.Element => {
 
   const handleScroll = () => {
     const offsetTop = window.pageYOffset;
-    offsetTop > 500 ? setTopButton(true) : setTopButton(false);
+    offsetTop > 100 ? setTopButton(true) : setTopButton(false);
   };
 
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-  });
+  function debounce(callback: any, milliseconds: number) {
+    let debounceCheck: any;
+    return function () {
+      clearTimeout(debounceCheck);
+      debounceCheck = setTimeout(() => {
+        callback();
+      }, milliseconds);
+    };
+  }
 
-  const topRef: React.RefObject<HTMLDivElement> = React.createRef();
+  useEffect(() => {
+    window.addEventListener('scroll', debounce(handleScroll, 500));
+  });
 
   const handleScrollUp = () => {
     window.scrollTo({
@@ -72,7 +79,7 @@ const FestivalListContainer = (): JSX.Element => {
   };
 
   useEffect(() => {
-    console.log('🔥🔥🔥🔥 Festival List(queryState) useEffect 🔥🔥🔥🔥');
+    console.log(111);
     query.set('offset', String(offset));
     query.set('limit', String(limit));
     queryString = query.toString();
@@ -82,6 +89,7 @@ const FestivalListContainer = (): JSX.Element => {
       search: query.get('search'),
     });
     dispatch(getFestivalListAsync.request(queryString));
+    setOffset((state) => state + 9);
   }, [queryString]);
 
   useEffect(() => {
@@ -90,7 +98,7 @@ const FestivalListContainer = (): JSX.Element => {
       !genreCategory.data ||
       !festivalCategory.data
     ) {
-      console.log('🍗🍗🍗🍗 Category useEffect 🍗🍗🍗🍗');
+      console.log(111);
       dispatch(getFestivalCategoryAsync.request());
       dispatch(getCountryCategoryAsync.request());
       dispatch(getGenreCategoryAsync.request());
@@ -120,33 +128,33 @@ const FestivalListContainer = (): JSX.Element => {
   };
 
   const handleFestivalListMore = () => {
-    console.log('✅✅✅✅ Festival List More(queryState) useEffect ✅✅✅✅');
-    setOffset((state) => state + 9);
-    console.log(offset + 'test');
+    console.log(111);
     query.set('offset', String(offset));
     query.set('limit', String(limit));
     queryString = query.toString();
-    setInputQuery({
-      countryId: query.get('countryId'),
-      genreId: query.get('genreId'),
-      search: query.get('search'),
-    });
     dispatch(getFestivalListMoreAsync.request(queryString));
+    setOffset((state) => state + 9);
   };
 
   return (
     <>
-      <ListPresenter ref={topRef}>
-        {topButton && (
-          <TopButton topButton={topButton} onClick={handleScrollUp}>
-            1231312
-          </TopButton>
-        )}
+      <Test>
+        {/* {topButton && (
+          <TopButton topButton={topButton} onClick={handleScrollUp} />
+        )} */}
         <FestivalCategory>
+          <FestivalCategoryHead> Festival List </FestivalCategoryHead>
+          <SearchBar
+            type={'text'}
+            value={inputQuery.search ? inputQuery.search : ''}
+            placeholder="TYPE TO SEARCH"
+            onChange={handleInputSearch}
+            onKeyPress={handleSearch}
+          ></SearchBar>
           {festivalCategory.data &&
             festivalCategory.data.map((item) => (
               <Link key={`C${item._id}`} to={`/festival/detail/${item._id}`}>
-                <FestivalName>{item.name}</FestivalName>
+                <Testtt>{item.name}</Testtt>
               </Link>
             ))}
         </FestivalCategory>
@@ -182,46 +190,42 @@ const FestivalListContainer = (): JSX.Element => {
                 ))}
             </GerneCategory>
           </CategorySection>
-          <SearchBar
-            type={'text'}
-            value={inputQuery.search ? inputQuery.search : ''}
-            onChange={handleInputSearch}
-            onKeyPress={handleSearch}
-          ></SearchBar>
+
           <FestivalSection>
-            {loading && <p style={{ textAlign: 'center' }}>Loading...</p>}
-            {error && <p style={{ textAlign: 'center' }}>Error!!!</p>}
             {festivalList.data &&
               festivalList.data.map((item) => (
-                <Link key={item._id} to={`/festival/detail/${item._id}`}>
-                  <FestivalName>{item.name}</FestivalName>
-                  <FestivalPoset src={item.poster} />
-                </Link>
+                <FestivalLink
+                  key={item._id}
+                  to={`/festival/detail/${item._id}`}
+                >
+                  <FestivalContent className="festivalContent">
+                    <FestivalName>{item.name}</FestivalName>
+                  </FestivalContent>
+                  <FestivalPoster src={item.poster} />
+                </FestivalLink>
               ))}
-            {!(offset + 9 > festivalList.data.length) && (
-              <button onClick={handleFestivalListMore}>더 보기</button>
+            {offset <= festivalList.data.length && (
+              <MoreButton onClick={handleFestivalListMore}>
+                <div>More...</div>
+              </MoreButton>
             )}
           </FestivalSection>
         </ContentsSection>
-      </ListPresenter>
+      </Test>
+      <Temppp />
+      {/* <Temppp src="/images/dots.png" /> */}
     </>
   );
 };
 
-const ListPresenter = styled.div`
+const Test = styled.div`
   display: flex;
+  margin-top: 5%;
+  margin-left: 10%;
+  margin-right: 10%;
   /* justify-content: center; */
-  /* align-items:center; */
+  /* align-items: center; */
   /* flex-direction:column; */
-`;
-
-const TopButton = styled.div<{ topButton: boolean }>`
-  position: fixed;
-  top: 80%;
-  left: 80%;
-  background-color: blue;
-  opacity: ${(props) => (props.topButton ? 1 : 0)};
-  transition: all 0.4s ease-in-out;
 `;
 
 const FestivalCategory = styled.div`
@@ -229,6 +233,42 @@ const FestivalCategory = styled.div`
   /* justify-content: center; */
   /* align-items:center; */
   flex-direction: column;
+  width: 30%;
+  background-color: rgba(0, 0, 0, 0.5);
+`;
+
+const FestivalCategoryHead = styled.div`
+  padding: 20px;
+  font-size: 1.5rem;
+  font-weight: 500;
+`;
+
+const SearchBar = styled.input`
+  margin-top: 5%;
+  margin-bottom: 5%;
+  padding: 15px;
+  padding-left: 20px;
+  color: white;
+  border-bottom: 1px solid gray;
+  background: transparent;
+  &:hover {
+    outline: 1px solid white;
+  }
+  &:focus {
+    color: black;
+    background: white;
+  }
+`;
+
+const Testtt = styled.div`
+  color: rgba(200, 200, 200);
+  border-bottom: 1px solid rgba(170, 170, 170, 0.3);
+  padding: 10px;
+  padding-left: 20px;
+  &:hover {
+    color: white;
+    background: rgba(170, 170, 170, 0.3);
+  }
 `;
 
 const ContentsSection = styled.div`
@@ -236,25 +276,111 @@ const ContentsSection = styled.div`
   justify-content: center;
   /* align-items:center; */
   flex-direction: column;
+  margin-left: 5%;
+  width: 70%;
+  /* background-color: blue; */
 `;
 
 const CategorySection = styled.div`
   display: flex;
-  justify-self: flex-end;
-  /* justify-content:center; */
-  align-items: center;
-  /* flex-direction:column; */
+  align-self: flex-end;
 `;
 
-const CountryCategory = styled.select``;
+const CountryCategory = styled.select`
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: none;
+  padding: 15px;
+  margin-right: 30px;
+  border-radius: 10px;
+`;
 const CountryCategoryContent = styled.option``;
-const GerneCategory = styled.select``;
+
+const GerneCategory = styled.select`
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: none;
+  padding: 15px;
+  border-radius: 10px;
+`;
 const GerneCategoryContent = styled.option``;
 
-const SearchBar = styled.input``;
+const Temppp = styled.div`
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  opacity: 0.3;
+  background: radial-gradient(black 35%, transparent 1%),
+    url('/images/wall.jpg');
+  background-size: 3px 3px, contain;
+`;
 
-const FestivalSection = styled.div``;
+const FestivalSection = styled.div`
+  display: grid;
+  margin-top: 5%;
+  gap: 30px;
+  grid-template-columns: repeat(3, minmax(150px, auto));
+  /* grid-template-rows: repeat(2, minmax(150px, auto)); */
+`;
+
+const FestivalLink = styled(Link)`
+  position: relative;
+  width: 100%;
+  &:hover {
+    .festivalContent {
+      background: rgba(170, 170, 170, 0.8);
+    }
+  }
+`;
+
+const FestivalContent = styled.div`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 20%;
+  background-color: rgba(0, 0, 0, 0.8);
+  top: 80%;
+  /* z-index: 100; */
+`;
+
 const FestivalName = styled.div``;
-const FestivalPoset = styled.img``;
+
+const FestivalPoster = styled.img`
+  width: 100%;
+  /* z-index: 99; */
+`;
+
+const MoreButton = styled.div`
+  margin-top: 30px;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(170, 170, 170, 0.4);
+  }
+  // const TopButton = styled.div<{ topButton: boolean }>
+`;
+// const TopButton = styled.div<{ topButton: boolean }>`
+//   position: fixed;
+//   top: 80%;
+//   left: 90%;
+//   width: 100px;
+//   height: 100px;
+//   border-radius: 50%;
+//   background-color: blue;
+//   z-index: 100;
+// `;
 
 export default withRouter(FestivalListContainer);

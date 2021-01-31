@@ -46,14 +46,22 @@ const ArtistListContainer = (): JSX.Element => {
 
   const handleScroll = () => {
     const offsetTop = window.pageYOffset;
-    offsetTop > 500 ? setTopButton(true) : setTopButton(false);
+    offsetTop > 100 ? setTopButton(true) : setTopButton(false);
   };
 
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-  });
+  function debounce(callback: any, milliseconds: number) {
+    let debounceCheck: any;
+    return function () {
+      clearTimeout(debounceCheck);
+      debounceCheck = setTimeout(() => {
+        callback();
+      }, milliseconds);
+    };
+  }
 
-  const topRef: React.RefObject<HTMLDivElement> = React.createRef();
+  useEffect(() => {
+    window.addEventListener('scroll', debounce(handleScroll, 500));
+  });
 
   const handleScrollUp = () => {
     window.scrollTo({
@@ -63,7 +71,7 @@ const ArtistListContainer = (): JSX.Element => {
   };
 
   useEffect(() => {
-    console.log('🔥🔥🔥🔥 Artist List(queryState) useEffect 🔥🔥🔥🔥');
+    console.log(111);
     query.set('offset', String(offset));
     query.set('limit', String(limit));
     queryString = query.toString();
@@ -72,11 +80,12 @@ const ArtistListContainer = (): JSX.Element => {
       search: query.get('search'),
     });
     dispatch(getArtistListAsync.request(queryString));
+    setOffset((state) => state + 9);
   }, [queryString]);
 
   useEffect(() => {
     if (!genreCategory.data || !artistCategory.data) {
-      console.log('🍗🍗🍗🍗 Category useEffect 🍗🍗🍗🍗');
+      console.log(111);
       dispatch(getGenreCategoryAsync.request());
       dispatch(getArtistCategoryAsync.request());
     }
@@ -105,32 +114,33 @@ const ArtistListContainer = (): JSX.Element => {
   };
 
   const handleArtistListMore = () => {
-    console.log('✅✅✅✅ Artist List More(queryState) useEffect ✅✅✅✅');
-    setOffset((state) => state + 9);
-    console.log(offset + 'test');
+    console.log(111);
     query.set('offset', String(offset));
     query.set('limit', String(limit));
     queryString = query.toString();
-    setInputQuery({
-      genreId: query.get('genreId'),
-      search: query.get('search'),
-    });
     dispatch(getArtistListMoreAsync.request(queryString));
+    setOffset((state) => state + 9);
   };
 
   return (
     <>
-      <ListPresenter ref={topRef}>
-        {topButton && (
-          <TopButton topButton={topButton} onClick={handleScrollUp}>
-            1231312
-          </TopButton>
-        )}
+      <ListPresenter>
+        {/* {topButton && (
+          <TopButton topButton={topButton} onClick={handleScrollUp} />
+        )} */}
         <ArtistCategory>
+          <ArtistCategoryHead> Artist List </ArtistCategoryHead>
+          <SearchBar
+            type={'text'}
+            value={inputQuery.search ? inputQuery.search : ''}
+            placeholder="TYPE TO SEARCH"
+            onChange={handleInputSearch}
+            onKeyPress={handleSearch}
+          ></SearchBar>
           {artistCategory.data &&
             artistCategory.data.map((item) => (
               <Link key={`${item._id}`} to={`/artist/detail/${item._id}`}>
-                <ArtistCategorylName>{item.name}</ArtistCategorylName>
+                <ArtistCategorylContetn>{item.name}</ArtistCategorylContetn>
               </Link>
             ))}
         </ArtistCategory>
@@ -151,26 +161,23 @@ const ArtistListContainer = (): JSX.Element => {
                 ))}
             </GerneCategory>
           </CategorySection>
-          <SearchBar
-            type={'text'}
-            value={inputQuery.search ? inputQuery.search : ''}
-            onChange={handleInputSearch}
-            onKeyPress={handleSearch}
-          ></SearchBar>
+          <Arrow />
           <ArtistSection>
-            {loading && <p style={{ textAlign: 'center' }}>Loading...</p>}
-            {error && <p style={{ textAlign: 'center' }}>Error!!!</p>}
             {artistList.data &&
               artistList.data.map((item) => (
-                <Link key={item._id} to={`/Artist/detail/${item._id}`}>
-                  <ArtistName>{item.name}</ArtistName>
-                  <ArtistPoset src={item.poster} />
-                </Link>
+                <ArtistLink key={item._id} to={`/artist/detail/${item._id}`}>
+                  <ArtistContent className="festivalContent">
+                    <ArtistName>{item.name}</ArtistName>
+                  </ArtistContent>
+                  <ArtistImage src={item.image} />
+                </ArtistLink>
               ))}
-            {!(offset + 9 > artistList.data.length) && (
-              <button onClick={handleArtistListMore}>더 보기</button>
-            )}
           </ArtistSection>
+          {offset <= artistList.data.length && (
+            <MoreButton onClick={handleArtistListMore}>
+              <div>More...</div>
+            </MoreButton>
+          )}
         </ContentsSection>
       </ListPresenter>
     </>
@@ -179,18 +186,12 @@ const ArtistListContainer = (): JSX.Element => {
 
 const ListPresenter = styled.div`
   display: flex;
+  margin-top: 5%;
+  margin-left: 10%;
+  margin-right: 10%;
   /* justify-content: center; */
-  /* align-items:center; */
+  /* align-items: center; */
   /* flex-direction:column; */
-`;
-
-const TopButton = styled.div<{ topButton: boolean }>`
-  position: fixed;
-  top: 80%;
-  left: 80%;
-  background-color: blue;
-  opacity: ${(props) => (props.topButton ? 1 : 0)};
-  transition: all 0.4s ease-in-out;
 `;
 
 const ArtistCategory = styled.div`
@@ -198,34 +199,142 @@ const ArtistCategory = styled.div`
   /* justify-content: center; */
   /* align-items:center; */
   flex-direction: column;
+  width: 30%;
+  background-color: rgba(0, 0, 0, 0.5);
 `;
 
-const ArtistCategorylName = styled.div``;
+const ArtistCategoryHead = styled.div`
+  padding: 20px;
+  font-size: 1.5rem;
+  font-weight: 500;
+`;
+
+const SearchBar = styled.input`
+  margin-top: 5%;
+  margin-bottom: 5%;
+  padding: 15px;
+  padding-left: 20px;
+  color: white;
+  border-bottom: 1px solid gray;
+  background: transparent;
+  &:hover {
+    outline: 1px solid white;
+  }
+  &:focus {
+    color: black;
+    background: white;
+  }
+`;
+
+const Arrow = styled.div`
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  opacity: 0.3;
+  background: radial-gradient(black 35%, transparent 1%),
+    url('/images/wall3.jpg');
+  background-size: 3px 3px, contain;
+`;
+
+const ArtistCategorylContetn = styled.div`
+  color: rgba(200, 200, 200);
+  border-bottom: 1px solid rgba(170, 170, 170, 0.3);
+  padding: 10px;
+  padding-left: 20px;
+  &:hover {
+    color: white;
+    background: rgba(170, 170, 170, 0.3);
+  }
+`;
 
 const ContentsSection = styled.div`
   display: flex;
   justify-content: center;
   /* align-items:center; */
   flex-direction: column;
+  margin-left: 5%;
+  width: 70%;
+  /* background-color: blue; */
 `;
 
 const CategorySection = styled.div`
   display: flex;
-  justify-self: flex-end;
-  /* justify-content:center; */
-  align-items: center;
-  /* flex-direction:column; */
+  align-self: flex-end;
 `;
 
-const CountryCategory = styled.select``;
-const CountryCategoryContent = styled.option``;
-const GerneCategory = styled.select``;
+const GerneCategory = styled.select`
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: none;
+  padding: 15px;
+  border-radius: 10px;
+`;
 const GerneCategoryContent = styled.option``;
 
-const SearchBar = styled.input``;
+const ArtistSection = styled.div`
+  display: grid;
+  margin-top: 5%;
+  gap: 30px;
+  grid-template-columns: repeat(3, minmax(150px, auto));
+  /* grid-template-rows: repeat(1, minmax(150px, auto)); */
+`;
 
-const ArtistSection = styled.div``;
+const ArtistLink = styled(Link)`
+  position: relative;
+  width: 100%;
+  &:hover {
+    .festivalContent {
+      background: rgba(170, 170, 170, 0.8);
+    }
+  }
+`;
+
+const ArtistContent = styled.div`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 20%;
+  background-color: rgba(0, 0, 0, 0.8);
+  top: 80%;
+  /* z-index: 100; */
+`;
+
 const ArtistName = styled.div``;
-const ArtistPoset = styled.img``;
+const ArtistImage = styled.img`
+  width: 100%;
+  /* z-index: 99; */
+`;
+
+const MoreButton = styled.div`
+  margin-top: 30px;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(170, 170, 170, 0.4);
+  }
+  // const TopButton = styled.div<{ topButton: boolean }>
+`;
+//   position: fixed;
+//   top: 80%;
+//   left: 90%;
+//   width: 100px;
+//   height: 100px;
+//   border-radius: 50%;
+//   background-color: blue;
+//   z-index: 100;
+// `;
 
 export default withRouter(ArtistListContainer);

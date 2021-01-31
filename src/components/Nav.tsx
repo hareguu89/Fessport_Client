@@ -14,7 +14,7 @@ export function Dropdown(): JSX.Element {
     },
     {
       title: 'Buy & Sell',
-      path: '/resell/list',
+      path: '/resell',
       cName: 'dropdown-link',
     },
   ];
@@ -51,17 +51,17 @@ export function MyDropdown(): JSX.Element {
 
   const MyMenuItems = [
     {
-      title: 'MY FESSPORT',
+      title: 'My Fessoirt',
       path: '/fessport',
       cName: 'dropdown-link',
     },
     {
-      title: 'WISH LIST',
+      title: 'Wish List',
       path: '/wishlist',
       cName: 'dropdown-link',
     },
     {
-      title: 'MY POST',
+      title: 'My Post',
       path: '/mypost',
       cName: 'dropdown-link',
     },
@@ -94,21 +94,20 @@ export function MyDropdown(): JSX.Element {
 }
 
 const Li = styled.li`
-  background: rgb(28, 27, 27);
+  background: transparent;
   cursor: pointer;
-
   :hover {
-    // background-color: white;
+    background-color: rgba(170, 170, 170, 0.2);
   }
 `;
 
 const Ul = styled.ul`
-  width: 160px;
+  width: 10%;
   position: absolute;
-  top: 80px;
+  top: 70px;
   list-style: none;
-  text-align: center;
-
+  margin-left: 5px;
+  text-align: left;
   .modal__break {
     justify-content: center;
     align-items: center;

@@ -13,21 +13,20 @@ const HomeContainer = (): JSX.Element => {
 
   useEffect(() => {
     if (!data) {
-      console.log('🐸🐸🐸🐸 Map Data useEffect 🐸🐸🐸🐸');
+      console.log(111);
       dispatch(getMapDataAsync.request());
     }
   }, []);
 
   return (
     <>
-      {loading && <p style={{ textAlign: 'center' }}>Loading...</p>}
-      {error && <p style={{ textAlign: 'center' }}>Error!!!</p>}
       {data && (
-        <HomePresenter>
+        <Temp>
+          {/* <GridImage src={'/images/gridd.png'} /> */}
           <SubMapImage src={'/images/dots.png'} />
-          <MapPresenter>
-            <MapImage src={'/images/themap.jpg'} />
-            <MapImage src={'/images/grid.png'} />
+          <Ttemp>
+            <MapImage src={'/images/themapp.jpg'} />
+            {/* <GridImage src={'/images/gridd.png'} /> */}
             {data.map((country) => (
               <CountrySection
                 key={country._id}
@@ -36,40 +35,50 @@ const HomeContainer = (): JSX.Element => {
                 y={country.y}
                 x={country.x}
                 flagImage={country.flagImage}
-                festival={country.festival}
+                festivals={country.festivals}
               />
             ))}
-          </MapPresenter>
-        </HomePresenter>
+          </Ttemp>
+        </Temp>
       )}
     </>
   );
 };
 
-const HomePresenter = styled.div`
+const Temp = styled.div`
+  width: 100vw;
+  height: 80vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 50px;
+  overflow: hidden;
+  /* margin-top: 50px; */
 `;
 
 const SubMapImage = styled.img`
   position: absolute;
-  width: 1600px;
-  height: 700px;
+  width: 1250px;
+  height: 600px;
   z-index: 98;
 `;
 
-const MapPresenter = styled.div`
+const Ttemp = styled.div`
   position: relative;
-  width: 1400px;
-  height: 700px;
+  width: 1250px;
+  height: 595px;
 `;
 
 const MapImage = styled.img`
+  object-fit: fill;
   position: absolute;
-  width: 1400px;
-  height: 700px;
+  width: 1250px;
+  height: 600px;
+`;
+
+const GridImage = styled.img`
+  position: absolute;
+  width: 1250px;
+  height: 100vh;
 `;
 
 export default withRouter(HomeContainer);

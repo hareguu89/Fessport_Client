@@ -11,6 +11,7 @@ import ResellPage from './pages/ResellPage';
 import ArtistListPage from './pages/ArtistListPage';
 import ArtistDetailPage from './pages/ArtistDetailPage';
 import Footer from './containers/FooterContainer';
+import WishListPage from './pages/WishListPage';
 
 const App = (): JSX.Element => {
   return (
@@ -18,16 +19,15 @@ const App = (): JSX.Element => {
       <Nav />
       <Switch>
         <Route path="/" component={HomePage} exact={true} />
-        <Route path="/fessport" component={FessportPage} />
         <Route path="/festival/list" component={FestivalListPage} />
-        <Route path="/festival/detail/:id" component={FestivalDetailPage} />
-        <Route path="/companion" component={CompanionPage} />
-        <Route path="/resell/list" component={ResellPage} />
-        <Route path="/post" component={CommunityPostPage} />
         <Route path="/festival/detail/:_id" component={FestivalDetailPage} />
         <Route path="/artist/list" component={ArtistListPage} />
         <Route path="/artist/detail/:_id" component={ArtistDetailPage} />
-        <Route path="/test" component={Footer} />
+        <Route path="/companion" component={CompanionPage} />
+        <Route path="/resell" component={ResellPage} />
+        <Route path="/post" component={CommunityPostPage} />
+        <Route path="/wishlist" component={WishListPage} />
+        <Route path="/fessport" component={FessportPage} />
         <Redirect from="*" to="/" />
       </Switch>
       {/* <Footer /> */}

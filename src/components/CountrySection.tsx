@@ -10,12 +10,14 @@ const CountrySection = ({
   y,
   x,
   flagImage,
-  festival,
+  festivals,
 }: IMap): JSX.Element => {
   const history = useHistory();
   const [isHover, setIsHover] = useState<boolean>(false);
   const [dy, setDy] = useState<number>(300);
   const [dx, setDx] = useState<number>(150);
+  const [my, setMy] = useState<number>(-10);
+  const [mx, setMx] = useState<number>(20);
 
   const handleCountryLink = () => {
     history.push(`/festival/list?countryId=${_id}`);
@@ -25,6 +27,16 @@ const CountrySection = ({
     console.log('🏁🏁🏁🏁 CountrySection(x, y setting) useEffect 🏁🏁🏁🏁');
     setDy(y);
     setDx(x);
+    if (y >= 300 && x <= 400) {
+      setMy(-280);
+      setMx(20);
+    } else if (y >= 300 && x >= 400) {
+      setMy(-280);
+      setMx(-580);
+    } else if (y <= 300 && x >= 640) {
+      setMy(-10);
+      setMx(-580);
+    }
   }, [y, x]);
 
   return (
@@ -43,13 +55,13 @@ const CountrySection = ({
           setIsHover(!isHover);
         }}
       >
-        <ModalFrame isHover={isHover}>
+        <ModalFrame isHover={isHover} my={my} mx={mx}>
           <CountryLink to={`/festival/list?countryId=${_id}`}>
             <FlagImage src={flagImage} />
             {name}
           </CountryLink>
           <PosterPresenter>
-            {festival.map((item) => (
+            {festivals.map((item) => (
               <MapModalPoster
                 key={item._id}
                 _id={item._id}
@@ -164,13 +176,13 @@ const Pin2 = styled.div<{ hover: boolean }>`
   }
 `;
 
-const ModalFrame = styled.div<{ isHover: boolean }>`
+const ModalFrame = styled.div<{ isHover: boolean; my: number; mx: number }>`
   visibility: ${(props) => (props.isHover ? 'visible' : 'hidden')};
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: -10px;
-  left: 20px;
+  top: ${(props) => props.my}px;
+  left: ${(props) => props.mx}px;
   width: 600px;
   height: 300px;
   border: 20px solid transparent;

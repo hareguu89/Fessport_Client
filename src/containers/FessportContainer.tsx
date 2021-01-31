@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import UserInfo from '../components/UserInfo';
 import Collector from '../components/Collector';
@@ -35,32 +35,24 @@ const FessportContainer = (): JSX.Element => {
     }
     targetLocation.scrollIntoView({
       behavior: 'smooth',
-      block: 'nearest',
+      block: 'center',
     });
   };
 
   useEffect(() => {
     if (!data) {
-      console.log('🐶🐶🐶🐶 UserInfo useEffect 🐶🐶🐶🐶');
+      console.log(111);
       dispatch(getUserInfoAsync.request());
     } else if (patchSucess) {
       dispatch(getUserInfoAsync.request());
-      console.log(
-        '🐶🐶🐶🐶 정보가 업데이트 되었습니다. UserInfo Update useEffect. 🐶🐶🐶🐶',
-      );
+      console.log(111);
     }
   }, [data, patchSucess]);
 
   return (
     <>
-      {loading && <p style={{ textAlign: 'center' }}>Loading...</p>}
-      {error && (
-        <p style={{ textAlign: 'center' }}>
-          Error!!! 다시 시도해주세요. 뒤로가기.
-        </p>
-      )}
       {data && (
-        <FessportPresenter>
+        <Temp>
           <UserInfo
             email={data.email}
             nickName={data.nickName}
@@ -73,18 +65,31 @@ const FessportContainer = (): JSX.Element => {
             handleScrollDown={handleScrollDown}
           />
           <Badge badge={data.badge} badgeRef={badgeRef} />
-        </FessportPresenter>
+          <Ei />
+        </Temp>
       )}
     </>
   );
 };
 
-const FessportPresenter = styled.div`
+const Temp = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 1%;
 `;
 
+const Ei = styled.div`
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  opacity: 0.3;
+  background: radial-gradient(black 35%, transparent 1%),
+    url('/images/wall2.jpg');
+  background-size: 3px 3px, contain;
+`;
 export default withRouter(FessportContainer);
