@@ -17,6 +17,10 @@ export const SIGNUP_REQUEST = 'signup/SIGNUP_REQUEST' as const;
 export const SIGNUP_SUCCESS = 'signup/SIGNUP_SUCCESS' as const;
 export const SIGNUP_FAILURE = 'signup/SIGNUP_FAILURE' as const;
 
+export const SIGNOUT_REQUEST = 'signout/SIGNOUT_REQUEST' as const;
+export const SIGNOUT_SUCCESS = 'signout/SIGNOUT_SUCCESS' as const;
+export const SIGNOUT_FAILURE = 'signout/SIGNOUT_FAILURE' as const;
+
 export const loginAsync = createAsyncAction(
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
@@ -29,3 +33,9 @@ export const signupAsync = createAsyncAction(
   SIGNUP_SUCCESS,
   SIGNUP_FAILURE,
 )<SignupPayload, SignupInfo, AxiosError>();
+
+export const signoutAsync = createAsyncAction(
+  SIGNOUT_REQUEST,
+  SIGNOUT_SUCCESS,
+  SIGNOUT_FAILURE,
+)<undefined, LoginInfo, AxiosError>();

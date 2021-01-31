@@ -6,6 +6,7 @@ import { LoginInfo } from '../../api/signin';
 export type SigninAction = ActionType<typeof actions>;
 // ---------------- signup -----------------
 export type SignupAction = ActionType<typeof actions>;
+export type SignoutAction = ActionType<typeof actions>;
 
 // Login request success 시의 response type
 export type LoginResponse = {
