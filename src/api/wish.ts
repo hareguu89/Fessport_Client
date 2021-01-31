@@ -2,7 +2,9 @@ import axios from 'axios';
 axios.defaults.withCredentials = true;
 
 export async function getWishList(): Promise<IWish | void> {
-  const response = await axios.get<IWish>(`/wish`);
+  const response = await axios.get<IWish>(
+    `https://fessport-server.com/user/myWishlist`,
+  );
   return response.data;
 }
 
