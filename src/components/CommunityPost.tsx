@@ -4,6 +4,17 @@ import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../modules';
 import { getBoardAsync, postBoardAsync } from '../modules/board';
+import { getFestivalCategoryAsync } from '../modules/category';
+import { postImageAsync } from '../modules/image';
+
+const mockFestival = [
+  { _id: '1234', name: 'ultra' },
+  { _id: '2345', name: '이태원' },
+  { _id: '3456', name: '코첼라' },
+  { _id: '4567', name: '스페인' },
+  { _id: '5678', name: '한국' },
+  { _id: '6789', name: '일본' },
+];
 
 const CommunityPostContainer = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -11,22 +22,41 @@ const CommunityPostContainer = (): JSX.Element => {
   const [category, setCategory] = useState<string>('');
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
+  const [typePost, setTypePost] = useState<string>('');
+
+  const { imageData } = useSelector((state: RootState) => state.image);
 
   // FESTIVAL 정보 받아와서 카테고리 만들어주기.
-  // const { data } = useSelector((state: RootState) => state.boardData.boardData);
-  // useEffect(() => {
-  // if (data) {
-  // dispatch(getFesstivalAsync.request( ?? ));
-  // }
-  // }, []);
+  const { data } = useSelector(
+    (state: RootState) => state.festival.festivalList,
+  );
 
+  useEffect(() => {
+    if (!data) {
+      dispatch(getFestivalCategoryAsync.request());
+    }
+  }, []);
+
+  // ---------------- POST IMAGE logic ---------------
+
+  const fileRef: React.RefObject<HTMLInputElement> = React.createRef();
+  const handleSelectedImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    if (event.target.files !== null) {
+      const fd = new FormData();
+      fd.append('filename', event.target.files[0]);
+      dispatch(postImageAsync.request(fd));
+    }
+  };
+
+  //------------------ POST BOARD logic ----------------
   const onSubmitHandler = () => {
     const form = {
       festivalId: festivalId,
       boardCategoryId: category,
       title: title,
       description: description,
-      Image: null,
+      Image: imageData,
     };
 
     dispatch(
@@ -37,6 +67,7 @@ const CommunityPostContainer = (): JSX.Element => {
     );
   };
 
+  console.log(festivalId);
   return (
     <>
       <Container>
@@ -51,6 +82,7 @@ const CommunityPostContainer = (): JSX.Element => {
                 className="category_list"
                 onClick={() => {
                   setCategory('601252586adcbda1c23a9302');
+                  setTypePost('동행');
                 }}
               >
                 # 동행 글 쓰기
@@ -59,22 +91,24 @@ const CommunityPostContainer = (): JSX.Element => {
                 className="category_list"
                 onClick={() => {
                   setCategory('601252586adcbda1c23a9303');
+                  setTypePost('사고팔기');
                 }}
               >
                 # 사고팔기 글 쓰기
               </div>
-              <div
+              {/* <div
                 className="category_list"
                 onClick={() => {
                   setCategory('601252586adcbda1c23a9304');
+                  setTypePost('후기');
                 }}
               >
                 # 후기 글 쓰기
-              </div>
+              </div> */}
             </Category>
             <CompanionPost>
               <header className="post_header">
-                <div className="head">새로운 글 등록.</div>
+                <div className="head">{typePost} 새로운 글 등록.</div>
                 <input
                   type="text"
                   placeholder="제목을 입력하세요."
@@ -87,16 +121,13 @@ const CommunityPostContainer = (): JSX.Element => {
                   onChange={(e) => setFestivalId(e.target.value)}
                 >
                   <option value="placeholder">페스티벌 고르기</option>
-                  {/* {festival.map((el, index) => {
+                  {mockFestival.map((el, index) => {
                     return (
-                      <option
-                        // value={el.festival.name
-                        //   // TODO: festival 정보 받아와서 뿌려주기.
-                        // }
-                        key={index}
-                      />
+                      <option value={el._id} key={index}>
+                        {el.name}
+                      </option>
                     );
-                  })} */}
+                  })}
                 </select>
               </header>
               <div className="post_article">
@@ -105,7 +136,26 @@ const CommunityPostContainer = (): JSX.Element => {
                   placeholder="내용을 입력하세요."
                   onChange={(e) => setDescription(e.target.value)}
                 />
+                {typePost === '사고팔기' ? (
+                  <div className="file">
+                    <label className="file-label" htmlFor="input-file">
+                      UPLOAD
+                    </label>
+                    <input
+                      className="file-upload"
+                      id="input-file"
+                      ref={fileRef}
+                      type={'file'}
+                      accept="image/*"
+                      onChange={handleSelectedImage}
+                      style={{ display: 'none' }}
+                    />
+                  </div>
+                ) : (
+                  <div />
+                )}
               </div>
+
               <footer className="post_footer">
                 <input
                   type="submit"
@@ -114,7 +164,7 @@ const CommunityPostContainer = (): JSX.Element => {
                   onClick={onSubmitHandler}
                 />
                 <span className="wall"></span>
-                <input type="submit" className="footer_btn" value="BACK >" />
+                {/* <input type="submit" className="footer_btn" value="BACK >" /> */}
               </footer>
             </CompanionPost>
           </Content>
@@ -133,11 +183,32 @@ const CompanionPost = styled.div`
   color: #ccc;
   border-radius: 0.5rem;
 
+  .file-label {
+    background-color: orange;
+    display: flex;
+    padding: 10px;
+    cursor: pointer;
+    width: auto;
+    border-radius: 0.5rem;
+    color: black;
+  }
+
+  .file-upload {
+    position: absolute;
+    width: 100px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
   .post_header {
     display: flex;
     padding: 10px;
     flex-direction: column;
     align-items: center;
+    gap: 15px;
   }
 
   .head {
@@ -165,8 +236,15 @@ const CompanionPost = styled.div`
 
   .post_article {
     padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
 
+  .file {
+    display: flex;
+    justify-content: flex-end;
+  }
   .text {
     font-size: 20px;
     padding: 10px;
@@ -181,7 +259,6 @@ const CompanionPost = styled.div`
     padding: 10px;
     display: flex;
     flex-direction: row-reverse;
-    padding: 10px;
   }
 
   .footer_btn {
@@ -200,7 +277,7 @@ const CompanionPost = styled.div`
 
 const Content = styled.div`
   display: grid;
-  grid-template-columns: 20% 70%;
+  grid-template-columns: 20% 60%;
   grid-gap: 10px;
 `;
 

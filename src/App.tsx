@@ -22,7 +22,7 @@ const App = (): JSX.Element => {
         <Route path="/festival/list" component={FestivalListPage} />
         <Route path="/festival/detail/:id" component={FestivalDetailPage} />
         <Route path="/companion" component={CompanionPage} />
-        <Route path="/resell" component={ResellPage} />
+        <Route path="/resell/list" component={ResellPage} />
         <Route path="/post" component={CommunityPostPage} />
         <Route path="/festival/detail/:_id" component={FestivalDetailPage} />
         <Route path="/artist/list" component={ArtistListPage} />

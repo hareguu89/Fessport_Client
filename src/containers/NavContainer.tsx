@@ -14,6 +14,7 @@ const NavContainer = (): JSX.Element => {
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
   const { login } = useSelector((state: RootState) => state.login.userInfo);
+  // const { data } = useSelector((state: RootState) => state.userInfo.userInfo);
 
   const onMouseEnter = () => {
     if (window.innerWidth < 960) {
@@ -86,7 +87,7 @@ const NavContainer = (): JSX.Element => {
             {dropdown && <Dropdown />}
           </li>
           <span className="wall"></span>
-          {login ? (
+          {!login ? (
             <li
               className="nav-item"
               onMouseEnter={onMyMouseEnter}
