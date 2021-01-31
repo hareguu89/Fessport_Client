@@ -51,7 +51,7 @@ export function MyDropdown(): JSX.Element {
 
   const MyMenuItems = [
     {
-      title: 'My Fessoirt',
+      title: 'My Fessport',
       path: '/fessport',
       cName: 'dropdown-link',
     },

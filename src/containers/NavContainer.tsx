@@ -130,7 +130,7 @@ const NavContainer = (): JSX.Element => {
               )}
             </li>
             <SignModal
-              title={'FESSPORT SIGN!'}
+              title={'FESSPORT'}
               isOpen={isModalOpen}
               onClose={toggleModal}
             ></SignModal>
