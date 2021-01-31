@@ -3,7 +3,6 @@ import { Link, withRouter, useParams, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import ReactPlayer from 'react-player';
 import Slider from 'react-slick';
-import Loader from '../pages/Loader';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../modules';
@@ -35,7 +34,7 @@ const FestivalDetailContainer = (): JSX.Element => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log('🍗🍗🍗🍗 Festival Detail useEffect 🍗🍗🍗🍗');
+    console.log(111);
     dispatch(getFestivalDetailAsync.request(params._id));
   }, []);
 
@@ -93,9 +92,6 @@ const FestivalDetailContainer = (): JSX.Element => {
 
   return (
     <>
-      <BackgorundImage />
-      {loading && <Loader />}
-      {error && <p style={{ textAlign: 'center' }}>Error!!!</p>}
       {data && (
         <>
           <DetailPresenter>
@@ -215,6 +211,7 @@ const FestivalDetailContainer = (): JSX.Element => {
                   </CompanionContent>
                 ))}
               </TempBox>
+              <Arrow />
               <TempBox>
                 <TempTitle> Resell </TempTitle>
                 {data.resells.map((item) => (
@@ -264,19 +261,6 @@ const FestivalDetailContainer = (): JSX.Element => {
     </>
   );
 };
-
-const BackgorundImage = styled.div`
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  width: 100vw;
-  height: 100vh;
-  z-index: -1;
-  opacity: 0.3;
-  background: radial-gradient(black 35%, transparent 1%),
-    url('/images/wall.jpg');
-  background-size: 3px 3px, contain;
-`;
 
 const DetailPresenter = styled.div`
   display: flex;
@@ -381,6 +365,19 @@ const FestivalDate = styled.div`
   font-size: 1.2rem;
   padding: 10px;
   border-bottom: 1px solid rgba(170, 170, 170, 0.8);
+`;
+
+const Arrow = styled.div`
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  opacity: 0.3;
+  background: radial-gradient(black 35%, transparent 1%),
+    url('/images/wall.jpg');
+  background-size: 3px 3px, contain;
 `;
 
 const FetivalHomepage = styled.div`

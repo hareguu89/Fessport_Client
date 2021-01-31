@@ -4,7 +4,6 @@ import UserInfo from '../components/UserInfo';
 import Collector from '../components/Collector';
 import Badge from '../components/Badge';
 import styled from 'styled-components';
-import Loader from '../pages/Loader';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../modules';
@@ -42,22 +41,18 @@ const FessportContainer = (): JSX.Element => {
 
   useEffect(() => {
     if (!data) {
-      console.log('🐶🐶🐶🐶 UserInfo useEffect 🐶🐶🐶🐶');
+      console.log(111);
       dispatch(getUserInfoAsync.request());
     } else if (patchSucess) {
       dispatch(getUserInfoAsync.request());
-      console.log(
-        '🐶🐶🐶🐶 정보가 업데이트 되었습니다. UserInfo Update useEffect. 🐶🐶🐶🐶',
-      );
+      console.log(111);
     }
   }, [data, patchSucess]);
 
   return (
     <>
-      {loading && <Loader />}
-      {error && <p style={{ textAlign: 'center' }}>Error!!!</p>}
       {data && (
-        <FessportPresenter>
+        <Temp>
           <UserInfo
             email={data.email}
             nickName={data.nickName}
@@ -70,14 +65,22 @@ const FessportContainer = (): JSX.Element => {
             handleScrollDown={handleScrollDown}
           />
           <Badge badge={data.badge} badgeRef={badgeRef} />
-          <BackgorundImage />
-        </FessportPresenter>
+          <Ei />
+        </Temp>
       )}
     </>
   );
 };
 
-const BackgorundImage = styled.div`
+const Temp = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1%;
+`;
+
+const Ei = styled.div`
   position: fixed;
   top: 0px;
   left: 0px;
@@ -89,13 +92,4 @@ const BackgorundImage = styled.div`
     url('/images/wall2.jpg');
   background-size: 3px 3px, contain;
 `;
-
-const FessportPresenter = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 1%;
-`;
-
 export default withRouter(FessportContainer);

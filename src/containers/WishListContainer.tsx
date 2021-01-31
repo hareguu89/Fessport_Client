@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link, withRouter, useLocation, useHistory } from 'react-router-dom';
 import UserInfo from '../components/UserInfo';
 import styled from 'styled-components';
-import Loader from '../pages/Loader';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../modules';
@@ -16,16 +15,13 @@ const WishListContainer = (): JSX.Element => {
 
   useEffect(() => {
     if (!data) {
-      console.log('🐶🐶🐶🐶 WishList useEffect 🐶🐶🐶🐶');
+      console.log(111);
       dispatch(getWishListAsync.request());
     }
   }, [data]);
 
   return (
     <>
-      <BackgorundImage />
-      {loading && <Loader />}
-      {error && <p style={{ textAlign: 'center' }}>Error!!!</p>}
       {data && (
         <WishListPresenter>
           <FestivalCategory>
@@ -59,24 +55,12 @@ const WishListContainer = (): JSX.Element => {
                 ))}
             </ArtistSection>
           </FestivalCategory>
+          <Tess />
         </WishListPresenter>
       )}
     </>
   );
 };
-
-const BackgorundImage = styled.div`
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  width: 100vw;
-  height: 100vh;
-  z-index: -1;
-  opacity: 0.3;
-  background: radial-gradient(black 35%, transparent 1%),
-    url('/images/wall.jpg');
-  background-size: 3px 3px, contain;
-`;
 
 const WishListPresenter = styled.div`
   display: flex;
@@ -139,6 +123,19 @@ const ArtistSection = styled.div`
   gap: 30px;
   grid-template-columns: repeat(3, minmax(150px, auto));
   /* grid-template-rows: repeat(1, minmax(150px, auto)); */
+`;
+
+const Tess = styled.div`
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  opacity: 0.3;
+  background: radial-gradient(black 35%, transparent 1%),
+    url('/images/wall.jpg');
+  background-size: 3px 3px, contain;
 `;
 
 const ArtistLink = styled(Link)`

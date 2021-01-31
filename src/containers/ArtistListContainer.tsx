@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, withRouter, useLocation, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import Loader from '../pages/Loader';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../modules';
@@ -72,7 +71,7 @@ const ArtistListContainer = (): JSX.Element => {
   };
 
   useEffect(() => {
-    console.log('🔥🔥🔥🔥 Artist List(queryState) useEffect 🔥🔥🔥🔥');
+    console.log(111);
     query.set('offset', String(offset));
     query.set('limit', String(limit));
     queryString = query.toString();
@@ -81,12 +80,12 @@ const ArtistListContainer = (): JSX.Element => {
       search: query.get('search'),
     });
     dispatch(getArtistListAsync.request(queryString));
-    setOffset((state) => state + limit);
+    setOffset((state) => state + 9);
   }, [queryString]);
 
   useEffect(() => {
     if (!genreCategory.data || !artistCategory.data) {
-      console.log('🍗🍗🍗🍗 Category useEffect 🍗🍗🍗🍗');
+      console.log(111);
       dispatch(getGenreCategoryAsync.request());
       dispatch(getArtistCategoryAsync.request());
     }
@@ -115,19 +114,16 @@ const ArtistListContainer = (): JSX.Element => {
   };
 
   const handleArtistListMore = () => {
-    console.log('✅✅✅✅ Artist List More(queryState) useEffect ✅✅✅✅');
+    console.log(111);
     query.set('offset', String(offset));
     query.set('limit', String(limit));
     queryString = query.toString();
     dispatch(getArtistListMoreAsync.request(queryString));
-    setOffset((state) => state + limit);
+    setOffset((state) => state + 9);
   };
 
   return (
     <>
-      <BackgorundImage />
-      {loading && <Loader />}
-      {error && <p style={{ textAlign: 'center' }}>Error!!!</p>}
       <ListPresenter>
         {/* {topButton && (
           <TopButton topButton={topButton} onClick={handleScrollUp} />
@@ -165,6 +161,7 @@ const ArtistListContainer = (): JSX.Element => {
                 ))}
             </GerneCategory>
           </CategorySection>
+          <Arrow />
           <ArtistSection>
             {artistList.data &&
               artistList.data.map((item) => (
@@ -186,19 +183,6 @@ const ArtistListContainer = (): JSX.Element => {
     </>
   );
 };
-
-const BackgorundImage = styled.div`
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  width: 100vw;
-  height: 100vh;
-  z-index: -1;
-  opacity: 0.3;
-  background: radial-gradient(black 35%, transparent 1%),
-    url('/images/wall3.jpg');
-  background-size: 3px 3px, contain;
-`;
 
 const ListPresenter = styled.div`
   display: flex;
@@ -240,6 +224,19 @@ const SearchBar = styled.input`
     color: black;
     background: white;
   }
+`;
+
+const Arrow = styled.div`
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  opacity: 0.3;
+  background: radial-gradient(black 35%, transparent 1%),
+    url('/images/wall3.jpg');
+  background-size: 3px 3px, contain;
 `;
 
 const ArtistCategorylContetn = styled.div`
