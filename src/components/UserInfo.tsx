@@ -38,10 +38,6 @@ const UserInfo = ({
     (state: RootState) => state.image,
   );
 
-  const dispatch = useDispatch();
-
-  const fileRef: React.RefObject<HTMLInputElement> = React.createRef();
-
   const handleImageUpload = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
@@ -50,6 +46,15 @@ const UserInfo = ({
       fileRef.current.click();
     }
   };
+  const handleInputValue = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEditUserInfo((state) => ({
+      ...state,
+      [event.target.name]: event.target.value,
+    }));
+  };
+  const dispatch = useDispatch();
+
+  const fileRef: React.RefObject<HTMLInputElement> = React.createRef();
 
   const handleSelectedImage = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
@@ -60,17 +65,10 @@ const UserInfo = ({
     }
   };
 
-  const handleInputValue = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEditUserInfo((state) => ({
-      ...state,
-      [event.target.name]: event.target.value,
-    }));
-  };
-
   const handleEditUserInfo = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (editUserInfo.newPassword !== editUserInfo.newPasswordCheck) {
-      console.log('비밀번호가 일치하지 않습니다.');
+      console.log('.');
     } else {
       const editedUserInfo = {
         nickName: editUserInfo.nickName,
@@ -88,7 +86,7 @@ const UserInfo = ({
 
   useEffect(() => {
     if (imageError) {
-      console.log('Image 업로드 실패');
+      console.log('패');
     } else if (imageData) {
       setEditUserInfo((state) => ({
         ...state,
