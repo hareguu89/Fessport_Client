@@ -13,15 +13,15 @@ import Moment from 'moment';
 import 'moment/locale/en-nz';
 
 const Resell = (): JSX.Element => {
-  const [category, setCategory] = useState('all');
   const { data, loading, error } = useSelector(
     (state: RootState) => state.boardData.boardData,
   );
   const dispatch = useDispatch();
   const { login } = useSelector((state: RootState) => state.login.userInfo);
+  const [category, setCategory] = useState('all');
 
   useEffect(() => {
-    dispatch(getBoardAsync.request('601252586adcbda1c23a9303'));
+    dispatch(getBoardAsync.request('60173438054e876dd74af2e4'));
   }, []);
 
   const filtered = data.reduce<any>((acc, cur) => {

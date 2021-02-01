@@ -20,7 +20,7 @@ const Companion = (): JSX.Element => {
 
   useEffect(() => {
     dispatch(getUserInfoAsync.request());
-    dispatch(getBoardAsync.request('601252586adcbda1c23a9302'));
+    dispatch(getBoardAsync.request('60173438054e876dd74af2e3'));
   }, []);
 
   const filtered = data.reduce<any>((acc, cur) => {
@@ -246,6 +246,7 @@ const CompanionItem = styled.div`
     display: flex;
     justify-content: flex-end;
     padding-top: 5px;
+    gap: 10px;
   }
 `;
 

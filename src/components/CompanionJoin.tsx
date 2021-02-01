@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import 'boxicons';
 import { useDispatch, useSelector } from 'react-redux';
 import { postParticAsync } from '../modules/participant';
+import { useHistory } from 'react-router-dom';
 import {
   deleteCommentAsync,
   getCommentAsync,
@@ -32,21 +32,19 @@ const CompanionJoin = ({
   const [show, setShow] = useState<boolean>(false);
   const handleShowUp = () => setShow(!show);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getCommentAsync.request(boardId));
-  }, []);
+  const history = useHistory();
 
   //------------------------ DELETE comment logic -----------------------
   const [commentId, setCommentId] = useState<string>('');
   const deleteCommentHandler = () => {
     const dele = { commentId: commentId };
+    console.log(commentId);
     dispatch(
       deleteCommentAsync.request({
         commentData: dele,
       }),
     );
-    dispatch(getBoardAsync.request('601252586adcbda1c23a9302'));
+    history.push('/companion');
   };
 
   // ----------------------- DELETE board logic --------------------------
@@ -55,15 +53,9 @@ const CompanionJoin = ({
   const userInfo = useSelector((state: RootState) => state.userInfo.data);
 
   const deleteHandler = (): void => {
-    if (login) {
-      const board = { boardId: boardId };
-      dispatch(
-        deleteBoardAsync.request({
-          postBoardData: board,
-        }),
-      );
-      dispatch(getBoardAsync.request('companion'));
-    }
+    console.log('board id: !!', boardId);
+    dispatch(deleteBoardAsync.request({ boardId: boardId }));
+    history.push(`/companion`);
   };
 
   // ----------------------- Participants logic --------------------------
@@ -90,7 +82,7 @@ const CompanionJoin = ({
         commentData: commentForm,
       }),
     );
-    dispatch(getBoardAsync.request('601252586adcbda1c23a9302'));
+    dispatch(getBoardAsync.request('60173438054e876dd74af2e3'));
   };
 
   return (

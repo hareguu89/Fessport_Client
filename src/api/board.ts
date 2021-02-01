@@ -60,7 +60,7 @@ export async function postBoardData(
   param: BoardRequest,
 ): Promise<Imessage | void> {
   const response = await axios.post<Imessage>(
-    'https://fessport-server.com/board/create',
+    `https://fessport-server.com/board/create`,
     param.postBoardData,
     {
       withCredentials: true,
@@ -90,8 +90,7 @@ export async function deleteBoardData(
   param: BoardDelete,
 ): Promise<Imessage | void> {
   const response = await axios.post<Imessage>(
-    'https://fessport-server.com/board/delete',
-    param.postBoardData,
+    `https://fessport-server.com/board/delete?boardId=${param.boardId}`,
     {
       withCredentials: true,
     },
@@ -100,9 +99,5 @@ export async function deleteBoardData(
 }
 
 export interface BoardDelete {
-  postBoardData: Board;
-}
-
-interface Board {
   boardId: string;
 }
