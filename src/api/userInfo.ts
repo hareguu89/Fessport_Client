@@ -23,13 +23,13 @@ export interface IUserInfo {
   nickName: string | null;
   email: string;
   image: string | null;
-  visit: IVisit[] | null;
+  visits: IVisits[] | null;
   badge: IBadge[] | null;
 }
 
-export interface IVisit {
+export interface IVisits {
   _id: string;
-  image: string;
+  stamp: string;
 }
 
 export interface IBadge {

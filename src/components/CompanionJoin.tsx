@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import 'boxicons';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { postParticAsync } from '../modules/participant';
 import { deleteCommentAsync, postCommentAsync } from '../modules/comment';

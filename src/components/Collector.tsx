@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { IVisit } from '../api/userInfo';
+import { IVisits } from '../api/userInfo';
 import styled from 'styled-components';
 
 interface IPosition {
@@ -9,11 +9,11 @@ interface IPosition {
 }
 
 const Collector = ({
-  visit,
+  visits,
   collectorRef,
   handleScrollDown,
 }: {
-  visit: IVisit[] | null;
+  visits: IVisits[] | null;
   collectorRef: React.RefObject<HTMLDivElement>;
   handleScrollDown: (
     target: string,
@@ -21,9 +21,9 @@ const Collector = ({
 }): JSX.Element => {
   const [position, setPosition] = useState<IPosition[]>([]);
 
-  const handlePosition = (visit: IVisit[]): void => {
+  const handlePosition = (visits: IVisits[]): void => {
     const dposition: IPosition[] = [];
-    visit.forEach((item, index) => {
+    visits.forEach((item, index) => {
       let dy: number = Math.floor(Math.random() * (400 - 10 + 1)) + 10;
       let dx: number = Math.floor(Math.random() * (900 - 10 + 1)) + 10;
       dposition.push({ y: dy, x: dx });
@@ -47,8 +47,8 @@ const Collector = ({
   };
 
   useEffect(() => {
-    if (visit) {
-      handlePosition(visit);
+    if (visits) {
+      handlePosition(visits);
       console.log('🐼🐼🐼🐼 Collector useEffect 🐼🐼🐼🐼');
     }
   }, []);
@@ -57,12 +57,12 @@ const Collector = ({
     <CollectorPresenter ref={collectorRef}>
       <BackgroundImage src={'/images/visa.jpg'} />
       <TitleText> Festival Stamp (visited festival) </TitleText>
-      {visit &&
-        position.length === visit.length &&
-        visit.map((item, index) => (
+      {visits &&
+        position.length === visits.length &&
+        visits.map((item, index) => (
           <Link key={item._id} to={`/festival/detail/${item._id}`}>
             <FestivalStamp
-              src={item.image}
+              src={item.stamp}
               y={position[index].y}
               x={position[index].x}
             />

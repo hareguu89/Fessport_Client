@@ -58,7 +58,7 @@ const FessportContainer = (): JSX.Element => {
             handleScrollDown={handleScrollDown}
           />
           <Collector
-            visit={data.visit}
+            visits={data.visits}
             collectorRef={collectorRef}
             handleScrollDown={handleScrollDown}
           />

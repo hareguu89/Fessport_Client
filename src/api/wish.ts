@@ -8,14 +8,19 @@ export async function getWishList(): Promise<IWish | void> {
   return response.data;
 }
 
+// export async function getWishList(): Promise<IWish | void> {
+//   const response = await axios.get<IWish>(`/wish`);
+//   return response.data;
+// }
+
 export interface IWish {
   _id: string;
-  wishfestivals: {
+  wishFestivals: {
     _id: string;
     name: string;
     poster: string;
   }[];
-  wishArtist: {
+  wishArtists: {
     _id: string;
     name: string;
     image: string;
