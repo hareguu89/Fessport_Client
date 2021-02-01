@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../modules';
+import { useHistory } from 'react-router-dom';
 
 import { BoardFestival, comment, participantlist } from '../api/board';
 import { getBoardAsync, deleteBoardAsync } from '../modules/board/actions';
@@ -34,6 +35,7 @@ const ResellDetail = ({
   const dispatch = useDispatch();
   const userInfo = useSelector((state: RootState) => state.userInfo.data);
   const { login } = useSelector((state: RootState) => state.login.userInfo);
+  const history = useHistory();
 
   const [commentId, setCommentId] = useState<string>('');
   const deleteCommentHandler = () => {
@@ -43,20 +45,19 @@ const ResellDetail = ({
         commentData: dele,
       }),
     );
-    dispatch(getBoardAsync.request('601252586adcbda1c23a9302'));
+    history.push('/companion');
   };
 
   //---------------------- DELETE BOARD logic
 
   const deleteBoardHandler = (): void => {
     if (login) {
-      const board = { boardId: boardId };
       dispatch(
         deleteBoardAsync.request({
-          postBoardData: board,
+          boardId: boardId,
         }),
       );
-      dispatch(getBoardAsync.request('601252586adcbda1c23a9302'));
+      history.push('/companion');
     }
   };
 
@@ -73,7 +74,7 @@ const ResellDetail = ({
         commentData: commentForm,
       }),
     );
-    dispatch(getBoardAsync.request('601252586adcbda1c23a9303'));
+    dispatch(getBoardAsync.request('60173438054e876dd74af2e4'));
   };
 
   return (

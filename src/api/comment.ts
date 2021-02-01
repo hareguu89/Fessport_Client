@@ -58,8 +58,7 @@ export async function deleteCommentData(
   param: CommentDelete,
 ): Promise<Imessage | void> {
   const response = await axios.post<Imessage>(
-    'https://fessport-server.com/comment/delete',
-    param.commentData,
+    `https://fessport-server.com/comment/delete=${param.commentData.commentId}`,
     {
       withCredentials: true,
     },

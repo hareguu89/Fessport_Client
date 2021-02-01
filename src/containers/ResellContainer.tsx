@@ -10,7 +10,7 @@ const ResellContainer = (): JSX.Element => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getBoardAsync.request('601252586adcbda1c23a9303'));
+    dispatch(getBoardAsync.request('60173438054e876dd74af2e4'));
   }, []);
 
   return (

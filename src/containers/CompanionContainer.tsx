@@ -10,10 +10,6 @@ import { postParticAsync } from '../modules/participant';
 const CompanionContainer = (): JSX.Element => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getBoardAsync.request('companion'));
-  }, []);
-
   return (
     <>
       <Container>

@@ -23,9 +23,7 @@ const CommunityPostContainer = (): JSX.Element => {
   const { login } = useSelector((state: RootState) => state.login.userInfo);
 
   useEffect(() => {
-    if (!data) {
-      dispatch(getFestivalCategoryAsync.request());
-    }
+    dispatch(getFestivalCategoryAsync.request());
   }, []);
 
   // ---------------- POST IMAGE logic ---------------
@@ -57,14 +55,15 @@ const CommunityPostContainer = (): JSX.Element => {
         }),
       );
       if (typePost === '동행') {
+        dispatch(getBoardAsync.request('60173438054e876dd74af2e3'));
         history.push(`/companion`);
       } else if (typePost === '사고팔기') {
+        dispatch(getBoardAsync.request('60173438054e876dd74af2e4'));
         history.push(`/resell`);
       }
     }
   };
 
-  console.log(festivalId);
   return (
     <>
       {!login ? (
@@ -81,7 +80,7 @@ const CommunityPostContainer = (): JSX.Element => {
                 <div
                   className="category_list"
                   onClick={() => {
-                    setCategory('601252586adcbda1c23a9302');
+                    setCategory('60173438054e876dd74af2e3');
                     setTypePost('동행');
                   }}
                 >
@@ -90,21 +89,12 @@ const CommunityPostContainer = (): JSX.Element => {
                 <div
                   className="category_list"
                   onClick={() => {
-                    setCategory('601252586adcbda1c23a9303');
+                    setCategory('60173438054e876dd74af2e4');
                     setTypePost('사고팔기');
                   }}
                 >
                   # 사고팔기 글 쓰기
                 </div>
-                {/* <div
-                className="category_list"
-                onClick={() => {
-                  setCategory('601252586adcbda1c23a9304');
-                  setTypePost('후기');
-                }}
-              >
-                # 후기 글 쓰기
-              </div> */}
               </Category>
               <CompanionPost>
                 <header className="post_header">
@@ -131,14 +121,7 @@ const CommunityPostContainer = (): JSX.Element => {
                   </select>
                 </header>
                 <div className="post_article">
-                  {imageData ? (
-                    <img
-                      src={`https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80`}
-                      alt=""
-                    ></img>
-                  ) : (
-                    <div />
-                  )}
+                  {imageData ? <img src={imageData} alt=""></img> : <div />}
                   <textarea
                     className="text"
                     placeholder="내용을 입력하세요."
