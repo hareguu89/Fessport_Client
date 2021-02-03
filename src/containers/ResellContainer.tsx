@@ -10,7 +10,7 @@ const ResellContainer = (): JSX.Element => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getBoardAsync.request('601252586adcbda1c23a9303'));
+    dispatch(getBoardAsync.request('60173438054e876dd74af2e4'));
   }, []);
 
   return (
@@ -18,7 +18,7 @@ const ResellContainer = (): JSX.Element => {
       <Container>
         <Header>
           <h2 className="companion_head">Buy & Sell</h2>
-          <div className="companion_sub">사고팔기</div>
+          <div className="companion_sub">원하는 티켓을 사고 팔아 보세요!</div>
         </Header>
         <Resell />
       </Container>

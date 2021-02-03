@@ -6,35 +6,24 @@ import { RootState } from '../modules';
 import { getBoardAsync, postBoardAsync } from '../modules/board';
 import { getFestivalCategoryAsync } from '../modules/category';
 import { postImageAsync } from '../modules/image';
-
-const mockFestival = [
-  { _id: '1234', name: 'ultra' },
-  { _id: '2345', name: '이태원' },
-  { _id: '3456', name: '코첼라' },
-  { _id: '4567', name: '스페인' },
-  { _id: '5678', name: '한국' },
-  { _id: '6789', name: '일본' },
-];
+import { useHistory } from 'react-router-dom';
 
 const CommunityPostContainer = (): JSX.Element => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const [festivalId, setFestivalId] = useState<string>('');
   const [category, setCategory] = useState<string>('');
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [typePost, setTypePost] = useState<string>('');
-
   const { imageData } = useSelector((state: RootState) => state.image);
 
   // FESTIVAL 정보 받아와서 카테고리 만들어주기.
-  const { data } = useSelector(
-    (state: RootState) => state.festival.festivalList,
-  );
+  const { data } = useSelector((state: RootState) => state.category.festival);
+  const { login } = useSelector((state: RootState) => state.login.userInfo);
 
   useEffect(() => {
-    if (!data) {
-      dispatch(getFestivalCategoryAsync.request());
-    }
+    dispatch(getFestivalCategoryAsync.request());
   }, []);
 
   // ---------------- POST IMAGE logic ---------------
@@ -44,135 +33,143 @@ const CommunityPostContainer = (): JSX.Element => {
     event.preventDefault();
     if (event.target.files !== null) {
       const fd = new FormData();
-      fd.append('filename', event.target.files[0]);
+      fd.append('img', event.target.files[0]);
       dispatch(postImageAsync.request(fd));
     }
   };
 
   //------------------ POST BOARD logic ----------------
   const onSubmitHandler = () => {
-    const form = {
-      festivalId: festivalId,
-      boardCategoryId: category,
-      title: title,
-      description: description,
-      Image: imageData,
-    };
+    if (category && festivalId && description && typePost && title) {
+      const form = {
+        festivalId: festivalId,
+        boardCategoryId: category,
+        title: title,
+        description: description,
+        Image: imageData,
+      };
 
-    dispatch(
-      postBoardAsync.request({
-        postBoardData: form,
-        accessToken: 'acc',
-      }),
-    );
+      dispatch(
+        postBoardAsync.request({
+          postBoardData: form,
+        }),
+      );
+      if (typePost === '동행') {
+        dispatch(getBoardAsync.request('60173438054e876dd74af2e3'));
+        history.push(`/companion`);
+      } else if (typePost === '사고팔기') {
+        dispatch(getBoardAsync.request('60173438054e876dd74af2e4'));
+        history.push(`/resell`);
+      }
+    }
   };
 
-  console.log(festivalId);
   return (
     <>
-      <Container>
-        <Header>
-          <h2 className="companion_head">POST</h2>
-        </Header>
-        <ContentContainer>
-          <Content>
-            <Category>
-              <div className="category_header">Category</div>
-              <div
-                className="category_list"
-                onClick={() => {
-                  setCategory('601252586adcbda1c23a9302');
-                  setTypePost('동행');
-                }}
-              >
-                # 동행 글 쓰기
-              </div>
-              <div
-                className="category_list"
-                onClick={() => {
-                  setCategory('601252586adcbda1c23a9303');
-                  setTypePost('사고팔기');
-                }}
-              >
-                # 사고팔기 글 쓰기
-              </div>
-              {/* <div
-                className="category_list"
-                onClick={() => {
-                  setCategory('601252586adcbda1c23a9304');
-                  setTypePost('후기');
-                }}
-              >
-                # 후기 글 쓰기
-              </div> */}
-            </Category>
-            <CompanionPost>
-              <header className="post_header">
-                <div className="head">{typePost} 새로운 글 등록.</div>
-                <input
-                  type="text"
-                  placeholder="제목을 입력하세요."
-                  className="head_title"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                />
-                <select
-                  className="head_category"
-                  onChange={(e) => setFestivalId(e.target.value)}
+      {!login ? (
+        <Error>Error.. 로그인하세요!</Error>
+      ) : (
+        <Container>
+          <Header>
+            <h2 className="companion_head">POST</h2>
+          </Header>
+          <ContentContainer>
+            <Content>
+              <Category>
+                <div className="category_header">Category</div>
+                <div
+                  className="category_list"
+                  onClick={() => {
+                    setCategory('60173438054e876dd74af2e3');
+                    setTypePost('동행');
+                  }}
                 >
-                  <option value="placeholder">페스티벌 고르기</option>
-                  {mockFestival.map((el, index) => {
-                    return (
-                      <option value={el._id} key={index}>
-                        {el.name}
-                      </option>
-                    );
-                  })}
-                </select>
-              </header>
-              <div className="post_article">
-                <textarea
-                  className="text"
-                  placeholder="내용을 입력하세요."
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-                {typePost === '사고팔기' ? (
-                  <div className="file">
-                    <label className="file-label" htmlFor="input-file">
-                      UPLOAD
-                    </label>
-                    <input
-                      className="file-upload"
-                      id="input-file"
-                      ref={fileRef}
-                      type={'file'}
-                      accept="image/*"
-                      onChange={handleSelectedImage}
-                      style={{ display: 'none' }}
-                    />
-                  </div>
-                ) : (
-                  <div />
-                )}
-              </div>
+                  # 동행 글 쓰기
+                </div>
+                <div
+                  className="category_list"
+                  onClick={() => {
+                    setCategory('60173438054e876dd74af2e4');
+                    setTypePost('사고팔기');
+                  }}
+                >
+                  # 사고팔기 글 쓰기
+                </div>
+              </Category>
+              <CompanionPost>
+                <header className="post_header">
+                  <div className="head">{typePost} 새로운 글 등록.</div>
+                  <input
+                    type="text"
+                    placeholder="제목을 입력하세요."
+                    className="head_title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                  <select
+                    className="head_category"
+                    onChange={(e) => setFestivalId(e.target.value)}
+                  >
+                    <option value="placeholder">페스티벌 고르기</option>
+                    {data?.map((el, index) => {
+                      return (
+                        <option value={el._id} key={index}>
+                          {el.name}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </header>
+                <div className="post_article">
+                  {imageData ? <img src={imageData} alt=""></img> : <div />}
+                  <textarea
+                    className="text"
+                    placeholder="내용을 입력하세요."
+                    onChange={(e) => setDescription(e.target.value)}
+                  />
+                  {typePost === '사고팔기' ? (
+                    <div className="file">
+                      <label className="file-label" htmlFor="input-file">
+                        UPLOAD
+                      </label>
+                      <input
+                        className="file-upload"
+                        id="input-file"
+                        ref={fileRef}
+                        type={'file'}
+                        accept="image/*"
+                        onChange={handleSelectedImage}
+                        style={{ display: 'none' }}
+                      />
+                    </div>
+                  ) : (
+                    <div />
+                  )}
+                </div>
 
-              <footer className="post_footer">
-                <input
-                  type="submit"
-                  className="footer_btn"
-                  value="SUBMIT"
-                  onClick={onSubmitHandler}
-                />
-                <span className="wall"></span>
-                {/* <input type="submit" className="footer_btn" value="BACK >" /> */}
-              </footer>
-            </CompanionPost>
-          </Content>
-        </ContentContainer>
-      </Container>
+                <footer className="post_footer">
+                  <input
+                    type="submit"
+                    className="footer_btn"
+                    value="SUBMIT"
+                    onClick={onSubmitHandler}
+                  />
+                  <span className="wall"></span>
+                  {/* <input type="submit" className="footer_btn" value="BACK >" /> */}
+                </footer>
+              </CompanionPost>
+            </Content>
+          </ContentContainer>
+        </Container>
+      )}
     </>
   );
 };
+
+const Error = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 
 const CompanionPost = styled.div`
   display: flex;
@@ -187,9 +184,9 @@ const CompanionPost = styled.div`
     background-color: orange;
     display: flex;
     padding: 10px;
+    font-size: 14px;
     cursor: pointer;
     width: auto;
-    border-radius: 0.5rem;
     color: black;
   }
 

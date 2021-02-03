@@ -12,145 +12,19 @@ import participant from '../modules/participant/reducer';
 import Moment from 'moment';
 import 'moment/locale/en-nz';
 
-const mockData = [
-  {
-    _id: '1',
-    title: '5tardium 동행 구해요~~',
-    description: '같이 페스티벌가서 재밌게 놀아요!',
-    image: 'img.jpg',
-    user: {
-      _id: '600933f077e53b45bf46b7db',
-      image:
-        'https://first-project-image-bucket.s3.ap-northeast-2.amazonaws.com/array+method.png',
-      nickName: '홍인자',
-    },
-    festival: {
-      _id: '1',
-      name: '5tardium',
-    },
-    comments: [
-      {
-        _id: '2',
-        nickName: '짱정환',
-        description: '좋아요!',
-      },
-      {
-        _id: '3',
-        nickName: '짱귀희석',
-        description: '좋아요!',
-      },
-    ],
-    participants: [
-      { _id: '2', nickName: '짱정환' },
-      { _id: '3', nickName: '짱귀희석' },
-    ],
-    createdAt: '2021-01-21T16:22:16.358Z',
-    updatedAt: '2021-01-21T16:22:16.358Z',
-  },
-  {
-    _id: '2',
-    title: '울트라 동행 구해요~~',
-    description: '재밌게 놀아요!',
-    image: 'img.jpg',
-    user: {
-      _id: '2',
-      image: '',
-      nickName: '짱정환',
-    },
-    festival: {
-      _id: '60085af05593303ca99f24e1',
-      name: '울트라',
-    },
-    comments: [
-      {
-        _id: '2',
-        nickName: '짱정환',
-        description: '좋아요!',
-      },
-    ],
-    participants: [
-      { _id: '2', nickName: '짱정환' },
-      { _id: '3', nickName: '짱귀희석' },
-    ],
-    createdAt: '2021-01-21T16:22:16.358Z',
-    updatedAt: '2021-01-21T16:22:16.358Z',
-  },
-  {
-    _id: '3',
-    title: '이태원',
-    description: '썰파가실?',
-    image: 'img.jpg',
-    user: {
-      _id: '3',
-      image: '',
-      nickName: '짱귀희석',
-    },
-    festival: {
-      _id: '3',
-      name: '썰파',
-    },
-    comments: [
-      {
-        _id: '2',
-        nickName: '짱정환',
-        description: '좋아요!',
-      },
-    ],
-    participants: [
-      { _id: '2', nickName: '짱정환' },
-      { _id: '3', nickName: '짱귀희석' },
-    ],
-    createdAt: '2021-01-21T16:22:16.358Z',
-    updatedAt: '2021-01-21T16:22:16.358Z',
-  },
-  {
-    _id: '1',
-    title: '5tardium 동행 구해요~~',
-    description: '같이 페스티벌가서 재밌게 놀아요!',
-    image: 'img.jpg',
-    user: {
-      _id: '600933f077e53b45bf46b7db',
-      image:
-        'https://first-project-image-bucket.s3.ap-northeast-2.amazonaws.com/array+method.png',
-      nickName: '홍인자',
-    },
-    festival: {
-      _id: '1',
-      name: '썰파',
-    },
-    comments: [
-      {
-        _id: '2',
-        nickName: '짱정환',
-        description: '좋아요!',
-      },
-      {
-        _id: '3',
-        nickName: '짱귀희석',
-        description: '좋아요!',
-      },
-    ],
-    participants: [
-      { _id: '2', nickName: '짱정환' },
-      { _id: '3', nickName: '짱귀희석' },
-    ],
-    createdAt: '2021-01-21T16:22:16.358Z',
-    updatedAt: '2021-01-21T16:22:16.358Z',
-  },
-];
-
 const Resell = (): JSX.Element => {
-  const [category, setCategory] = useState('all');
   const { data, loading, error } = useSelector(
     (state: RootState) => state.boardData.boardData,
   );
+  const dispatch = useDispatch();
   const { login } = useSelector((state: RootState) => state.login.userInfo);
+  const [category, setCategory] = useState('all');
 
   useEffect(() => {
-    getBoardAsync.request('resell');
+    dispatch(getBoardAsync.request('60173438054e876dd74af2e4'));
   }, []);
 
-  const filtered = mockData.reduce<any>((acc, cur) => {
+  const filtered = data.reduce<any>((acc, cur) => {
     if (cur.festival.name in acc) {
       acc[cur.festival.name]++;
     } else {
@@ -195,7 +69,7 @@ const Resell = (): JSX.Element => {
             })}
           </Category>
           <div className="resell_items">
-            {mockData
+            {data
               .filter((el) => {
                 if (category === 'all') {
                   return el;
@@ -217,7 +91,7 @@ const Resell = (): JSX.Element => {
                           </div>
                           <div className="resell_nickName">
                             <span className="wall" />
-                            {`by ` + el.user.nickName}
+                            {`by ` + el.user.nickname}
                           </div>
                           <div className="resell_attribute">
                             <span className="wall" />
@@ -267,10 +141,11 @@ const Resell = (): JSX.Element => {
 };
 
 const ResellLists = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   padding: 5px;
-  max-width: 700px;
+  // max-width: 700px;
   box-sizing: border-box;
   background-color: rgb(46, 50, 51);
   border-radius: 0.5rem;
@@ -332,6 +207,7 @@ const ResellLists = styled.div`
 `;
 
 const Content = styled.div`
+  width: 100%;
   color: #ccc;
   display: grid;
   grid-template-columns: 15% 45% 5%;
@@ -340,6 +216,7 @@ const Content = styled.div`
 `;
 
 const Category = styled.div`
+  width: 100%;
   display: block;
   box-sizing: border-box;
   color: #ccc;
@@ -375,10 +252,9 @@ const Category = styled.div`
 `;
 
 const ContentContainer = styled.div`
+  width: 100%;
   padding-left: 10rem;
   padding-right: 10rem;
-  background: url(https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80);
-  // min-height: 1280px;
 
   .wall {
     display: inline;
@@ -409,7 +285,7 @@ const ContentContainer = styled.div`
   }
   .modal__break {
     max-width: 95%;
-    height: 1px;
+    height: 1.5px;
     opacity: 0.5;
     position: relative;
     background: linear-gradient(to right, white 0%, #999 100%);
@@ -417,6 +293,7 @@ const ContentContainer = styled.div`
   .resell_items {
     padding: 10px;
     display: grid;
+    width: 100%;
     grid-gap: 15px;
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 20%), 0 2px 4px -1px rgb(0 0 0 / 20%);
   }

@@ -1,26 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { postParticAsync } from '../modules/participant';
-import { deleteCommentAsync, postCommentAsync } from '../modules/comment';
+import { useHistory } from 'react-router-dom';
+import {
+  deleteCommentAsync,
+  getCommentAsync,
+  postCommentAsync,
+} from '../modules/comment';
 import { deleteBoardAsync, getBoardAsync } from '../modules/board/actions';
 import { RootState } from '../modules';
 import { BoardFestival, comment, participantlist } from '../api/board';
+import Moment from 'moment';
+import 'moment/locale/en-nz';
 
 interface JoinProps {
   boardId: string;
-  img: string;
-  nick: string;
-  festival: BoardFestival;
-  participants: participantlist[];
-  comments: comment[];
   _id: string;
+  nick: string;
+  participants: participantlist[] | null;
+  comments: comment[] | null;
 }
 
 const CompanionJoin = ({
   boardId,
-  festival,
   nick,
   participants,
   comments,
@@ -29,30 +32,30 @@ const CompanionJoin = ({
   const [show, setShow] = useState<boolean>(false);
   const handleShowUp = () => setShow(!show);
   const dispatch = useDispatch();
+  const history = useHistory();
 
   //------------------------ DELETE comment logic -----------------------
-
+  const [commentId, setCommentId] = useState<string>('');
   const deleteCommentHandler = () => {
-    // dispatch(deleteCommentAsync.request())
+    const dele = { commentId: commentId };
+    console.log(commentId);
+    dispatch(
+      deleteCommentAsync.request({
+        commentData: dele,
+      }),
+    );
+    history.push('/companion');
   };
 
   // ----------------------- DELETE board logic --------------------------
 
-  const [user, setUser] = useState<string>('');
   const { login } = useSelector((state: RootState) => state.login.userInfo);
   const userInfo = useSelector((state: RootState) => state.userInfo.data);
 
   const deleteHandler = (): void => {
-    if (login) {
-      const board = { boardId: boardId };
-      dispatch(
-        deleteBoardAsync.request({
-          postBoardData: board,
-          accessToken: 'acc',
-        }),
-      );
-      dispatch(getBoardAsync.request('companion'));
-    }
+    console.log('board id: !!', boardId);
+    dispatch(deleteBoardAsync.request({ boardId: boardId }));
+    history.push(`/companion`);
   };
 
   // ----------------------- Participants logic --------------------------
@@ -60,12 +63,9 @@ const CompanionJoin = ({
     const particInfo = {
       boardId: boardId,
     };
-    // const accessToken = localStorage.getItem('accessToken');
-    const accessToken = 'acc';
     dispatch(
       postParticAsync.request({
         postParticData: particInfo,
-        accessToken,
       }),
     );
   };
@@ -80,10 +80,9 @@ const CompanionJoin = ({
     dispatch(
       postCommentAsync.request({
         commentData: commentForm,
-        accessToken: 'acc',
       }),
     );
-    dispatch(getBoardAsync.request('601252586adcbda1c23a9302'));
+    dispatch(getBoardAsync.request('60173438054e876dd74af2e3'));
   };
 
   return (
@@ -104,10 +103,6 @@ const CompanionJoin = ({
       ) : (
         <ParticipantContainer>
           <div className="header">
-            {/* <div className="image"> 이미지 </div> */}
-            {/* <div className="header_container">
-              <div className="festival">FESITVAL : {festival.name}</div>
-            </div> */}
             <div>
               <input
                 type="submit"
@@ -122,10 +117,10 @@ const CompanionJoin = ({
               <div className="content_header"> LIST </div>
               <div className="modal__break"></div>
               <div className="participant_lists">{nick}</div>
-              {participants.map((el, index) => {
+              {participants?.map((el, index) => {
                 return (
                   <div className="participant_lists" key={index}>
-                    {el.nickName}
+                    {el.nickname}
                   </div>
                 );
               })}
@@ -133,29 +128,37 @@ const CompanionJoin = ({
             <div className="content_comment">
               <div className="comment_header">COMMENT</div>
               <div className="modal__break"></div>
-              {comments.map((el, index) => {
+              {comments?.map((el, index) => {
                 return (
                   <div className="comment_container" key={index}>
                     <div className="comment_user">
                       <img
                         className="comment_userimage"
                         src={
-                          // el.image !== ''
-                          //   ? el.image
-                          // :
-                          `https://d2ljmlcsal6xzo.cloudfront.net/assets/fallback/temporary_profile-65c08fd0b2bb95434e40fa62b682df18417765c3b0ac165dcb5b3e9035f01b98.png`
+                          el.user.image !== ''
+                            ? el.user.image
+                            : `https://d2ljmlcsal6xzo.cloudfront.net/assets/fallback/temporary_profile-65c08fd0b2bb95434e40fa62b682df18417765c3b0ac165dcb5b3e9035f01b98.png`
                         }
                         alt=""
                       />
-                      <div className="comment_id">{el.nickName}</div>
+                      <div className="comment_id">{el.user.nickname}</div>
                     </div>
                     <div className="comment_description">
                       <div className="comment_id">{el.description}</div>
-                      <div>{`6days ago`} </div>
-                      <div
-                        className="comment_delete"
-                        onClick={deleteCommentHandler}
-                      ></div>
+                      <div className="comment_date">
+                        {Moment(el.createdAt).fromNow()}
+                      </div>
+                      {_id === userInfo?._id ? (
+                        <input
+                          type="submit"
+                          value="x"
+                          className="comment_delete"
+                          onMouseOver={() => setCommentId(el._id)}
+                          onClick={() => deleteCommentHandler()}
+                        />
+                      ) : (
+                        <div />
+                      )}
                     </div>
                   </div>
                 );
@@ -299,17 +302,34 @@ const ParticipantContainer = styled.div`
   .comment_container {
     width: 100%;
     height: 100%;
-    max-height: 40px;
+    max-height: 50px;
     height: 100%;
     padding: 10px;
     display: flex;
   }
 
   .comment_description {
+    width: 100%;
     display: flex;
-    justify-content: center;
+    align-items: center;
+    justify-content: space-between;
+    align-items: center;
+    // justify-content: center;
+  }
+  .comment_date {
+    display: flex;
+    color: #64706c;
+    align-items: center;
   }
 
+  .comment_delete {
+    color: white;
+    background-color: #1d2120;
+    cursor: pointer;
+    :hover {
+      transform: scale(1.2);
+    }
+  }
   .comment_user {
     width: 30%;
     display: flex;
@@ -346,7 +366,7 @@ const ParticipantContainer = styled.div`
   }
   .comment_box {
     display: flex;
-    width: 40%;
+    width: 52%;
     font-size: 14px;
     color: black;
     background-color: white;

@@ -60,7 +60,7 @@ const UserInfo = ({
     event.preventDefault();
     if (event.target.files !== null) {
       const fd = new FormData();
-      fd.append('filename', event.target.files[0]);
+      fd.append('img', event.target.files[0]);
       dispatch(postImageAsync.request(fd));
     }
   };
