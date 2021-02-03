@@ -157,11 +157,9 @@ const Container = styled.div<{ topNav: boolean }>`
   background-color: ${(props) =>
     props.topNav ? 'transparant' : 'rgb(21,21,31)'};
   transition: all 0.3s;
-
   .wall {
     margin-left: 2rem;
   }
-
   .nav-logo {
     color: #fff;
     justify-self: start;
@@ -220,7 +218,6 @@ const Container = styled.div<{ topNav: boolean }>`
   .menu-icon {
     display: none;
   }
-
   @media only screen and (max-width: 960px) {
     .NavbarItems {
       position: relative;

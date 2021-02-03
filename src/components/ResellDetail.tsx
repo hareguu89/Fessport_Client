@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../modules';
 import { useHistory } from 'react-router-dom';
-
 import { BoardFestival, comment, participantlist } from '../api/board';
 import { getBoardAsync, deleteBoardAsync } from '../modules/board/actions';
 import Moment from 'moment';
@@ -12,7 +11,6 @@ import {
   postCommentAsync,
   deleteCommentAsync,
 } from '../modules/comment/actions';
-
 interface detailProps {
   image: string;
   festival: BoardFestival;
@@ -21,7 +19,6 @@ interface detailProps {
   boardId: string;
   _id: string;
 }
-
 const ResellDetail = ({
   image,
   festival,
@@ -36,7 +33,6 @@ const ResellDetail = ({
   const userInfo = useSelector((state: RootState) => state.userInfo.data);
   const { login } = useSelector((state: RootState) => state.login.userInfo);
   const history = useHistory();
-
   const [commentId, setCommentId] = useState<string>('');
   const deleteCommentHandler = () => {
     const dele = { commentId: commentId };
@@ -47,9 +43,7 @@ const ResellDetail = ({
     );
     history.push('/companion');
   };
-
   //---------------------- DELETE BOARD logic
-
   const deleteBoardHandler = (): void => {
     if (login) {
       dispatch(
@@ -60,12 +54,10 @@ const ResellDetail = ({
       history.push('/companion');
     }
   };
-
   // ----------------------- comment logic --------------------------
   const { data } = useSelector(
     (state: RootState) => state.commentData.commentData,
   );
-
   const [comment_post, setComment] = useState<string>('');
   const commentHandler = () => {
     const commentForm = { boardId: boardId, description: comment_post };
@@ -76,7 +68,6 @@ const ResellDetail = ({
     );
     dispatch(getBoardAsync.request('60173438054e876dd74af2e4'));
   };
-
   return (
     <>
       {!detail ? (
@@ -93,9 +84,9 @@ const ResellDetail = ({
           <Content>
             <div className="image-container">
               {image !== '' && image === null ? (
-                <img className="image" src={image} alt="" />
-              ) : (
                 <div>이미지가 없습니다.</div>
+              ) : (
+                <img className="image" src={image} alt="" />
               )}
             </div>
             <div className="description">
@@ -162,7 +153,6 @@ const ResellDetail = ({
     </>
   );
 };
-
 const Comment = styled.div`
   padding-top: 10px;
   display: flex;
@@ -172,14 +162,12 @@ const Comment = styled.div`
   box-shadow: 2px 4px 6px -1px rgb(0 0 0 / 10%),
     2px 2px 4px -1px rgb(0 0 0 / 10%);
   border-radius: 0.5rem;
-
   .comment-container {
     padding-top: 10px;
     padding-bottom: 10px;
     gap: 10px;
     display: flex;
   }
-
   .comment-header {
     text-align: center;
     padding: 10px;
@@ -195,27 +183,22 @@ const Comment = styled.div`
     justify-content: center;
     align-items: center;
   }
-
   .footer {
     display: flex;
     justify-content: space-between;
     padding: 10px;
     gap: 10px;
   }
-
   .text-box {
     font-size: 1rem;
     width: 100%;
-
     background-color: white;
   }
-
   .text-submit {
     cursor: pointer;
     padding: 10px;
     background-color: orange;
   }
-
   .comment-box {
     height: 100%;
     gap: 10%;
@@ -229,14 +212,12 @@ const Comment = styled.div`
     margin: 5px;
     font-size: 1rem;
   }
-
   .comment_box {
     align-items: center;
     display: flex;
     justify-content: space-between;
     width: 100%;
   }
-
   .comment_delete {
     color: white;
     background-color: #1d2120;
@@ -251,14 +232,12 @@ const Comment = styled.div`
     align-items: center;
     gap: 10px;
   }
-
   .input {
     background-color: orange;
     padding: 10px;
     cursor: pointer;
   }
 `;
-
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -271,7 +250,6 @@ const ContentContainer = styled.div`
     background: linear-gradient(to right, white 0%, #999 100%);
   }
 `;
-
 const Content = styled.article`
   border-radius: 0.5rem;
   box-shadow: 2px 4px 6px -1px rgb(0 0 0 / 10%),
@@ -281,7 +259,6 @@ const Content = styled.article`
   margin-top: 10px;
   flex-direction: column;
   gap: 20px;
-
   .image {
     max-width: 300px;
     max-height: auto;
@@ -294,14 +271,12 @@ const Content = styled.article`
     font-size: 1.5rem;
   }
 `;
-
 const ResellShowBtn = styled.div`
   // padding-top: 5px;
   display: flex;
   justify-content: flex-end;
   gap: 10px;
   background-color: #1d2120;
-
   input {
     background-color: orange;
     padding: 10px;
@@ -309,5 +284,4 @@ const ResellShowBtn = styled.div`
     // margin-right: 18px;
   }
 `;
-
 export default ResellDetail;

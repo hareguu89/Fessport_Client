@@ -11,7 +11,7 @@ interface IProps {
 const MapModalPoster = ({ _id, name, thumbnail }: IProps): JSX.Element => {
   return (
     <FestivalLink key={_id} to={`/festival/detail/${_id}`}>
-      <FestivalName>{name}</FestivalName>
+      <FestivalName>{name.slice(0, 10)}</FestivalName>
       <PosterImage src={thumbnail} />
     </FestivalLink>
   );
