@@ -1,10 +1,10 @@
 import React from 'react';
-import CommunityPost from '../components/CommunityPost';
+import CommunityPostContainer from '../containers/CommunityPostContainer';
 
 const CommunityPostPage = (): JSX.Element => {
   return (
     <>
-      <CommunityPost />
+      <CommunityPostContainer />
     </>
   );
 };

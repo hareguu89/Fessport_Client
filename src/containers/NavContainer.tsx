@@ -1,30 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { Dropdown, MyDropdown } from '../components/Nav';
+import { Dropdown, MyDropdown } from '../components/DropDown';
 import { SignModal } from '../components/ModalSign';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../modules';
 import { signoutAsync } from '../modules/sign';
 
 const NavContainer = (): JSX.Element => {
-  const [click, setClick] = useState(false);
-  const [dropdown, setDropdown] = useState(false);
-  const [myDropdown, setMyDropdwon] = useState(false);
-  const [topNav, setTopNav] = useState(true);
-  const [topButton, setTopButton] = useState(false);
   const dispatch = useDispatch();
+  const [click, setClick] = useState<boolean>(false);
+  const [dropdown, setDropdown] = useState<boolean>(false);
+  const [myDropdown, setMyDropdwon] = useState<boolean>(false);
+  const [topNav, setTopNav] = useState<boolean>(true);
 
-  const handleClick = () => setClick(!click);
-  const closeMobileMenu = () => setClick(false);
-  const { login } = useSelector((state: RootState) => state.login.userInfo);
+  const [isModalOpen, setModalState] = useState<boolean>(false);
+  const toggleModal = (): void => setModalState(!isModalOpen);
 
-  const signOutHandler = () => {
+  const handleClick = (): void => setClick(!click);
+  const closeMobileMenu = (): void => setClick(false);
+
+  const signOutHandler = (): void => {
     dispatch(signoutAsync.request());
-    localStorage.removeItem('token');
+    localStorage.removeItem('loggedInfo');
+    window.location.href = '/';
   };
 
-  const onMouseEnter = () => {
+  const onMouseEnter = (): void => {
     if (window.innerWidth < 960) {
       setDropdown(false);
     } else {
@@ -32,7 +33,7 @@ const NavContainer = (): JSX.Element => {
     }
   };
 
-  const onMouseLeave = () => {
+  const onMouseLeave = (): void => {
     if (window.innerWidth < 960) {
       setDropdown(false);
     } else {
@@ -40,14 +41,15 @@ const NavContainer = (): JSX.Element => {
     }
   };
 
-  const onMyMouseEnter = () => {
+  const onMyMouseEnter = (): void => {
     if (window.innerWidth < 960) {
       setMyDropdwon(false);
     } else {
       setMyDropdwon(true);
     }
   };
-  const onMyMouseLeave = () => {
+
+  const onMyMouseLeave = (): void => {
     if (window.innerWidth < 960) {
       setMyDropdwon(false);
     } else {
@@ -55,91 +57,175 @@ const NavContainer = (): JSX.Element => {
     }
   };
 
-  const [isModalOpen, setModalState] = React.useState(false);
-  const toggleModal = (): void => setModalState(!isModalOpen);
-
   return (
     <>
       <Container topNav={topNav}>
-        <Link to="/" className="nav-logo">
+        <Logo to="/">
           FESSPORT <i className="fas fa-passport"></i>
-        </Link>
-        <div className="menu-icon" onClick={handleClick}>
+        </Logo>
+        <MenuIcon onClick={handleClick}>
           <i className={click ? 'fas fa-times' : 'fas fa-bars'} />
-        </div>
+        </MenuIcon>
         <ul className={click ? 'nav-menu active' : 'nav-menu'}>
-          <li className="nav-item">
-            <Link
-              to="/festival/list"
-              className="nav-links"
-              onClick={closeMobileMenu}
-            >
+          <NavItem>
+            <NavLink to="/festival/list" onClick={closeMobileMenu}>
               Festival
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link
-              to="/artist/list"
-              className="nav-links"
-              onClick={closeMobileMenu}
-            >
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink to="/artist/list" onClick={closeMobileMenu}>
               Artist
-            </Link>
-          </li>
-
-          <li
-            className="nav-item"
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
-          >
-            <Link
-              to="/Community"
-              className="nav-links"
-              onClick={closeMobileMenu}
-            >
-              Community <i className="fas fa-caret-down" />
-            </Link>
+            </NavLink>
+          </NavItem>
+          <NavItem onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+            <NavLink to="/Community" onClick={closeMobileMenu}>
+              Community <Pin src={'/images/ultra-pin.png'} />
+            </NavLink>
             {dropdown && <Dropdown />}
-          </li>
-          <li className="nav-item"> | </li>
-          <li
-            className="nav-item"
-            onMouseEnter={onMyMouseEnter}
-            onMouseLeave={onMyMouseLeave}
-          >
-            <Link
-              to="/fessport"
-              className="nav-links"
-              onClick={closeMobileMenu}
-            >
-              Fessport <i className="fas fa-caret-down" />
-            </Link>
+          </NavItem>
+          <ResponsiveNavItem>
+            <NavLink to="/companion" onClick={closeMobileMenu}>
+              Companion
+            </NavLink>
+          </ResponsiveNavItem>
+          <ResponsiveNavItem>
+            <NavLink to="/resell" onClick={closeMobileMenu}>
+              Resell
+            </NavLink>
+          </ResponsiveNavItem>
+          <ResponsiveNavItem>
+            <NavLink to="/review" onClick={closeMobileMenu}>
+              Review
+            </NavLink>
+          </ResponsiveNavItem>
+          <NavItem onMouseEnter={onMyMouseEnter} onMouseLeave={onMyMouseLeave}>
+            <NavLink to="/fessport" onClick={closeMobileMenu}>
+              Fessport <Pin src={'/images/ultra-pin.png'} />
+            </NavLink>
             {myDropdown && <MyDropdown />}
-          </li>
-
-          <li className="nav-item">
-            <li className="nav-item">
-              {login ? (
-                <a className="nav-links" onClick={signOutHandler}>
-                  SignOut
-                </a>
-              ) : (
-                <a className="nav-links" onClick={toggleModal}>
-                  SignIn
-                </a>
-              )}
-            </li>
-            <SignModal
-              title={'FESSPORT'}
-              isOpen={isModalOpen}
-              onClose={toggleModal}
-            ></SignModal>
-          </li>
+          </NavItem>
+          <ResponsiveNavItem>
+            <NavLink to="/fessport" onClick={closeMobileMenu}>
+              My Fessport
+            </NavLink>
+          </ResponsiveNavItem>
+          <ResponsiveNavItem>
+            <NavLink to="/wishlist" onClick={closeMobileMenu}>
+              Wish List
+            </NavLink>
+          </ResponsiveNavItem>
+          <NavItem>
+            {window.localStorage.loggedInfo ? (
+              <ModalLink className="nav-links" onClick={signOutHandler}>
+                SignOut
+              </ModalLink>
+            ) : (
+              <ModalLink className="nav-links" onClick={toggleModal}>
+                SignIn
+              </ModalLink>
+            )}
+          </NavItem>
+          <SignModal isOpen={isModalOpen} onClose={toggleModal}></SignModal>
         </ul>
       </Container>
     </>
   );
 };
+
+const ResponsiveNavItem = styled.div`
+  display: none;
+  @media only screen and (max-width: 960px) {
+    display: block;
+    font-size: 12px;
+  }
+`;
+
+const Pin = styled.img`
+  width: 0.8rem;
+  align-items: center;
+`;
+
+const ModalLink = styled.a`
+color: #ccc;
+text-decoration: none;
+padding: 0.5rem 1rem;
+cursor: pointer;
+&:hover {
+  color: white;
+  transition: all 0.2s ease-out;
+}
+
+@media only screen and (max-width: 960px) {
+  text-align: center;
+  padding: 2rem;
+  width: 100%;
+  display: table;
+  color: white;
+  
+  &:hover {
+  background-color: #1888ff;
+  border-radius: 0;
+}
+`;
+
+const NavLink = styled(Link)`
+  color: #ccc;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  &:hover {
+    color: white;
+    transition: all 0.2s ease-out;
+  }
+
+  @media only screen and (max-width: 960px) {
+    text-align: center;
+    padding: 2rem;
+    width: 100%;
+    display: table;
+    color: white;
+  
+    
+    &:hover {
+    background-color: #1888ff;
+    border-radius: 0;
+  }
+`;
+
+const NavItem = styled.li`
+  display: flex;
+  align-items: center;
+  height: 80px;
+`;
+
+const MenuIcon = styled.div`
+  display: none;
+
+  @media only screen and (max-width: 960px) {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(-100%, 60%);
+    font-size: 1.8rem;
+    cursor: pointer;
+  }
+`;
+
+const Logo = styled(Link)`
+  color: #fff;
+  justify-self: start;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 2rem;
+
+  @media only screen and (max-width: 960px) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(25%, 50%);
+  }
+`;
 
 const Container = styled.div<{ topNav: boolean }>`
   position: fixed;
@@ -149,143 +235,60 @@ const Container = styled.div<{ topNav: boolean }>`
   z-index: 100;
   height: 80px;
   background: transparent;
-  height: 80px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 1rem;
-  background-color: ${(props) =>
-    props.topNav ? 'transparant' : 'rgb(21,21,31)'};
+  /* background-color: ${(props) =>
+    props.topNav ? 'transparant' : 'rgb(21,21,31)'}; */
   transition: all 0.3s;
-  .wall {
-    margin-left: 2rem;
-  }
-  .nav-logo {
-    color: #fff;
-    justify-self: start;
-    /* margin-left: 20px; */
-    cursor: pointer;
-    /* width: 100%; */
-    text-decoration: none;
-    font-size: 2rem;
-  }
+
   .fa-firstdraft {
     margin-left: 0.5rem;
     font-size: 1.6rem;
   }
+
   .nav-menu {
     display: grid;
-    grid-template-columns: repeat(6, auto);
+    grid-template-columns: repeat(5, auto);
     grid-gap: 10px;
     list-style: none;
     text-align: center;
     width: 80vw;
-    /* margin-left: 10%;
-    margin-right: 10%; */
     justify-content: end;
-    /* margin-right: 2rem; */
   }
-  .nav-item {
-    display: flex;
-    align-items: center;
-    height: 80px;
-  }
-  .nav-links-image {
-    width: 150px;
-    display: flex;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-  }
-  .nav-links {
-    color: #ccc;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-  }
-  .nav-links:hover {
-    color: white;
-    border-radius: 4px;
-    transition: all 0.2s ease-out;
-  }
+
   .fa-bars {
     color: #fff;
   }
-  .nav-links-mobile {
-    display: none;
-  }
-  .menu-icon {
-    display: none;
-  }
+
   @media only screen and (max-width: 960px) {
-    .NavbarItems {
-      position: relative;
-    }
     .nav-menu {
       display: flex;
       flex-direction: column;
       width: 100%;
-      height: 90vh;
+      height: 860px;
       position: absolute;
       top: 80px;
-      left: -100%;
+      right: -100%;
       opacity: 1;
       transition: all 0.5s ease;
+      font-size: 1.3rem;
     }
+
     .nav-menu.active {
       background: #242222;
-      left: 0;
-      opacity: 1;
+      right: 0;
+      opacity: 0.9;
       transition: all 0.5s ease;
       z-index: 1;
     }
-    .nav-links {
-      text-align: center;
-      padding: 2rem;
-      width: 100%;
-      display: table;
-    }
-    .nav-links:hover {
-      background-color: #1888ff;
-      border-radius: 0;
-    }
-    .navbar-logo {
-      position: absolute;
-      top: 0;
-      left: 0;
-      transform: translate(25%, 50%);
-    }
-    .menu-icon {
-      display: block;
-      position: absolute;
-      top: 0;
-      right: 0;
-      transform: translate(-100%, 60%);
-      font-size: 1.8rem;
-      cursor: pointer;
-    }
+
     .fa-times {
       color: #fff;
       font-size: 2rem;
     }
-    .nav-links-mobile {
-      display: block;
-      text-align: center;
-      padding: 1.5rem;
-      margin: 2rem auto;
-      border-radius: 4px;
-      width: 80%;
-      background: #1888ff;
-      text-decoration: none;
-      color: #fff;
-      font-size: 1.5rem;
-    }
-    .nav-links-mobile:hover {
-      background: #fff;
-      color: #1888ff;
-      transition: 250ms;
-    }
+
     button {
       display: none;
     }
