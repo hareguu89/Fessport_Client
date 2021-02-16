@@ -10,8 +10,9 @@ import CommunityPostPage from './pages/CommunityPostPage';
 import ResellPage from './pages/ResellPage';
 import ArtistListPage from './pages/ArtistListPage';
 import ArtistDetailPage from './pages/ArtistDetailPage';
-import Footer from './containers/FooterContainer';
 import WishListPage from './pages/WishListPage';
+import ReviewPage from './pages/ReviewPage';
+import Footer from './containers/FooterContainer';
 
 const App = (): JSX.Element => {
   return (
@@ -25,6 +26,7 @@ const App = (): JSX.Element => {
         <Route path="/artist/detail/:_id" component={ArtistDetailPage} />
         <Route path="/companion" component={CompanionPage} />
         <Route path="/resell" component={ResellPage} />
+        <Route path="/review" component={ReviewPage} />
         <Route path="/post" component={CommunityPostPage} />
         <Route path="/wishlist" component={WishListPage} />
         <Route path="/fessport" component={FessportPage} />
