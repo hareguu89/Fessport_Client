@@ -1,46 +1,35 @@
-# Getting Started with Create React App
+## 1. Intro
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![image](https://user-images.githubusercontent.com/44192757/107408956-f95a5500-6b4e-11eb-8568-119061429c05.png)
 
-## Available Scripts
 
-In the project directory, you can run:
+> **팀 명 :** Costival
 
-### `yarn start`
+> **프로젝트 명 :** Fessport
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+> **프로젝트 형태 :** 수강생 프로젝트
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+> **팀원 :** 이재원, 강희석, 박정환, 이종혁
 
-### `yarn test`
+                                                                                 
+## 2. Project
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 🎈Fessport가 무엇인가요?
 
-### `yarn build`
+인터넷을 서핑하다 보면 수 많은 페스티벌 정보가 있지만,<br>
+안타깝게도 한 곳에서 모든 페스티벌 정보를 확인할 수 있는 곳은 없습니다.<br><br>
+또한, 가고싶은 페스티벌 티켓이 매진되어 중고거래를 하기 위해<br>
+이곳, 저곳 전전하는 것이 페스티벌을 즐기는 사람들의 현실입니다!<br><br>
+저희는 이러한 점을 개선하고자, 전 세계의 Festival 정보를 사용자에게 제공하고<br>
+사람들 간의 중고거래를 통해 페스티벌 티켓 중고거래라는 플랫폼을 형성하며<br>
+동행 게시판을 통해 페스티벌을 한층 더 즐길 수 있는 서비스를 만들었습니다.<br><br>
+코로나로 인해 답답한 일상을 보내는 당신!<br>
+Fessport를 통해 전 세계를 여행 다니며 페스티벌을 즐겨보세요✈️<br><br>
+                                                                              
+### 🎈Fessport는 이렇게 만들어졌습니다!
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/69a872b4-a6d6-4114-88a3-82459c2c23a0/_2021-02-19__2.31.10.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAT73L2G45O3KS52Y5%2F20210219%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20210219T053136Z&X-Amz-Expires=86400&X-Amz-Signature=5b14fbd625bc85bcc6666123d5412c7cef4a2e2e8218063beb581c4dde81d558&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%22_2021-02-19__2.31.10.png%22)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Wiki
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+[Go to see Wiki !](https://github.com/hareguu89/Fessport_Client/wiki)
